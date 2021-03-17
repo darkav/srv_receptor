@@ -1,0 +1,49 @@
+models:
+  Sucursal:
+    bd: string:10 index unique
+    nombre: string:300
+    relationships:
+      hasMany:  Rise_Parameter, Rise_Master,  Rise_Transaction, Rise_Queue
+
+  Categoria:
+    nombre: string:20 index
+    abreviatura:  string:5  index
+    relationships:
+      hasMany:  Categoria_Tabla
+  
+  Categoria_Tabla:
+    categoria_id: id  foreign
+    tabla:  string:50 index unique
+
+  Rise_Parameter:
+    sucursal_id:  id  foreign
+    tabla:  string:50 index
+    clave:  string:50 index
+    registro: json
+    upload_status:  enum:pendiente,subido,fallo
+
+  Rise_Master:
+    sucursal_id:  id  foreign
+    tabla:  string:50 index
+    clave:  string:50 index
+    registro: json
+    upload_status:  enum:pendiente,subido,fallo
+    syspro_status:  enum:pendiente,procesado,fallo
+    syspro_mensaje: longtext
+
+  Rise_Transaction:
+    sucursal_id:  id  foreign
+    tabla:  string:50 index
+    clave:  string:50 index
+    registro: json
+    upload_status:  enum:pendiente,subido,fallo
+    syspro_status:  enum:pendiente,procesado,fallo
+    syspro_mensaje: longtext
+
+  Rise_Queue:
+    sucursal_id:  id  foreign
+    tabla:  string:50 index
+    clave:  string:50 index
+    registro: json
+    upload_status:  enum:pendiente,subido,fallo
+    status_mensaje: longtext
