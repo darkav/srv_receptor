@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\SucursalController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Custom\HardCodeMenu;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,18 +17,13 @@ use Inertia\Inertia;
 |
 */
 
-const menus = [
-    ["modulo" => "Parametros", "programas" => [
-        ["programa" => "Sucursal", "icono" => "mif-home","link" => "#"],
-        ["programa" => "Categoria", "icono" => "mif-cabinet","link" => "#"]
-    ]]
-];
-
 
 Route::get('/', function () {
-    return Inertia::render('Home',["menus" => menus]);
+    
+    return Inertia::render('Home',["menus" =>HardCodeMenu::get_menu()]);
 });
 
+Route::resource('sucursal', SucursalController::class);
 
 /*
 Route::get('/', function () {
