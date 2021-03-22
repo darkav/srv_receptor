@@ -15,6 +15,20 @@ use Inertia\Inertia;
 |
 */
 
+const menus = [
+    ["modulo" => "Parametros", "programas" => [
+        ["programa" => "Sucursal", "icono" => "mif-home","link" => "#"],
+        ["programa" => "Categoria", "icono" => "mif-cabinet","link" => "#"]
+    ]]
+];
+
+
+Route::get('/', function () {
+    return Inertia::render('Home',["menus" => menus]);
+});
+
+
+/*
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -23,7 +37,21 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
+*/
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
+
+
+
+
+
+
+
+
+
+
+
+
+
+

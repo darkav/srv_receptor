@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\app\Models\Categoria;
+use App\Models\Categoria;
 
 class CategoriaFactory extends Factory
 {

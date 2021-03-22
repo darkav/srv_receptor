@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\app\Models\Sucursal;
+use App\Models\Sucursal;
 
 class SucursalFactory extends Factory
 {

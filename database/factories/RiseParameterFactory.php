@@ -4,8 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\app\Models\Rise_Parameter;
-use App\app\Models\Sucursal;
+use App\Models\Rise_Parameter;
+use App\Models\Sucursal;
 
 class RiseParameterFactory extends Factory
 {

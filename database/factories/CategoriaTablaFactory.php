@@ -4,8 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\app\Models\Categoria_Tabla;
-use App\app\Models\Categorium;
+use App\Models\Categoria_Tabla;
+use App\Models\Categoria;
 
 class CategoriaTablaFactory extends Factory
 {
@@ -24,7 +24,7 @@ class CategoriaTablaFactory extends Factory
     public function definition()
     {
         return [
-            'categoria_id' => Categorium::factory(),
+            'categoria_id' => Categoria::factory(),
             'tabla' => $this->faker->word,
         ];
     }

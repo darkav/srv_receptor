@@ -47,3 +47,4 @@ models:
     registro: json
     upload_status:  enum:pendiente,subido,fallo
     status_mensaje: longtext
+
