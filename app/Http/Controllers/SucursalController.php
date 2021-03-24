@@ -32,7 +32,8 @@ class SucursalController extends Controller
     public function create()
     {
         //
-        return Inertia::render('Sucursales/create',['menus' => HardCodeMenu::get_menu()]);
+        $sucursal = new Sucursal();
+        return Inertia::render('Sucursales/create',['sucursal' => $sucursal,'accion' => 'N','menus' => HardCodeMenu::get_menu()]);
     }
 
     /**
@@ -44,6 +45,7 @@ class SucursalController extends Controller
     public function store(Request $request)
     {
         //
+        dd($request->all());
         $sucursal = Sucursal::create($request->all());
         return redirect()->back()
                     ->with('message','Sucursal creado con éxito');
@@ -69,6 +71,8 @@ class SucursalController extends Controller
     public function edit($id)
     {
         //
+        $sucursal = Sucursal::find($id);                
+        return Inertia::render('Sucursales/create',['sucursal' => $sucursal,'accion' => 'E','menus' => HardCodeMenu::get_menu()]);
     }
 
     /**
@@ -81,6 +85,11 @@ class SucursalController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $sucursal = new Sucursal();
+        Sucursal::whereId($id)->update($request->all());
+        return redirect()->back()
+                    ->with('message','Sucursal actualizado con exito');
+                    
     }
 
     /**
@@ -89,8 +98,14 @@ class SucursalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($sucursal)
     {
         //
+
+        $sucursal = Sucursal::find($sucursal);
+        $sucursal->delete();
+        return redirect()->back()
+        ->with('message','Sucursal eliminado con exito');
+       
     }
 }

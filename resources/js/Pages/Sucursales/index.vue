@@ -18,31 +18,24 @@
                     </div>
                     <div class="row w-100">
                         <div class="cell-12">
-                            <table class="mitabla table row-hover striped table-border mt-4"
-                                data-role="table"
-                                data-table-search-title="Buscar"
-                                data-table-rows-count-title="#Registros"
-                                data-rows="10"
-                                data-rows-steps="10,50,100,1000,5000"
-                                data-table-info-title = "Mostrando $1 a $2 de $3 registros"
-                                data-horizontal-scroll = "true"
-                                data-static-view = "true"
+                            <table class="mitabla table subcompact row-hover striped table-border  mt-4"
                             >
                                 <thead>
                                     <tr>
-                                        <th data-sortable="true" data-sort-dir="asc">Id</th>
-                                        <th data-sortable="true" data-sort-dir="asc">Nombre</th>
-                                        <th data-sortable="true" data-sort-dir="asc">BD</th>
-                                        <th data-sortable="true" data-sort-dir="asc" data-format="date" data-format-mask="%d-%m-%y">Creado</th>
-                                        <th data-sortable="true" data-sort-dir="asc" data-format="date">Actualizado</th>
+                                        <th class="sortable-column sort-asc">Id</th>
+                                        <th>Nombre</th>
+                                        <th>BD</th>
+                                        <th>Creado</th>
+                                        <th>Actualizado</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
+                                <!-- style="height: 150px !important;" -->
                                 <tbody>
                                     <tr 
                                         v-for="(fila,fix) in getData"
                                         :key="fix"
-                                        style="height: 150px !important;"
+
                                         
                                     >
                                         <td>{{fila.id}}</td>
@@ -52,8 +45,8 @@
                                         <td>{{fila.updated_at}}</td>
                                         <td>
                                             <div class="toolbar" style="height: 36px;">
-                                                <button class="tool-button secondary outline"><span class="mif-pencil "></span></button>
-                                                <button class="tool-button alert outline"><span class="mif-cross"></span></button>
+                                                <div class="tool-button secondary outline" @click="editForm(fila)"><span class="mif-pencil "></span></div>
+                                                <button class="tool-button alert outline" @click="deleteForm(fila)"><span class="mif-cross"></span></button>
                                             </div>
                                         </td>
                                     </tr>
@@ -64,29 +57,6 @@
                 </div>
             </div>
 
-        </div>
-        <div class="dialog" data-role="dialog" ref="frmsucursal" id="frmSucursal">
-            <div class="dialog-title">Mantenimiento Sucursal</div>
-            <div class="dialog-content">
-                <form ref="frmMntSucursal">
-                    <div class="row mb-2 d-flex flex-align-center">
-                        <label class="cell-2">Nombre</label>
-                        <div class="cell-10">
-                            <input type="text" class="metro-input" v-model="form.nombre">
-                        </div>
-                    </div>
-                    <div class="row mb-2 d-flex flex-align-center">
-                        <label class="cell-2">Base de Datos</label>
-                        <div class="cell-10">
-                            <input type="text" class="metro-input" v-model="form.bd">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="dialog-actions">
-                <button class="button primary outline" @click="submit"><span class="mif-floppy-disk"></span></button>
-                <button class="button alert outline js-dialog-close"><span class="mif-exit"></span></button>
-            </div>
         </div>
     </avsis-layout>
 </template>
@@ -126,17 +96,13 @@
                 this.accion=accion;
                 this.$inertia.get(route('sucursal.create'));
             },
-            submit()
+            editForm(registro){
+                this.$inertia.get(route('sucursal.edit',registro.id));
+            },
+            deleteForm(registro)
             {
-                switch(this.accion)
-                {
-                    case "N":
-                        this.$inertia.post(route('sucursal.create'));
-                        break;
-                    case "E":
-                        break;
-                }
-                //this.$refs.frmMntSucursal.reset();
+                if(!confirm("Estas seguro que desea eliminar este registro")) return;
+                this.$inertia.delete(`/sucursal/${registro.id}`);
             }
         }
 

@@ -26,6 +26,8 @@ class Categoria extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'created_at' => 'datetime:Y-m-d',
+        'update_at' => 'datetime:Y-m-d'
     ];
 
 

@@ -34,12 +34,13 @@
 <script>
     import AvsisLayout from '../../Layouts/AvsisLayout';
     export default {
-        props:['menus'],
+        props:['sucursal','accion','menus'],
         components:{
             AvsisLayout
         },
         mounted(){
             console.log("cargando desde pagina");
+            this.form = this.sucursal ;
         },
         errorCaptured: (err,vm,info) =>
         {
@@ -47,7 +48,6 @@
         },
         data(){
             return{
-                accion:'',
                 form:{
                     nombre:"",
                     bd:""
@@ -65,12 +65,23 @@
         {
             submit()
             {
-                        
-                this.$inertia.post(route('sucursal.store'),this.form, {
-                    onSuccess: () => {
-                        this.$refs.frmMntSucursal.reset();
-                    }
-                });
+                console.log("entrando al submit",this.accion);
+                switch(this.accion)
+                 {
+                        case 'N':
+                            this.$inertia.post(route('sucursal.store'),this.form, {
+                                onSuccess: () => {
+                                    this.$refs.frmMntSucursal.reset();
+                                }
+                            });
+                            break;
+                        case 'E':
+                            var vform = Object.assign({},this.form);
+                            console.log("Grabando la informacion de edicion", this.form);
+                            this.$inertia.put(route('sucursal.update',vform.id),vform);
+                            break;
+                 }
+
                 
             },
             close()
