@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Custom\HardCodeMenu;
 use App\Models\Sucursal;
 use Database\Factories\SucursalFactory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -31,6 +32,7 @@ class SucursalController extends Controller
     public function create()
     {
         //
+        return Inertia::render('Sucursales/create',['menus' => HardCodeMenu::get_menu()]);
     }
 
     /**
@@ -42,8 +44,9 @@ class SucursalController extends Controller
     public function store(Request $request)
     {
         //
-        Sucursal::create($request->all());
-        return Redirect()->back()->with("success","Grabado con exito");
+        $sucursal = Sucursal::create($request->all());
+        return redirect()->back()
+                    ->with('message','Sucursal creado con éxito');
     }
 
     /**
