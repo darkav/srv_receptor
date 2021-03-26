@@ -69,7 +69,8 @@
                 switch(this.accion)
                  {
                         case 'N':
-                            this.$inertia.post(route('sucursal.store'),this.form, {
+                            var vform = Object.assign({},this.form);
+                            this.$inertia.post(route('sucursal.store'),vform, {
                                 onSuccess: () => {
                                     this.$refs.frmMntSucursal.reset();
                                 }

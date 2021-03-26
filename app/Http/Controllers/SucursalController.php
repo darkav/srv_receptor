@@ -45,7 +45,6 @@ class SucursalController extends Controller
     public function store(Request $request)
     {
         //
-        dd($request->all());
         $sucursal = Sucursal::create($request->all());
         return redirect()->back()
                     ->with('message','Sucursal creado con éxito');
