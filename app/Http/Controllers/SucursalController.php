@@ -33,7 +33,7 @@ class SucursalController extends Controller
     {
         //
         $sucursal = new Sucursal();
-        return Inertia::render('Sucursales/create',['sucursal' => $sucursal,'accion' => 'N','menus' => HardCodeMenu::get_menu()]);
+        return Inertia::render('Sucursales/create',['registro' => $sucursal,'accion' => 'N','menus' => HardCodeMenu::get_menu()]);
     }
 
     /**
@@ -71,7 +71,7 @@ class SucursalController extends Controller
     {
         //
         $sucursal = Sucursal::find($id);                
-        return Inertia::render('Sucursales/create',['sucursal' => $sucursal,'accion' => 'E','menus' => HardCodeMenu::get_menu()]);
+        return Inertia::render('Sucursales/create',['registro' => $sucursal,'accion' => 'E','menus' => HardCodeMenu::get_menu()]);
     }
 
     /**

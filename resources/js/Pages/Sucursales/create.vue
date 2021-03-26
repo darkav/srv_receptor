@@ -1,46 +1,38 @@
 <template>
-    <avsis-layout :menus=menus>
-        <div data-role="panel"
-            data-title-caption="Mantenimiento Sucursales"
-            data-title-icon="<span class='mif-home'></span>"
-            class="w-100 h-100"
-        >
-            <div class="card w-50">
-                <div class="card-content p-2">
-                    <form ref="frmMntSucursal">
-                        <div class="row mb-2 d-flex flex-align-center">
-                            <label class="cell-2">Nombre</label>
-                            <div class="cell-10">
-                                <input type="text" class="metro-input" v-model="form.nombre">
-                            </div>
+    <pantalla
+        :menus="menus"
+        :registro="registro"
+        :accion="accion"
+        :linkUpdate="linkUpdate"
+        :linkStore="linkStore"
+        :linkBack="linkBack"
+        :titulo="titulo"
+    >
+        <template v-slot:default="parent">
+                    <div class="row mb-2 d-flex flex-align-center">
+                        <label class="cell-2">Nombre</label>
+                        <div class="cell-10">
+                            <input type="text" v-model="parent.form.nombre" class="metro-input" >
                         </div>
-                        <div class="row mb-2 d-flex flex-align-center">
-                            <label class="cell-2">Base de Datos</label>
-                            <div class="cell-10">
-                                <input type="text" class="metro-input" v-model="form.bd">
-                            </div>
+                    </div>
+                    <div class="row mb-2 d-flex flex-align-center">
+                        <label class="cell-2">Base de Datos</label>
+                        <div class="cell-10">
+                            <input type="text" v-model="parent.form.bd" class="metro-input" >
                         </div>
-                    </form>
-                </div>
-                <div class="card-footer d-flex flex-row flex-justify-center">
-                    <button class="button primary outline m-2" @click="submit"><span class="mif-floppy-disk"></span></button>
-                    <button class="button alert outline" @click="close"><span class="mif-exit"></span></button>
-                </div>
+                    </div>
 
-            </div>
-        </div>
-    </avsis-layout>
+        </template>
+    </pantalla>
+
 </template>
 <script>
-    import AvsisLayout from '../../Layouts/AvsisLayout';
+    import Pantalla from '../../controles/pantalla'
+
     export default {
-        props:['sucursal','accion','menus'],
+        props:['registro','accion','menus'],
         components:{
-            AvsisLayout
-        },
-        mounted(){
-            console.log("cargando desde pagina");
-            this.form = this.sucursal ;
+            'pantalla' : Pantalla,
         },
         errorCaptured: (err,vm,info) =>
         {
@@ -48,47 +40,15 @@
         },
         data(){
             return{
-                form:{
-                    nombre:"",
-                    bd:""
-                }
-            }
-        },
-        computed:{
-            getData()
-            {
-                console.log("data refrescando", this.data);
-                return this.data;
+                titulo:"Sucursales",
+                linkStore:"sucursal.store",
+                linkUpdate:"sucursal.update",
+                linkBack:"sucursal.index"
             }
         },
         methods:
         {
-            submit()
-            {
-                console.log("entrando al submit",this.accion);
-                switch(this.accion)
-                 {
-                        case 'N':
-                            var vform = Object.assign({},this.form);
-                            this.$inertia.post(route('sucursal.store'),vform, {
-                                onSuccess: () => {
-                                    this.$refs.frmMntSucursal.reset();
-                                }
-                            });
-                            break;
-                        case 'E':
-                            var vform = Object.assign({},this.form);
-                            console.log("Grabando la informacion de edicion", this.form);
-                            this.$inertia.put(route('sucursal.update',vform.id),vform);
-                            break;
-                 }
 
-                
-            },
-            close()
-            {
-                this.$inertia.get(route('sucursal.index'));
-            }
         }
 
     }
