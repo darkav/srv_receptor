@@ -8,7 +8,15 @@
             <div class="scrollbox">
                 <div class="grid">
                     <div class="row w-100">
-                        <div class="cell-12 d-flex flex-row-r">
+                        <div class="cell-6">
+                            <input type="text" class="metro-input"
+                                data-role="input"
+                                data-search-button="true"
+                                data-on-search-button-click="searchData"
+                            >
+                        </div>
+
+                        <div class="cell-6 d-flex flex-row-r">
                             <div class="toolbar">
                                 <button class="tool-button primary outline" @click="$inertia.reload({only: ['data']})"><span class="mif-refresh icon"></span></button>
                                 <button class="tool-button primary outline" @click="showForm('N')"><span class="mif-file-empty icon"></span></button>
