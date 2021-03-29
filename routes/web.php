@@ -6,6 +6,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Custom\HardCodeMenu;
+use App\Http\Controllers\CategoriaTablaController;
+use App\Models\CategoriaTabla;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +32,7 @@ Route::get('/categoria/edit_tabla/{id}',function($id){
     $categoria = new CategoriaController();
     return $categoria->edit_tabla($id);
 });
+Route::resource('categoriatabla',CategoriaTablaController::class);
 
 /*
 Route::get('/', function () {

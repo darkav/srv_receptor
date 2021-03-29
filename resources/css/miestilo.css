@@ -6,3 +6,9 @@
     height: 90vh;
     overflow-y: scroll;
 }
+
+[data-main-panel="true"]
+{
+    height: 90vh;
+    overflow-y: scroll;
+}

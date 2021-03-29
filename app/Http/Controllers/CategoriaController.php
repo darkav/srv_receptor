@@ -6,6 +6,7 @@ use App\Custom\HardCodeMenu;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use stdClass;
 
 class CategoriaController extends Controller
 {
@@ -108,13 +109,15 @@ class CategoriaController extends Controller
     public function edit_tabla($id)
     {
         $categoria = Categoria::find($id);
-        $cat_tabla = $categoria->categoriatablas();
-        dd($categoria,$id,$cat_tabla);
+        $cat_tabla = $categoria->categoriatablas->all();
 
-        return Inertia::render("Categoria/tabla",[  "registro" => $categoria,
-                                                    "tabla" => $cat_tabla,
-                                                    "accion" => "E",
-                                                    "menus" => HardCodeMenu::get_menu()
+        $resultado = new stdClass();
+        $resultado->categoria_id = $categoria->id;
+        $resultado->categoria = $categoria->nombre;
+        $resultado->tabla = empty($cat_tabla) ? [] : $cat_tabla;
+        return Inertia::render("Categoria/tabla",[  'registro' => $resultado,
+                                                    'accion' => "E",
+                                                    'menus' => HardCodeMenu::get_menu()
                                                 ]);
     }
 }

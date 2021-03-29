@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\CategoriaTabla;
 
 class Categoria extends Model
 {
@@ -35,8 +35,6 @@ class Categoria extends Model
 
     public function categoriatablas()
     {
-        $cate = new CategoriaTabla();
-        dd($cate);
         return $this->hasMany(CategoriaTabla::class);
     }
 

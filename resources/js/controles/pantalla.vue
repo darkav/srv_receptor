@@ -68,6 +68,7 @@
         <div v-if= " 'N|E'.includes(this.accion) " data-role="panel"
             :data-title-caption="'Mantenimiento de ' + titulo"
             :data-title-icon="icono"
+            data-main-panel="true"
             class="w-100 h-100">
 
             <div class="card w-50">
@@ -77,7 +78,7 @@
                     </form>
                 </div>
                 <div class="card-footer d-flex flex-row flex-justify-center">
-                    <button class="button primary outline m-2" @click="submit"><span class="mif-floppy-disk"></span></button>
+                    <button v-show="linkStoreShow" class="button primary outline m-2" @click="submit"><span class="mif-floppy-disk"></span></button>
                     <button class="button alert outline" @click="close"><span class="mif-exit"></span></button>
                 </div>
             </div>
@@ -134,10 +135,14 @@
             },
             registro:{
                 type: Object
+            },
+            linkStoreShow:{
+                type: Boolean,
+                default: true
             }
         },
         mounted(){
-            console.log("montado otra vez");
+            console.log("montado otra vez",this.accion);
             if("N|E".includes(this.accion))
             {
                 this.form = this.registro ;
@@ -170,7 +175,6 @@
             deleteForm(fila)
             {
                 if(!confirm("Estas seguro que desea eliminar este registro")) return;
-                //this.$inertia.delete(`${this.linkDelete}/${fila.id}`);
                 this.$inertia.delete(route(this.linkDelete,fila.id));
             },
             submit()
@@ -199,9 +203,15 @@
                 {
                     console.log("back of the future",this.linkBack);
                     this.$inertia.get(route(this.linkBack));
+                },
+
+                setForm(objeto)
+                {
+                    this.form = objeto;
                 }
 
 
         }
     }
+
 </script>
