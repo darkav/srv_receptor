@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SucursalController;
+use App\Http\Controllers\CategoriaController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,6 +25,11 @@ Route::get('/', function () {
 });
 
 Route::resource('sucursal', SucursalController::class);
+Route::resource('categoria', CategoriaController::class);
+Route::get('/categoria/edit_tabla/{id}',function($id){
+    $categoria = new CategoriaController();
+    return $categoria->edit_tabla($id);
+});
 
 /*
 Route::get('/', function () {

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 
 class Categoria extends Model
 {
@@ -31,8 +33,21 @@ class Categoria extends Model
     ];
 
 
-    public function categoriaTablas()
+    public function categoriatablas()
     {
-        return $this->hasMany(\App\Models\CategoriaTabla::class);
+        $cate = new CategoriaTabla();
+        dd($cate);
+        return $this->hasMany(CategoriaTabla::class);
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->timezone(env('TIEMPO_LOCAL'))->format('Y-m-d H:i:s');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->timezone(env('TIEMPO_LOCAL'))->format('Y-m-d H:i:s');
+    }
+
 }

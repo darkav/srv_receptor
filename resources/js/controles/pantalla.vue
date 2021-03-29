@@ -52,8 +52,9 @@
                                         </td>
                                         <td>
                                             <div class="toolbar" style="height: 36px;">
+                                                <slot name="extra-comando" v-bind:fila="fila"></slot>
                                                 <div class="tool-button secondary outline" @click="editForm(fila)"><span class="mif-pencil "></span></div>
-                                                <button class="tool-button alert outline" @click="deleteForm(fila)"><span class="mif-cross"></span></button>
+                                                <div class="tool-button alert outline" @click="deleteForm(fila)"><span class="mif-cross"></span></div>
                                             </div>
                                         </td>
                                     </tr>

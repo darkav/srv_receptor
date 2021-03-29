@@ -7,7 +7,7 @@ class HardCodeMenu
         return [
                     ["modulo" => "Parametros", "programas" => [
                         ["programa" => "Sucursal", "icono" => "mif-home","link" => "/sucursal"],
-                        ["programa" => "Categoria", "icono" => "mif-cabinet","link" => "#"]
+                        ["programa" => "Categoria", "icono" => "mif-cabinet","link" => "/categoria"]
                     ]]
                 ];
     }

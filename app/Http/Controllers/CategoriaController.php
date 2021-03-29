@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\HardCodeMenu;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CategoriaController extends Controller
 {
@@ -14,6 +17,9 @@ class CategoriaController extends Controller
     public function index()
     {
         //
+        $data = Categoria::all();
+        return Inertia::render('Categoria',['data' => $data,'menus' => HardCodeMenu::get_menu()]);
+
     }
 
     /**
@@ -24,6 +30,8 @@ class CategoriaController extends Controller
     public function create()
     {
         //
+        $categoria = new Categoria();
+        return Inertia::render('Categoria/create',['registro' => $categoria,'accion' => 'N','menus' => HardCodeMenu::get_menu()]);
     }
 
     /**
@@ -35,6 +43,10 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         //
+        $categoria = Categoria::create($request->all());
+        return redirect()->back()
+                    ->with('message','Categoria creado con éxito');
+
     }
 
     /**
@@ -57,6 +69,9 @@ class CategoriaController extends Controller
     public function edit($id)
     {
         //
+        $categoria = Categoria::find($id);                
+        return Inertia::render('Categoria/create',['registro' => $categoria,'accion' => 'E','menus' => HardCodeMenu::get_menu()]);
+
     }
 
     /**
@@ -69,6 +84,9 @@ class CategoriaController extends Controller
     public function update(Request $request, $id)
     {
         //
+        Categoria::whereId($id)->update($request->all());
+        return redirect()->back()
+                    ->with('message','Categoría actualizado con exito');
     }
 
     /**
@@ -80,5 +98,23 @@ class CategoriaController extends Controller
     public function destroy($id)
     {
         //
+        $categoria = Categoria::find($id);
+        $categoria->delete();
+        return redirect()->back()
+        ->with('message','Categoría eliminado con exito');
+
+    }
+
+    public function edit_tabla($id)
+    {
+        $categoria = Categoria::find($id);
+        $cat_tabla = $categoria->categoriatablas();
+        dd($categoria,$id,$cat_tabla);
+
+        return Inertia::render("Categoria/tabla",[  "registro" => $categoria,
+                                                    "tabla" => $cat_tabla,
+                                                    "accion" => "E",
+                                                    "menus" => HardCodeMenu::get_menu()
+                                                ]);
     }
 }
