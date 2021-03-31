@@ -22,6 +22,30 @@
                         </div>
                     </div>
 
+                    <div class="row mb-2 d-flex flex-align-center">
+                        <label class="cell-2">IP</label>
+                        <div class="cell-10">
+                            <input type="text" v-model="parent.form.ip" class="metro-input" >
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-2 d-flex flex-align-center">
+                        <label class="cell-2">Usuario</label>
+                        <div class="cell-10">
+                            <input type="text" v-model="parent.form.usuario" class="metro-input" maxlength="15" >
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-2 d-flex flex-align-center">
+                        <label class="cell-2">Clave</label>
+                        <div class="cell-10">
+                            <input type="password" v-model="parent.form.clave" class="metro-input" maxlength="15">
+                        </div>
+                    </div>
+
+
         </template>
     </pantalla>
 
