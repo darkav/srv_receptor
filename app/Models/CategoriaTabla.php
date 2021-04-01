@@ -11,7 +11,7 @@ class CategoriaTabla extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tabla','categoria_id'
+        'tabla','categoria_id','key'
     ];
 
 
