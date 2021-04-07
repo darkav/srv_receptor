@@ -77,7 +77,7 @@
                         <slot v-bind:form="form"/>
                     </form>
                 </div>
-                <div class="card-footer d-flex flex-row flex-justify-center">
+                <div v-if="showBotones" class="card-footer d-flex flex-row flex-justify-center">
                     <button v-show="linkStoreShow" class="button primary outline m-2" @click="submit"><span class="mif-floppy-disk"></span></button>
                     <button class="button alert outline" @click="close"><span class="mif-exit"></span></button>
                 </div>
@@ -137,6 +137,10 @@
                 type: Object
             },
             linkStoreShow:{
+                type: Boolean,
+                default: true
+            },
+            showBotones:{
                 type: Boolean,
                 default: true
             }

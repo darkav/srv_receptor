@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApiSucursalController;
 use App\Http\Controllers\ApiCategoriaController;
+use App\Http\Controllers\ReceivedController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,3 +29,10 @@ Route::get('/categoria/v1',[ApiCategoriaController::class,'index']);
 Route::get('/categoria/v1/ally',[ApiCategoriaController::class,'ally']);
 Route::get('/categoria/v1/{id}',[ApiCategoriaController::class,'show']);
 Route::get('/categoria/v1/{id}/tablas',[ApiCategoriaController::class,'listarTablas']);
+// receive
+Route::get('/received/v1/created/{tabla}',[ReceivedController::class,'CreateTable']);
+Route::get('/received/v1/exists/{tabla}',[ReceivedController::class,'ExistTable']);
+Route::get('/received/v1/droped/{tabla}',[ReceivedController::class,'DropTable']);
+Route::get('/received/v1/{categoria}/{local}/{tabla}',[ReceivedController::class,'MaxRegistro']);
+Route::post('/received/v1/',[ReceivedController::class,'InsertTable']);
+Route::put('/received/v1/',[ReceivedController::class,'UpdateTable']);

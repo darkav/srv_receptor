@@ -39,5 +39,11 @@ class AppServiceProvider extends ServiceProvider
             ];
         });
 
+        Inertia::share('result', function() {
+            return [
+                'result' => Session::get('result')
+            ];
+        });
+
     }
 }

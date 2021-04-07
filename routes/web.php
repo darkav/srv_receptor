@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Custom\HardCodeMenu;
 use App\Http\Controllers\CategoriaTablaController;
+use App\Http\Controllers\ReceivedController;
 use App\Models\CategoriaTabla;
 
 /*
@@ -33,7 +34,9 @@ Route::get('/categoria/edit_tabla/{id}',function($id){
     return $categoria->edit_tabla($id);
 });
 Route::resource('categoriatabla',CategoriaTablaController::class);
-
+Route::get('/genera-tabla',[ReceivedController::class,'index']);
+Route::get('/received/crea-tabla/{tabla}',[ReceivedController::class,'CreateTable']);
+Route::get('/received/borra-tabla/{tabla}',[ReceivedController::class,'DropTable']);
 /*
 Route::get('/', function () {
     return Inertia::render('Welcome', [

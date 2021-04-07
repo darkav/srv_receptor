@@ -16,7 +16,7 @@ class AddKeyToCategoriatabla extends Migration
         //
         Schema::table('categoria_tablas', function (Blueprint $table) {
             //
-            $table->string("key",20)->nullable();
+            $table->string("key",100)->nullable();
         });
 
     }
