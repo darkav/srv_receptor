@@ -47,6 +47,13 @@ class ReceivedController extends Controller
                     ->with('message',"Eliminado con éxito la tabla {$tabla}");
     }
 
+    // retornando toda la data de la tabla
+    public function AllRecordTable($categoria)
+    {
+        $result = DB::table($categoria)
+                    ->where([]);
+    }
+
     // metodos para insercion , editar y eliminacion de registros tablas.
 
     public function InsertTable(Request $request)
