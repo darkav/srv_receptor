@@ -50,7 +50,7 @@ class ReceivedController extends Controller
     // retornando toda la data de la tabla
     public function AllRecordTable($categoria,$local)
     {
-        $sentencia = "select * from {$categoria} where local = '{$local}' and datediff(fecha_actualizacion,curdate()) < 2";
+        $sentencia = "select local,tabla,key,registro from {$categoria} where local = '{$local}' and datediff(fecha_actualizacion,curdate()) < 2";
         $result = DB::select($sentencia);
         return response()->json($result);
     }
@@ -91,7 +91,7 @@ class ReceivedController extends Controller
             'key' => $request->key
         ])
         ->update([
-            'fecha_actualizacion' => $request->fecha_actualizacion,
+            'fecha_actualizacion' => now(),
             'registro' => $request->registro  ,
             'updated_at' => now()                                                        
         ]);
