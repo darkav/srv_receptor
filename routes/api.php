@@ -33,6 +33,7 @@ Route::get('/categoria/v1/{id}/tablas',[ApiCategoriaController::class,'listarTab
 Route::get('/received/v1/created/{tabla}',[ReceivedController::class,'CreateTable']);
 Route::get('/received/v1/exists/{tabla}',[ReceivedController::class,'ExistTable']);
 Route::get('/received/v1/droped/{tabla}',[ReceivedController::class,'DropTable']);
+Route::get('/received/v1/registros/{categoria}/{local}',[ReceivedController::class,'AllRecordTable']);
 Route::get('/received/v1/{categoria}/{local}/{tabla}',[ReceivedController::class,'MaxRegistro']);
 Route::post('/received/v1/',[ReceivedController::class,'InsertTable']);
 Route::put('/received/v1/',[ReceivedController::class,'UpdateTable']);

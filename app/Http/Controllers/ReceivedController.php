@@ -48,10 +48,11 @@ class ReceivedController extends Controller
     }
 
     // retornando toda la data de la tabla
-    public function AllRecordTable($categoria)
+    public function AllRecordTable($categoria,$local)
     {
-        $result = DB::table($categoria)
-                    ->where([]);
+        $sentencia = "select * from {$categoria} where local = '{$local}' and datediff(fecha_actualizacion,curdate()) < 2";
+        $result = DB::select($sentencia);
+        return response()->json($result);
     }
 
     // metodos para insercion , editar y eliminacion de registros tablas.
@@ -68,7 +69,10 @@ class ReceivedController extends Controller
             'key' => $request->key,
             'fecha_insercion' => $request->fecha_insercion,
             'fecha_actualizacion' => $request->fecha_actualizacion,
-            'registro' => $request->registro                                                          
+            'registro' => $request->registro ,
+            'created_at' => now(),
+            'updated_at' => now()
+
         ]);
             
         return response()->json($result);
@@ -88,7 +92,8 @@ class ReceivedController extends Controller
         ])
         ->update([
             'fecha_actualizacion' => $request->fecha_actualizacion,
-            'registro' => $request->registro                                                          
+            'registro' => $request->registro  ,
+            'updated_at' => now()                                                        
         ]);
             
         return response()->json($result);
