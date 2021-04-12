@@ -33,6 +33,7 @@ export default{
                 {label: "Id", campo: "id"},
                 {label: "Nombre", campo: "nombre"},
                 {label: "BD", campo: "bd"},
+                {label: "Alias", campo: "alias"},
                 {label: "IP", campo: "ip"},
                 {label: "Usuario BD", campo: "usuario"},
                 {label: "Creado", campo: "created_at"},
