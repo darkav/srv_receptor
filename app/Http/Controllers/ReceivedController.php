@@ -20,9 +20,9 @@ class ReceivedController extends Controller
     {
         Schema::create($tabla, function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string("local",10)->nullable();
+            $table->string("local",100)->nullable();
             $table->string("tabla",50)->nullable();
-            $table->string("key",50)->nullable();
+            $table->string("idkey",50)->nullable();
             $table->dateTime("fecha_insercion")->nullable();
             $table->dateTime("fecha_actualizacion")->nullable();
             $table->string('registro')->nullable();
@@ -50,7 +50,7 @@ class ReceivedController extends Controller
     // retornando toda la data de la tabla
     public function AllRecordTable($categoria,$local)
     {
-        $sentencia = "select local,tabla,key,registro from {$categoria} where local = '{$local}' and datediff(fecha_actualizacion,curdate()) < 2";
+        $sentencia = "select local,tabla,idkey,registro from {$categoria} where local = '{$local}' and datediff(fecha_actualizacion,curdate()) < 2";
         $result = DB::select($sentencia);
         return response()->json($result);
     }
@@ -66,7 +66,7 @@ class ReceivedController extends Controller
         $result->id = DB::table($request->categoria)->insertGetId([
             'local' => $request->local,
             'tabla' => $request->tabla,
-            'key' => $request->key,
+            'idkey' => $request->idkey,
             'fecha_insercion' => $request->fecha_insercion,
             'fecha_actualizacion' => $request->fecha_actualizacion,
             'registro' => $request->registro ,
@@ -88,7 +88,7 @@ class ReceivedController extends Controller
         ->where([
             'local' => $request->local,
             'tabla' => $request->tabla,
-            'key' => $request->key
+            'idkey' => $request->idkey
         ])
         ->update([
             'fecha_actualizacion' => now(),
@@ -107,7 +107,7 @@ class ReceivedController extends Controller
             'local' => $local,
             'tabla' => $tabla
         ])
-        ->max('key');
+        ->max('idkey');
         return response()->json($result);
     }
 
