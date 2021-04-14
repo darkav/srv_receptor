@@ -91,20 +91,31 @@ class ReceivedController extends Controller
     public function UpdateTable(Request $request)
     {
         $result = new stdClass();
-        //$result->id = DB::()insertGetId("insert into {$request->categoria} (local, tabla,key,fecha_insercion,fecha_actualizacion,registro) 
-        //values (?, ?,?,?,?,?)", [$request->local, $request->tabla,$request->key,$request->fecha_insercion,$request->fecha_actualizacion,$request->registro]);
+        $result->correctos=0;
+        $result->incorrectos=0;
+        $result->registrosOK=[]; 
+
+        foreach($request->listado as $key => $transaccion) 
+        {
+            $ok = DB::table($transaccion["categoria"])
+            ->where([
+                'local' => $transaccion["local"],
+                'tabla' => $transaccion["tabla"],
+                'idkey' => $transaccion["idkey"]
+            ])
+            ->update([
+                'fecha_actualizacion' => now(),
+                'registro' => $transaccion["registro"]  ,
+                'updated_at' => now()                                                        
+            ]);
+            if($ok > 0){
+                $result->correctos++;
+                $result->registrosOK[] = (object) ["idkey" => $transaccion["idkey"], "tabla" => $transaccion["tabla"]];
+            }else{
+                $result->incorrectos++;                
+            }
+        }        
         
-        $result->id = DB::table($request->categoria)
-        ->where([
-            'local' => $request->local,
-            'tabla' => $request->tabla,
-            'idkey' => $request->idkey
-        ])
-        ->update([
-            'fecha_actualizacion' => now(),
-            'registro' => $request->registro  ,
-            'updated_at' => now()                                                        
-        ]);
         return response()->json($result);
     }
 
