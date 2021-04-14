@@ -10,6 +10,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use SebastianBergmann\Environment\Console;
 use stdClass;
 
 class ReceivedController extends Controller
@@ -60,21 +61,30 @@ class ReceivedController extends Controller
     public function InsertTable(Request $request)
     {
         $result = new stdClass();
-        //$result->id = DB::()insertGetId("insert into {$request->categoria} (local, tabla,key,fecha_insercion,fecha_actualizacion,registro) 
-        //values (?, ?,?,?,?,?)", [$request->local, $request->tabla,$request->key,$request->fecha_insercion,$request->fecha_actualizacion,$request->registro]);
+        $result->correctos=0;
+        $result->incorrectos=0;
+        $result->registrosOK=[]; 
         
-        $result->id = DB::table($request->categoria)->insertGetId([
-            'local' => $request->local,
-            'tabla' => $request->tabla,
-            'idkey' => $request->idkey,
-            'fecha_insercion' => $request->fecha_insercion,
-            'fecha_actualizacion' => $request->fecha_actualizacion,
-            'registro' => $request->registro ,
-            'created_at' => now(),
-            'updated_at' => now()
+        foreach($request->listado as $key => $transaccion) 
+        {
+            $ok = DB::table($transaccion["categoria"])->insert([
+                'local' => $transaccion["local"],
+                'tabla' => $transaccion["tabla"],
+                'idkey' => $transaccion["idkey"],
+                'fecha_insercion' => $transaccion["fecha_insercion"],
+                'fecha_actualizacion' => $transaccion["fecha_actualizacion"],
+                'registro' => $transaccion["registro"] ,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            if($ok){
+                $result->correctos++;
+                $result->registrosOK[] = (object) ["idkey" => $transaccion["idkey"], "tabla" => $transaccion["tabla"]];
+            }else{
+                $result->incorrectos++;
+            }
+        }
 
-        ]);
-            
         return response()->json($result);
     }
 
@@ -95,7 +105,6 @@ class ReceivedController extends Controller
             'registro' => $request->registro  ,
             'updated_at' => now()                                                        
         ]);
-            
         return response()->json($result);
     }
 
