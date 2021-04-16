@@ -11,6 +11,7 @@ class HardCodeMenu
                     ]],
                     ["modulo" => "Procesos", "programas" => [
                         ["programa" => "Generando tablas", "icono" => "mif-cog", "link" => "/genera-tabla"],
+                        ["programa" => "Servicio", "icono" => "mif-power", "link" => "/servicio"],
 
                     ]]
                 ];

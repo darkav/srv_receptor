@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Custom\HardCodeMenu;
 use App\Http\Controllers\CategoriaTablaController;
 use App\Http\Controllers\ReceivedController;
+use App\Http\Controllers\ServicioController;
 use App\Models\CategoriaTabla;
 
 /*
@@ -29,6 +30,7 @@ Route::get('/', function () {
 
 Route::resource('sucursal', SucursalController::class);
 Route::resource('categoria', CategoriaController::class);
+Route::resource('servicio',ServicioController::class);
 Route::get('/categoria/edit_tabla/{id}',function($id){
     $categoria = new CategoriaController();
     return $categoria->edit_tabla($id);
