@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddKeyToCategoriatabla extends Migration
+class AddFieldExceptCattab extends Migration
 {
     /**
      * Run the migrations.
@@ -15,8 +15,7 @@ class AddKeyToCategoriatabla extends Migration
     {
         //
         Schema::table('categoria_tablas', function (Blueprint $table) {
-            //
-            $table->string("idkey",100)->nullable();
+            $table->string('excepto', 255)->nullable();
         });
 
     }
@@ -30,8 +29,7 @@ class AddKeyToCategoriatabla extends Migration
     {
         //
         Schema::table('categoria_tablas', function (Blueprint $table) {
-            //
-            $table->dropColumn("idkey");
+            $table->dropColumn("excepto");
         });
 
     }
