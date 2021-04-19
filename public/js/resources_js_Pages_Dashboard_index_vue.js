@@ -27,6 +27,12 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     console.log("window echo", window.Echo.readyState);
+
+    if (window.Echo.readyState == 1) {
+      console.log("conectado crv");
+      my.mensajes.push("Conectando al Live Data");
+    }
+
     window.Echo.addEventListener('open', function (evt) {
       console.log("conectado crv");
       my.mensajes.push("Conectando al Live Data");
@@ -34,6 +40,10 @@ __webpack_require__.r(__webpack_exports__);
     window.Echo.addEventListener('error', function (evt) {
       console.log("no se pudo conectar crv");
       my.mensajes.push("No se puede conectar al Live Data");
+    });
+    window.Echo.addEventListener('message', function (evt) {
+      console.log("enviando data", evt);
+      my.mensajes.push("enviando mensaje");
     });
   },
   data: function data() {

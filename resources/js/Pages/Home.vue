@@ -1,14 +1,9 @@
 <template>
-    <avsis-layout :menus="menus">
-        <span>funciona mierda</span>
-    </avsis-layout>
+    <span>funciona mierda</span>
 </template>
 <script>
 import AvsisLayout from '../Layouts/AvsisLayout'
 export default {
-    components:{
-        AvsisLayout
-    },
     props:{
         menus: Array
     },
