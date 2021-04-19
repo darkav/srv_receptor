@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Custom\HardCodeMenu;
 use App\Http\Controllers\CategoriaTablaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReceivedController;
 use App\Http\Controllers\ServicioController;
 use App\Models\CategoriaTabla;
@@ -39,6 +40,9 @@ Route::resource('categoriatabla',CategoriaTablaController::class);
 Route::get('/genera-tabla',[ReceivedController::class,'index']);
 Route::get('/received/crea-tabla/{tabla}',[ReceivedController::class,'CreateTable']);
 Route::get('/received/borra-tabla/{tabla}',[ReceivedController::class,'DropTable']);
+
+Route::get('/dashboard',[DashboardController::class,'index']);
+
 /*
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -48,12 +52,12 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-*/
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
 
-
+*/
 
 
 

@@ -20,7 +20,7 @@ export default{
     components:{
         'pantalla': Pantalla
     },
-    
+
     data(){
         return{
             titulo: "Sucursales",

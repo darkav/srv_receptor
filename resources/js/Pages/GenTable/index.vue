@@ -38,11 +38,14 @@
 </template>
 <script>
 import Pantalla from '../../controles/pantalla'
+
+
 export default {
     props:['categoria','accion','menus'],
     components:{
         'pantalla' : Pantalla,
     },
+
     data(){
         return{
             selItem:undefined,

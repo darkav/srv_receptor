@@ -1,5 +1,5 @@
 <template>
-    <avsis-layout :menus=menus>
+
         <div v-if="accion === 'B'" data-role="panel"
             :data-title-caption="titulo"
             :data-title-icon="icono"
@@ -71,7 +71,7 @@
             data-main-panel="true"
             class="w-100 h-100">
 
-            <div class="card w-50">
+            <div :class="sizeclase">
                 <div class="card-content p-2">
                     <form ref="frmMantenimiento">
                         <slot v-bind:form="form"/>
@@ -84,7 +84,15 @@
             </div>
             
         </div>
-    </avsis-layout>
+        <div v-if="accion == 'R'" data-role="panel"
+            :data-title-caption="titulo"
+            :data-title-icon="icono"
+            data-main-panel="true"
+            class="w-100 h-100"        
+        >
+            <slot name="reporte" />
+        </div>
+    
     
 </template>
 <script>
@@ -93,7 +101,7 @@
 
     export default{
         components:{
-            AvsisLayout
+            //AvsisLayout
         },
         mixins: [busqueda],
         props:{
@@ -143,6 +151,10 @@
             showBotones:{
                 type: Boolean,
                 default: true
+            },
+            sizeclase:{
+                type: String,
+                default: "card w-50"
             }
         },
         mounted(){

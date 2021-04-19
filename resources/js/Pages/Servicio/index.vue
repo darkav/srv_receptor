@@ -15,12 +15,13 @@
 <script>
 import Pantalla from '../../controles/pantalla'
 
+
 export default{
     props:['data', 'menu'],
     components:{
         'pantalla': Pantalla
     },
-    
+
     data(){
         return{
             titulo: "Servicio",

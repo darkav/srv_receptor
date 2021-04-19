@@ -78,11 +78,14 @@
 </template>
 <script>
 import Pantalla from '../../controles/pantalla'
+
+
 export default {
     props:["registro","accion","menus"],
     components:{
         'pantalla' : Pantalla
     },
+    
     mounted(){
         var my = this;
         window.cleanInput = function()

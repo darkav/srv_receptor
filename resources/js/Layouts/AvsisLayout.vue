@@ -29,7 +29,7 @@
                     <ul class="navview-menu">
                         <li class="item-header"><b>SRV</b>Receptor</li>
                         <li class="item-separator"></li>
-                        <template v-for="(menu,mix) in menus" :key="mix">
+                        <template v-for="(menu,mix) in getMenus" :key="mix">
                             <li class="item-header" >{{menu.modulo}}</li>
                             <template v-for="(programa,pix) in menu.programas" :key="pix">
                                 <li>
@@ -54,15 +54,23 @@
 </template>
 <script>
 export default {
-    props:{
-        menus: Array
-    },
     mounted(){
+    const el = document.getElementById('app');
+    let dataset = JSON.parse(el.dataset.page);
+    this.menus = dataset.props.menus;
+    console.log("el datapage en layout", dataset.props.menus );
+
         //Metro.init();
     },
     data(){
         return{
-
+            menus: []
+        }
+    },
+    computed:{
+        getMenus()
+        {
+            return this.menus || [];
         }
     }
 }
