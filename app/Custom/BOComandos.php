@@ -119,7 +119,7 @@ class BOComandos
             }
             return $this->conexion;            
 
-        }
+        } 
 
 
         private function _register($mensaje,$conId)

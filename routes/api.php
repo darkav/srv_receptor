@@ -4,6 +4,7 @@ use App\Http\Controllers\ApiSucursalController;
 use App\Http\Controllers\ApiCategoriaController;
 use App\Http\Controllers\ReceivedController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,3 +38,8 @@ Route::get('/received/v1/registros/{categoria}/{local}',[ReceivedController::cla
 Route::get('/received/v1/{categoria}/{local}/{tabla}',[ReceivedController::class,'MaxRegistro']);
 Route::post('/received/v1/',[ReceivedController::class,'InsertTable']);
 Route::put('/received/v1/',[ReceivedController::class,'UpdateTable']);
+Route::post('/wsserver/v1/wakeup',function(Request $request){
+    if($request->flag == "ON")
+        Artisan::queue('websocket:init');
+    return "OK";
+});

@@ -34,13 +34,10 @@
                         <div class="cell-1">
                             <div class="button primary outline">Enviar</div>
                         </div>
-                        <div class="cell-1 offset-4" >
-                            <input type="checkbox" data-caption="WebSocket" 
-                            data-role="switch" data-on="ON" data-off="OFF"
-                            v-model="wsServicio"
-                            @change="websocketUp"
-                            >
+                        <div class="cell-1 offset-4">
+                            <div class="button success outline" @click="refreshPage">Refrescar</div>
                         </div>
+
                     </div>
                 </div>
                 <!-- marquee -->
@@ -50,6 +47,51 @@
                             <template v-for="(msg,ims) in getMensajes" :key="ims">{{msg}} |</template>                            
                         </p>
                     </span>  
+                </div>
+                <!-- enviar comandos -->
+                <div class="cell-12">
+                    <div data-role="panel" class="w-100"
+                        data-title-caption="Enviar comandos"
+                        data-collapsible = "true"
+                        data-title-icon="<span class='mif-flash-on'></span>"
+                    >
+                        <div class="row w-100 d-flex flex-align-center">
+                            <div class="cell-3">
+                                <select data-role="select" data-add-empty-value="true" data-empty-value="Servicios"
+                                    v-model="selEvento"
+                                >
+                                    <optgroup label="Conexión">
+                                        <option value="1">Ping</option>
+                                        <option value="11">Conectar</option>
+                                        <option value="12">Desconectar</option>
+                                    </optgroup>
+                                    <optgroup label="Proceso">
+                                        <option value="3">Iniciar</option>
+                                        <option value="2">Detener</option>
+                                    </optgroup>
+                                    <optgroup label="Información">
+                                        <option value="8">Status</option>
+                                    </optgroup>
+                                    <optgroup label="Configuración">
+                                        <option value="8">Setear</option>
+                                        <option value="2">Obtener</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="cell-4">
+                                <select data-role="select" >
+                                    <optgroup label="Sucursales">
+                                        <option :value=-1>Todos los sucursales</option>
+                                        <option v-for="(suc,isc) in getSucursales" :key=isc
+                                        :value="suc.id">{{suc.nombre}}</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="cell-1">
+                                <div class="button primary outline">Enviar</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- sucursales -->
                 <div class="cell-12">
@@ -85,7 +127,7 @@
                     </div>
 
                 </div>
-                <!-- enviar comandos -->
+                
             </div>
             <!-- -->
                     
@@ -293,9 +335,9 @@ export default {
         {
 
         },
-        websocketUp()
+        refreshPage()
         {
-            this.$inertia.get(`/wsserver/wakeup/${this.wsServicio}`);            
+            location.reload();
         }
     }
 }
