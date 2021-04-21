@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\BOComandos;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
+use Inertia\Inertia;
 use Ratchet\ConnectionInterface;
 use Ratchet\WebSocket\MessageComponentInterface;
 use stdClass;
@@ -12,14 +15,20 @@ class WebSocketController extends Controller implements MessageComponentInterfac
 {
     //
     private $connections = [];
+    private $bo ;
+    private $exitCode;
 
     function onOpen(ConnectionInterface $conn)
     {
+        if($this->bo == null)
+            $this->bo = new BOComandos();
+
         $nodo = new stdClass();
         $nodo->conexion = $conn;
         $nodo->device = 'unregister';
         $nodo->estado = 'IDL';
         $this->connections[$conn->resourceId] = $nodo;
+        $this->bo->set($this->connections);
         echo "conectando al resource {$conn->resourceId} \n";
     }
 
@@ -33,6 +42,7 @@ class WebSocketController extends Controller implements MessageComponentInterfac
         unset($this->connections[$disconnectedId]);
         foreach($this->connections as &$connection)
             $connection['conn']->send(json_encode($mensaje));
+        $this->bo->set($this->connections);
     }
 
     function onError(ConnectionInterface $conn, \Exception $e)
@@ -45,26 +55,23 @@ class WebSocketController extends Controller implements MessageComponentInterfac
 
     function onMessage(ConnectionInterface $conn, $msg)
     {
-
-        if(is_null($this->connections[$conn->resourceId]['user_id'])){
-            $this->connections[$conn->resourceId]['user_id'] = $msg;
-            $onlineUsers = [];
-            foreach($this->connections as $resourceId => &$connection){
-                $connection['conn']->send(json_encode([$conn->resourceId => $msg]));
-                if($conn->resourceId != $resourceId)
-                    $onlineUsers[$resourceId] = $connection['user_id'];
-            }
-            $conn->send(json_encode(['online_users' => $onlineUsers]));
-        } else{
-            $fromUserId = $this->connections[$conn->resourceId]['user_id'];
-            $msg = json_decode($msg, true);
-            $this->connections[$msg['to']]['conn']->send(json_encode([
-                'msg' => $msg['content'],
-                'from_user_id' => $fromUserId,
-                'from_resource_id' => $conn->resourceId
-            ]));
-        }      
-
+        $this->connections = $this->bo->execComando($msg,$conn->resourceId,$conn);
     }
+
+    function OnOffWebSocketServer($flag)
+    {
+        
+        switch($flag)
+        {
+            case true:
+                $this->exitCode = Artisan::queue('websocket:init');
+                break;
+            case false:
+                $this->exitCode->__destruct();
+                break;
+        }
+        return redirect()->back();
+    }
+
 
 }

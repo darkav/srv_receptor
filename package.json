@@ -33,6 +33,7 @@
         "vue-loader": "^16.1.2"
     },
     "dependencies": {
+        "date-fns": "^2.21.1",
         "laravel-echo-ratchet": "^1.4.3",
         "metro4": "^4.4.3"
     }

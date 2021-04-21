@@ -28,8 +28,18 @@
                                 </optgroup>
                             </select>
                         </div>
-                        <div class="cell-4">
+                        <div class="cell-1">
                             <input type="checkbox" data-role="switch" data-on="ON" data-off="OFF">
+                        </div>
+                        <div class="cell-1">
+                            <div class="button primary outline">Enviar</div>
+                        </div>
+                        <div class="cell-1 offset-4" >
+                            <input type="checkbox" data-caption="WebSocket" 
+                            data-role="switch" data-on="ON" data-off="OFF"
+                            v-model="wsServicio"
+                            @change="websocketUp"
+                            >
                         </div>
                     </div>
                 </div>
@@ -60,7 +70,7 @@
                             </div>
                         </div>
                         <div class="my-10 w-100 d-flex flex-wrap">
-                            <div class="shortcut mx-4 my-4 px-5"
+                            <div :class="'shortcut mx-4 my-4 px-5' +  (suc.conectado ? ' success ' : '') "
                                 v-for="(suc,isx) in getSucursales"
                                 :key="isx"
                             >
@@ -84,7 +94,8 @@
 
 </template>
 <script>
-import Pantalla from '../../controles/pantalla'
+import Pantalla from '../../controles/pantalla';
+import { format } from 'date-fns';
 
 export default {
     props:["dato","menus"],
@@ -104,7 +115,17 @@ export default {
         if(window.Echo.readyState == 1)
         {
             console.log("conectado crv");
-            my.mensajes.push("Conectando al Live Data");
+            this.mensajes.push("Conectando al Live Data");
+            this.device = `nav${format(new Date(),'yyyyMMddHHmmss')}`;
+            let mensaje = {};
+            mensaje.device = this.device;
+            mensaje.info = "Registrando device";
+            mensaje.comando = 4;
+            window.Echo.send(JSON.stringify(mensaje));
+        }else{
+            this.dato.sucursales.map((suc) => {
+                suc.conectado=false;
+            });
         }
 
         window.Echo.addEventListener('open', function(evt){
@@ -118,8 +139,9 @@ export default {
         });
 
         window.Echo.addEventListener('message', function(evt){
-            console.log("enviando data", evt);
-            my.mensajes.push("enviando mensaje");
+            //aqui debe de actualizar las sucursales;
+            my.captStream(evt.data);
+            //my.mensajes.push("enviando mensaje");
         });
 
 
@@ -128,12 +150,15 @@ export default {
     data(){
         return{
             titulo: "Dashboard",
+            device:"",
             accion:"R",
             linkBack:"categoria.index",
             selServicio:"",
             sucSearch:"",
             icono:"<span class='mif-dashboard'></span>",
-            mensajes:[]
+            mensajes:[],
+            cssconectado:'',
+            wsServicio:''
         }
     },
     computed:{
@@ -182,6 +207,96 @@ export default {
 
     },
     methods:{
+        captStream(mensaje)
+        {
+            let comando = JSON.parse(mensaje);
+            switch(comando.comando)
+            {
+                case 1:
+                    this.ping(comando);
+                    break;
+                case 4:
+                    this.register(comando);
+                    break;
+                case 5:
+                    this.unRegister(comando);
+                    break;
+                case 6:
+                    this.sendInfo(comando);
+                    break;
+                case 7:
+                    this.sendError(comando);
+                    break;
+                case 8:
+                    this.getStatus(comando);
+                    break;
+                case 10:
+                    this.getConfig(comando);
+                    break;
+                case 11:
+                    this.connected(comando);
+                    break;
+                case 12:
+                    this.disconnected(comando);
+                    break;
+                case 99:
+                    this.errorMsg(mensaje);
+                    break;
+            }
+        },
+        ping(mensaje)
+        {
+            console.log("mapeando ping",mensaje,this.dato.sucursales);
+            this.dato.sucursales.map( (suc) => {
+                if(suc.alias == mensaje.device)
+                {
+                    if(mensaje.info.contains('ATTACH'))
+                        suc.conectado = true;
+                    else
+                        suc.conectado = false;
+                }
+            });
+        },
+        register(mensaje)
+        {
+
+        },
+        unregister(mensaje)
+        {
+
+        },
+        sendInfo(mensaje)
+        {
+
+        },
+        sendError(mensaje)
+        {
+
+        },
+        getStatus(mensaje)
+        {
+
+        },
+        getConfig(mensaje)
+        {
+
+        },
+        connected(mensaje)
+        {
+
+        },
+        disconnected(mensaje)
+        {
+
+        },
+        errorMsg(mensaje)
+        {
+
+        },
+        websocketUp()
+        {
+            this.$inertia.get(`/wsserver/wakeup/${this.wsServicio}`);            
+        }
     }
 }
 </script>

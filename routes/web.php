@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoriaTablaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReceivedController;
 use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\WebSocketController;
 use App\Models\CategoriaTabla;
 
 /*
@@ -42,7 +43,7 @@ Route::get('/received/crea-tabla/{tabla}',[ReceivedController::class,'CreateTabl
 Route::get('/received/borra-tabla/{tabla}',[ReceivedController::class,'DropTable']);
 
 Route::get('/dashboard',[DashboardController::class,'index']);
-
+Route::get('/wsserver/wakeup/{flag}',[WebSocketController::class,'OnOffWebSocketServer']);
 /*
 Route::get('/', function () {
     return Inertia::render('Welcome', [
