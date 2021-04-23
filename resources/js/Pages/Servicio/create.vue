@@ -23,14 +23,16 @@
                     </div>
 
                     <div class="row mb-2 d-flex flex-align-center">
-                        <label class="cell-2">Solicitar Eventos</label>
+                        <label class="cell-2">Servicio</label>
                         <div class="cell-10">
-                            <input type="checkbox" data-role="checkbox" v-model="parent.form.push_event" :checked="parent.form.push_event == 1 ? true : false" />
+                            <input type="radio" v-model="parent.form.push_event" value=1 data-role="radio" data-caption="Solo Eventos" @change="setEventos(1)">
+                            <input type="radio" v-model="parent.form.push_event" value=2 data-role="radio" data-caption="Eventos y Pull"  @change="setEventos(2)">
+                            <input type="radio" v-model="parent.form.push_event" value=3 data-role="radio" data-caption="Solo Pull"  @change="setEventos(3)">
                         </div>
                     </div>
 
 
-                    <div class="row mb-2 d-flex flex-align-center">
+                    <div class="row mb-2 d-flex flex-align-center" v-if="parent.form.push_event != 1">
                         <label class="cell-2">Tiempo Rastreo (Min.)</label>
                         <div class="cell-10">
                             <input type="number" v-model="parent.form.tiempo_rastreo" class="metro-input" >
@@ -38,7 +40,7 @@
                     </div>
 
 
-                    <div class="row mb-2 d-flex flex-align-center">
+                    <div class="row mb-2 d-flex flex-align-center" v-if="parent.form.push_event != 1">
                         <label class="cell-2">Tiempo Espera Rastreo (Min.) </label>
                         <div class="cell-10">
                             <input type="number" v-model="parent.form.timeout_rastreo" class="metro-input" maxlength="5" >
@@ -98,7 +100,13 @@
         },
         methods:
         {
+            setEventos(valor)
+            {
+                if(valor == 1)
+                {
 
+                }
+            }   
         }
 
     }

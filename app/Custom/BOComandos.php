@@ -90,6 +90,9 @@ class BOComandos
                 case 12: //DISCONNECTED
                     $this->conexion =  $this->_disconnected($comando,$conId);
                     break;
+                case 13: //STOPALL
+                    $this->conexion =  $this->_stopAll($comando,$conId);
+                    break;
                 case 99: //ERROR
                     //$this->conexion =  $this->_ping($comando,$conId);
                     echo "Error de conexion con el socket \n";
@@ -290,6 +293,27 @@ class BOComandos
             return $this->conexion;            
         }
 
+        private function _stopAll($mensaje,$conId)
+        {
+            $mensaje->datos = [];            
+            foreach($this->conexion as $key => $valor)
+            {
+                if(!Str::contains(Str::lower($valor->device),'nav') && !Str::contains(Str::lower($valor->device),'appsys'))
+                {
+                    $mensaje->datos[] = $valor->device;
+                }
+            }
+            $mensaje->info="DETACH SUCURSAL";
+            $navegadores = Arr::where($this->conexion, function ($key, $value) {
+                return Str::contains(Str::lower($this->conexion[$value]->device), 'nav') ;
+            });
+
+            if(count($navegadores) > 0)
+            {
+                $this->sendAll($navegadores,$mensaje);
+            }
+            return $this->conexion;            
+        }
 
     }
 

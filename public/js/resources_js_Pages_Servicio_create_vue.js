@@ -29,7 +29,11 @@ __webpack_require__.r(__webpack_exports__);
       linkBack: "servicio.index"
     };
   },
-  methods: {}
+  methods: {
+    setEventos: function setEventos(valor) {
+      if (valor == 1) {}
+    }
+  }
 });
 
 /***/ }),
@@ -216,7 +220,7 @@ var _hoisted_7 = {
 
 var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
   "class": "cell-2"
-}, "Solicitar Eventos", -1
+}, "Servicio", -1
 /* HOISTED */
 );
 
@@ -224,6 +228,7 @@ var _hoisted_9 = {
   "class": "cell-10"
 };
 var _hoisted_10 = {
+  key: 0,
   "class": "row mb-2 d-flex flex-align-center"
 };
 
@@ -237,6 +242,7 @@ var _hoisted_12 = {
   "class": "cell-10"
 };
 var _hoisted_13 = {
+  key: 1,
   "class": "row mb-2 d-flex flex-align-center"
 };
 
@@ -289,7 +295,7 @@ var _hoisted_24 = {
   "class": "cell-10"
 };
 var _hoisted_25 = {
-  key: 0,
+  key: 2,
   "class": "row mb-2 d-flex flex-align-center"
 };
 
@@ -333,15 +339,45 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8
       /* PROPS */
       , ["onUpdate:modelValue", "checked"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, parent.form.live]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-        type: "checkbox",
-        "data-role": "checkbox",
+        type: "radio",
         "onUpdate:modelValue": function onUpdateModelValue($event) {
           return parent.form.push_event = $event;
         },
-        checked: parent.form.push_event == 1 ? true : false
-      }, null, 8
-      /* PROPS */
-      , ["onUpdate:modelValue", "checked"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, parent.form.push_event]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+        value: "1",
+        "data-role": "radio",
+        "data-caption": "Solo Eventos",
+        onChange: _cache[1] || (_cache[1] = function ($event) {
+          return $options.setEventos(1);
+        })
+      }, null, 40
+      /* PROPS, HYDRATE_EVENTS */
+      , ["onUpdate:modelValue"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, parent.form.push_event]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+        type: "radio",
+        "onUpdate:modelValue": function onUpdateModelValue($event) {
+          return parent.form.push_event = $event;
+        },
+        value: "2",
+        "data-role": "radio",
+        "data-caption": "Eventos y Pull",
+        onChange: _cache[2] || (_cache[2] = function ($event) {
+          return $options.setEventos(2);
+        })
+      }, null, 40
+      /* PROPS, HYDRATE_EVENTS */
+      , ["onUpdate:modelValue"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, parent.form.push_event]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+        type: "radio",
+        "onUpdate:modelValue": function onUpdateModelValue($event) {
+          return parent.form.push_event = $event;
+        },
+        value: "3",
+        "data-role": "radio",
+        "data-caption": "Solo Pull",
+        onChange: _cache[3] || (_cache[3] = function ($event) {
+          return $options.setEventos(3);
+        })
+      }, null, 40
+      /* PROPS, HYDRATE_EVENTS */
+      , ["onUpdate:modelValue"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, parent.form.push_event]])])]), parent.form.push_event != 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
         type: "number",
         "onUpdate:modelValue": function onUpdateModelValue($event) {
           return parent.form.tiempo_rastreo = $event;
@@ -349,7 +385,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "metro-input"
       }, null, 8
       /* PROPS */
-      , ["onUpdate:modelValue"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, parent.form.tiempo_rastreo]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+      , ["onUpdate:modelValue"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, parent.form.tiempo_rastreo]])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), parent.form.push_event != 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
         type: "number",
         "onUpdate:modelValue": function onUpdateModelValue($event) {
           return parent.form.timeout_rastreo = $event;
@@ -358,7 +394,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         maxlength: "5"
       }, null, 8
       /* PROPS */
-      , ["onUpdate:modelValue"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, parent.form.timeout_rastreo]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+      , ["onUpdate:modelValue"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, parent.form.timeout_rastreo]])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
         type: "number",
         "onUpdate:modelValue": function onUpdateModelValue($event) {
           return parent.form.tiempo_ping = $event;

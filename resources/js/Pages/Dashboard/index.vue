@@ -336,6 +336,7 @@ export default {
         {
 
         },
+        
         refreshPage()
         {
             location.reload();
