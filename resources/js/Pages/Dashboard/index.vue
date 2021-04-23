@@ -31,10 +31,7 @@
                         <div class="cell-1">
                             <input type="checkbox" data-role="switch" data-on="ON" data-off="OFF">
                         </div>
-                        <div class="cell-1">
-                            <div class="button primary outline">Enviar</div>
-                        </div>
-                        <div class="cell-1 offset-4">
+                        <div class="cell-1 offset-5">
                             <div class="button success outline" @click="refreshPage">Refrescar</div>
                         </div>
 
@@ -79,16 +76,18 @@
                                 </select>
                             </div>
                             <div class="cell-4">
-                                <select data-role="select" >
+                                <select v-model="selectSucursal" data-role="select" multiple
+                                    @change="changeSucursal"
+                                >
                                     <optgroup label="Sucursales">
-                                        <option :value=-1>Todos los sucursales</option>
+                                        <option :value=-1>TODAS LAS SUCURSALES</option>
                                         <option v-for="(suc,isc) in getSucursales" :key=isc
-                                        :value="suc.id">{{suc.nombre}}</option>
+                                        :value="suc.alias">{{suc.nombre}}</option>
                                     </optgroup>
                                 </select>
                             </div>
                             <div class="cell-1">
-                                <div class="button primary outline">Enviar</div>
+                                <div class="button primary outline" @click="sendComandos">Enviar</div>
                             </div>
                         </div>
                     </div>
@@ -191,7 +190,7 @@ export default {
     },
     data(){
         return{
-            titulo: "Dashboard",
+            titulo: "Dashboard",    
             device:"",
             accion:"R",
             linkBack:"categoria.index",
@@ -200,7 +199,9 @@ export default {
             icono:"<span class='mif-dashboard'></span>",
             mensajes:[],
             cssconectado:'',
-            wsServicio:''
+            wsServicio:'',
+            selectSucursal:[],
+            selEvento:""
         }
     },
     computed:{
@@ -338,6 +339,31 @@ export default {
         refreshPage()
         {
             location.reload();
+        },
+        sendComandos()
+        {
+            console.log("obteniendo informacion de la matriz",this.selectSucursal);
+            if(window.Echo.readyState == 1)            
+            {
+                let obj = {};
+                obj.comando = parseInt(this.selEvento);
+                obj.device = "ALL"
+                obj.info = "Enviando comandos";
+                obj.datos =  this.selectSucursal.findIndex(val => val == "-1") >=0 ? [] : this.selectSucursal;
+                window.Echo.send(JSON.stringify(obj));
+            }
+            
+        },
+
+        changeSucursal()
+        {
+            if(this.selectSucursal.findIndex(val => val == "-1") >=0  && this.selectSucursal.length>0)
+            {
+                alert("Si ingresa todas las sucursales, no puede ingresar más")
+                this.selectSucursal = [];
+                return;
+            }
+
         }
     }
 }

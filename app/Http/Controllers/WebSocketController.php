@@ -48,7 +48,7 @@ class WebSocketController extends Controller implements MessageComponentInterfac
     function onError(ConnectionInterface $conn, \Exception $e)
     {
         $userId = $this->connections[$conn->resourceId]->device;
-        echo "Un error ha ocurrido con el dispositivo $userId: {$e->getMessage()}\n";
+        echo "Un error ha ocurrido con el dispositivo $userId, {$conn->resourceId}: {$e->getMessage()} \n";
         unset($this->connections[$conn->resourceId]);
         $conn->close();
     }

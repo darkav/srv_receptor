@@ -2,14 +2,31 @@
     namespace App\Custom;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Str;
     use Illuminate\Support\Arr;
 use stdClass;
+
+use function GuzzleHttp\json_decode;
 
 class BOComandos
     {
         private $conexion = [];
 
+
+
+        public function toJSON($objeto)
+        {
+            $retorno = null;
+            try
+            {
+                $retorno = json_decode($objeto);
+            }catch(Exception $ex)
+            {
+                $retorno = $objeto;
+            }
+            return $retorno;
+        }
 
         public function set($conexiones)
         {
@@ -26,13 +43,15 @@ class BOComandos
 
         public function sendOnly($destino,$mensaje)
         {
-            $this->conexion[$destino]->send(json_encode($mensaje));
+           array_values($destino)[0]->conexion->send(json_encode($mensaje));
         }
 
 
         public function execComando($mensaje,$conId,$conn)
         {
-            $comando = json_decode($mensaje);
+            echo( $mensaje);
+            echo("\r\n");
+            $comando = $this->toJSON($mensaje);
             switch($comando->comando)
             {
                 case 1: //PING
@@ -83,6 +102,9 @@ class BOComandos
 
         private function _ping($mensaje,$conId)
         {
+
+            $this->conexion[$conId]->device=$mensaje->device;
+
             $navegadores = Arr::where($this->conexion, function ($key, $value) {
                 return Str::contains(Str::lower($this->conexion[$value]->device), 'nav') ;
             });
@@ -99,10 +121,9 @@ class BOComandos
             $app = Arr::where($this->conexion,function($key,$value){
                 return Str::contains(Str::lower($this->conexion[$value]->device), 'appsys');
             });
-
             if(count($app) > 0)
             {
-                $this->sendOnly($app[0],$mensaje);
+                $this->sendOnly($app,$mensaje);
             }
             return $this->conexion;            
         }
@@ -115,7 +136,7 @@ class BOComandos
 
             if(count($app) > 0)
             {
-                $this->sendOnly($app[0],$mensaje);
+                $this->sendOnly($app,$mensaje);
             }
             return $this->conexion;            
 
@@ -125,7 +146,6 @@ class BOComandos
         private function _register($mensaje,$conId)
         {
             $this->conexion[$conId]->device=$mensaje->device;
-
             $navegadores = Arr::where($this->conexion, function ($key, $value) {
                 return Str::contains(Str::lower($this->conexion[$value]->device), 'nav') ;
             });
@@ -229,10 +249,12 @@ class BOComandos
                 $nodo->estado = 'IDL';
                 $this->connections[$conn->resourceId] = $nodo;
                 echo "conectando al resource {$conn->resourceId} \n";
+            }else{
+                $this->conexion[$conId]->device=$this->mensaje->device;
+                $this->conexion[$conId]->estado = 'CNT';
             }
-
+            
             $this->mensaje->datos = $this->conexion;
-
             $app = Arr::where($this->conexion,function($key,$value){
                 return Str::contains(Str::lower($this->conexion[$value]->device), 'nav');
             });
@@ -250,9 +272,9 @@ class BOComandos
             {
                 $disconnectedId = $conId;
                 $mensaje->comando = 12;
-                $mensaje->device = $this->connections[$disconnectedId]->device;
+                $mensaje->device = "unregistered";
                 $mensaje->info = "Desconexión del equipo ${Carbon::now()->timezone(env('TIEMPO_LOCAL'))->format('Y-m-d H:i:s')}";
-                unset($this->connections[$disconnectedId]);
+                //unset($this->connections[$disconnectedId]);
             }
 
             $this->mensaje->datos = $this->conexion;
