@@ -15,8 +15,8 @@
                 <!-- Activar el servicio -->
                 <div class="cell-12">
                     <div class="row">
-                        <div class="cell-4">
-                            <select data-role="select" data-add-empty-value="true" data-empty-value="Servicios"
+                        <div class="cell-4" :key="rfsServicio">
+                            <select ref="cmbServicio"   data-role="select" data-add-empty-value="true" data-empty-value="Servicios"
                                 v-model="selServicio"
                             >
                                 <optgroup label="Servicios">
@@ -29,9 +29,12 @@
                             </select>
                         </div>
                         <div class="cell-1">
-                            <input type="checkbox" data-role="switch" data-on="ON" data-off="OFF">
+                            <input type="checkbox" :checked="selActivo" v-model="selActivo" data-role="switch" data-on="ACT" data-off="STP">
                         </div>
-                        <div class="cell-1 offset-5">
+                        <div class="cell-1">
+                            <div class="button primary outline" @click="loadService">Actualizar</div>
+                        </div>
+                        <div class="cell-1 offset-5 ">
                             <div class="button success outline" @click="refreshPage">Refrescar</div>
                         </div>
 
@@ -70,12 +73,12 @@
                                         <option value="8">Status</option>
                                     </optgroup>
                                     <optgroup label="Configuración">
-                                        <option value="8">Setear</option>
-                                        <option value="2">Obtener</option>
+                                        <option value="9">Setear</option>
+                                        <option value="10">Obtener</option>
                                     </optgroup>
                                 </select>
                             </div>
-                            <div class="cell-4">
+                            <div class="cell-4" :key="rfsSucursal">
                                 <select v-model="selectSucursal" data-role="select" multiple
                                     @change="changeSucursal"
                                 >
@@ -129,17 +132,20 @@
                 
             </div>
             <!-- -->
-                    
+            <aside id="sideInfo" :class="cls_sidebar" data-role="sidebar">
+                <div class="sidebar-header">
+
+                </div>
+            </aside>
         </template>
     </pantalla>
-
 </template>
 <script>
 import Pantalla from '../../controles/pantalla';
 import { format } from 'date-fns';
 
 export default {
-    props:["dato","menus"],
+    props:["servicios","dato","menus"],
     components:{
         'pantalla' : Pantalla
     },
@@ -147,6 +153,7 @@ export default {
     mounted(){
         // preguntando si esta conectado el websocket
         let my = this;
+        this.noticia = Metro.notify;
         if(window.Echo == null)
         {
             this.mensajes.push("Error Grave al conectar");
@@ -195,19 +202,24 @@ export default {
             accion:"R",
             linkBack:"categoria.index",
             selServicio:"",
+            selActivo:"",
             sucSearch:"",
             icono:"<span class='mif-dashboard'></span>",
             mensajes:[],
             cssconectado:'',
             wsServicio:'',
             selectSucursal:[],
-            selEvento:""
+            selEvento:"",
+            rfsSucursal:0,
+            rfsServicio: 0,
+            noticia:{},
+            cls_sidebar:"sidebar pos-absolute z-2"
         }
     },
     computed:{
         getServicios()
         {
-            console.log("getServicios", this.dato.servicios);
+            console.log("getServicios", this.servicios);
             if(this.dato.servicios == undefined) return [];
             console.log("entrando carajo", this.servicios);
             this.dato.servicios.map((x) => {
@@ -249,6 +261,15 @@ export default {
 
 
     },
+    watch:{
+        selServicio: function(newval,oldval)
+        {
+            var nodo = this.getServicios.filter(x => x.id == newval)[0] || {};
+            this.selActivo = nodo.estado == "ACT" ? 1 : 0;
+            this.$forceUpdate();
+            console.log("el selactivo",nodo, this.selActivo);
+        }
+    },
     methods:{
         captStream(mensaje)
         {
@@ -269,18 +290,6 @@ export default {
                     break;
                 case 7:
                     this.sendError(comando);
-                    break;
-                case 8:
-                    this.getStatus(comando);
-                    break;
-                case 10:
-                    this.getConfig(comando);
-                    break;
-                case 11:
-                    this.connected(comando);
-                    break;
-                case 12:
-                    this.disconnected(comando);
                     break;
                 case 99:
                     this.errorMsg(mensaje);
@@ -310,15 +319,33 @@ export default {
         },
         sendInfo(mensaje)
         {
+            this.noticia.create(mensaje.info,"Información",{
+                cls:"success"
+            });
+            switch(mensaje.proviene.comando)
+            {
+                case 8: //getstatus
+                    this.getStatus(mensaje);
+                    break;
+                case 9: //getconfig
+                    this.getConfig(mensaje);
+                    break;
+                case 14: // reset
+                    break;       
+                             
+            }
 
         },
         sendError(mensaje)
         {
+            this.noticia.create(mensaje.info,"Error",{
+                cls:"alert"
+            });
 
         },
         getStatus(mensaje)
         {
-
+            this.mostrarAside(mensaje);
         },
         getConfig(mensaje)
         {
@@ -350,21 +377,77 @@ export default {
                 obj.comando = parseInt(this.selEvento);
                 obj.device = "ALL"
                 obj.info = "Enviando comandos";
-                obj.datos =  this.selectSucursal.findIndex(val => val == "-1") >=0 ? [] : this.selectSucursal;
+                obj.datos =  this.selectSucursal.findIndex(val => val == "-1") >=0 ? null : this.selectSucursal;
+                obj.servicio = this.getServicios.filter(x => x.id == this.selServicio)[0] || null;
+                delete obj.servicio.created_at;
+                delete obj.servicio.updated_at;
+                delete obj.servicio.icono;
                 window.Echo.send(JSON.stringify(obj));
+            }else
+            {
+                this.getStatus();
             }
             
         },
 
         changeSucursal()
         {
-            if(this.selectSucursal.findIndex(val => val == "-1") >=0  && this.selectSucursal.length>0)
+            if(this.selectSucursal.findIndex(val => val == "-1") >=0  && this.selectSucursal.length>1)
             {
                 alert("Si ingresa todas las sucursales, no puede ingresar más")
                 this.selectSucursal = [];
+                this.rfsSucursal++;
+                this.$forceUpdate();
                 return;
             }
 
+        },
+        async loadService()
+        {
+            console.log("servicio",this.selServicio);
+            if(this.selServicio == "Servicios")
+            {
+                alert("Debe de seleccionar un servicio");
+                return;
+            }
+            var srv = Object.assign({},this.getServicios.filter(x => x.id == this.selServicio)[0]);
+            delete srv.created_at;
+            delete srv.updated_at;
+            delete srv.icono;
+            srv.estado = this.selActivo == 1 ? "ACT" : "STP";
+            var response = await fetch("../api/servicio/v1",{
+                method: "PUT",
+                headers:{
+                    "Accept": 'application/json',
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(srv)
+            });
+            if(response.ok)
+            {
+                this.noticia.create("Actualizado el estado del servicio","Correcto",{
+                    cls:"success"
+                });
+
+                let pos = this.dato.servicios.findIndex(x => x.id==srv.id);
+                this.dato.servicios.splice(pos,1,srv);
+                this.$forceUpdate();
+                this.rfsServicio++;
+            }else
+            {
+                this.noticia.create("Erro al actualizar el estado del servicio","Error",{
+                    cls:"alert"
+                });
+            }
+
+        },
+        mostrarAside(data)
+        {
+            
+            var side = document.getElementById("sideInfo");
+            Metro.sidebar.open(side);
+            //this.cls_sidebar = this.cls_sidebar.concat(" on-right");
+            console.log("entro en el metrostatus", this.cls_sidebar);
         }
     }
 }

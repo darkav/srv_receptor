@@ -224,7 +224,7 @@ class BOComandos
 
             if(count($app) > 0)
             {
-                $this->sendOnly($app[0],$mensaje);
+                $this->sendOnly($app,$mensaje);
             }
             return $this->conexion;            
         }
