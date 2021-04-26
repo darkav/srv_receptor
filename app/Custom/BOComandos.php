@@ -35,6 +35,7 @@ class BOComandos
 
         public function sendAll($destinos,$mensaje)
         {
+
             foreach($destinos as $clave => $nodo)
             {
                 $nodo->conexion->send(json_encode($mensaje));
@@ -93,6 +94,10 @@ class BOComandos
                 case 13: //STOPALL
                     $this->conexion =  $this->_stopAll($comando,$conId);
                     break;
+                case 14: //RESET
+                    $this->conexion =  $this->_reset($comando,$conId);
+                    break;
+    
                 case 99: //ERROR
                     //$this->conexion =  $this->_ping($comando,$conId);
                     echo "Error de conexion con el socket \n";
@@ -203,14 +208,19 @@ class BOComandos
 
         private function _getStatus($mensaje,$conId)
         {
-            $mensaje->datos = $this->conexion;
+            $responde = new stdClass();
+            $responde->proviene = $mensaje;
+            $responde->datos = $this->conexion; 
+            $responde->comando = 6;
+            $responde->device = "ALL";
+            $responde->info = "Obteniendo status de dispositivos conectados";
             $navegadores = Arr::where($this->conexion, function ($key, $value) {
                 return Str::contains(Str::lower($this->conexion[$value]->device), 'nav') ;
             });
 
             if(count($navegadores) > 0)
             {
-                $this->sendAll($navegadores,$mensaje);
+                $this->sendAll($navegadores,$responde);
             }
             return $this->conexion;            
 
@@ -313,6 +323,22 @@ class BOComandos
                 $this->sendAll($navegadores,$mensaje);
             }
             return $this->conexion;            
+        }
+
+        private function _reset($mensaje)
+        {
+            if(arr::len($mensaje->datos) == 0)
+            {
+                foreach($this->conexion as $clave => $valor)
+                {
+                    unset($valor);
+                }
+            }else{
+                foreach($mensaje->datos as $clave => $valor)
+                {
+                     unset($this->conexion[$valor->conId]);
+                }
+            }
         }
 
     }

@@ -32,6 +32,18 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -96,7 +108,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       rfsSucursal: 0,
       rfsServicio: 0,
       noticia: {},
-      cls_sidebar: "sidebar pos-absolute z-2"
+      cls_sidebar: "sidebar pos-absolute z-2",
+      info: []
     };
   },
   computed: {
@@ -133,6 +146,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.dato.sucursales.filter(function (x) {
         return !x.conectado;
       }).length;
+    },
+    getInfo: function getInfo() {
+      var midata = {};
+
+      if (this.info == null) {
+        midata.miAccion = 0;
+      } else {
+        midata = this.info;
+        if (midata.proviene) midata.miAccion = midata.proviene.comando || 0;
+
+        if (midata.miAccion == 8) {
+          midata.datos = Object.entries(midata.datos).map(function (_ref) {
+            var _ref2 = _slicedToArray(_ref, 2),
+                k = _ref2[0],
+                x = _ref2[1];
+
+            return {
+              conId: k,
+              nodo: x
+            };
+          });
+        } else midata.miAccion = 0;
+      }
+
+      return midata;
     }
   },
   watch: {
@@ -168,6 +206,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         case 7:
           this.sendError(comando);
+          break;
+
+        case 14:
+          this.reset(comando);
           break;
 
         case 99:
@@ -212,9 +254,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     getStatus: function getStatus(mensaje) {
+      console.log("getStatus", mensaje, mensaje.datos[0]);
+      this.info = mensaje;
       this.mostrarAside(mensaje);
     },
-    getConfig: function getConfig(mensaje) {},
+    getConfig: function getConfig(mensaje) {
+      this.info = mensaje.datos;
+      this.mostrarAside(mensaje);
+    },
     connected: function connected(mensaje) {},
     disconnected: function disconnected(mensaje) {},
     errorMsg: function errorMsg(mensaje) {},
@@ -224,7 +271,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     sendComandos: function sendComandos() {
       var _this = this;
 
-      console.log("obteniendo informacion de la matriz", this.selectSucursal);
+      console.log("sende comando ", this.selServicio);
+
+      if (this.selEvento == "Servicios") {
+        alert("Debe de seleccionar un evento");
+        return;
+      }
+
+      if (this.selectSucursal.length == 0 && this.selEvento != 8) {
+        alert("Debe de seleccionar una o varias sucursales o todos");
+        return;
+      }
+
+      if (this.selEvento == 9 && this.selServicio == "Servicios") {
+        alert("Debe de seleccionar un Servicio");
+        return;
+      }
 
       if (window.Echo.readyState == 1) {
         var obj = {};
@@ -237,12 +299,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         obj.servicio = this.getServicios.filter(function (x) {
           return x.id == _this.selServicio;
         })[0] || null;
-        delete obj.servicio.created_at;
-        delete obj.servicio.updated_at;
-        delete obj.servicio.icono;
+
+        if (obj.servicio != null) {
+          delete obj.servicio.created_at;
+          delete obj.servicio.updated_at;
+          delete obj.servicio.icono;
+        }
+
         window.Echo.send(JSON.stringify(obj));
       } else {
-        this.getStatus();
+        this.noticia.create("No hay conexión con el servicio POSFix", "Error", {
+          cls: "alert"
+        });
       }
     },
     changeSucursal: function changeSucursal() {
@@ -326,9 +394,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     mostrarAside: function mostrarAside(data) {
       var side = document.getElementById("sideInfo");
-      Metro.sidebar.open(side); //this.cls_sidebar = this.cls_sidebar.concat(" on-right");
-
-      console.log("entro en el metrostatus", this.cls_sidebar);
+      Metro.sidebar.open(side); //this.cls_sidebar = "sidebar pos-absolute z-2 on-right sidebar-shadow open";
+    },
+    reset: function reset(comando) {
+      this.sendComandos(comando);
     }
   }
 });
@@ -609,6 +678,125 @@ var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 
 var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "sidebar-header"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+  href: "/",
+  "class": "fg-blue sub-action",
+  onclick: "Metro.sidebar.close('#sideInfo'); return false;"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+  "class": "mif-arrow-left mif-2x"
+})]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+  "class": "title"
+}, "Información")], -1
+/* HOISTED */
+);
+
+var _hoisted_37 = {
+  key: 0,
+  "class": "card-content"
+};
+
+var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" > ");
+
+var _hoisted_39 = {
+  "class": "row"
+};
+
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "cell-4"
+}, "Sucursal:", -1
+/* HOISTED */
+);
+
+var _hoisted_41 = {
+  "class": "cell-8"
+};
+var _hoisted_42 = {
+  "class": "row"
+};
+
+var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "cell-4"
+}, "IP:", -1
+/* HOISTED */
+);
+
+var _hoisted_44 = {
+  "class": "cell-8"
+};
+var _hoisted_45 = {
+  "class": "row"
+};
+
+var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "cell-4"
+}, "DB:", -1
+/* HOISTED */
+);
+
+var _hoisted_47 = {
+  "class": "cell-8"
+};
+
+var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "item-separator"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_49 = {
+  key: 1,
+  "class": "card-content scrollbox h-100"
+};
+var _hoisted_50 = {
+  "data-role": "panel"
+};
+var _hoisted_51 = {
+  "class": "cell-12 d-flex flex-justify-end"
+};
+
+var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "cell-4 text-small"
+}, "Conexión:", -1
+/* HOISTED */
+);
+
+var _hoisted_53 = {
+  "class": "cell-8 text-small"
+};
+
+var _hoisted_54 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "cell-4 text-small"
+}, "Dispositivo:", -1
+/* HOISTED */
+);
+
+var _hoisted_55 = {
+  "class": "cell-8 text-small"
+};
+
+var _hoisted_56 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "cell-4 text-small"
+}, "Estado", -1
+/* HOISTED */
+);
+
+var _hoisted_57 = {
+  "class": "cell-8 text-small"
+};
+
+var _hoisted_58 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", {
+  "class": "bg-gray w-100",
+  style: {
+    "border-style": "dashed",
+    "border-color": "gray",
+    "border-width": "thin"
+  }
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_59 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": " row h-50 w-100"
 }, null, -1
 /* HOISTED */
 );
@@ -747,7 +935,44 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         id: "sideInfo",
         "class": $data.cls_sidebar,
         "data-role": "sidebar"
-      }, [_hoisted_36], 2
+      }, [_hoisted_36, $options.getInfo.miAccion != 8 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_37, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getInfo.datos, function (info, idx) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
+          key: idx,
+          "data-role": "panel",
+          "data-title-caption": info.sucursal.nombre,
+          "data-title-icon": "<span class='mif-home'></span>"
+        }, [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.sucursal.alias), 1
+        /* TEXT */
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_42, [_hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.sucursal.ip), 1
+        /* TEXT */
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.sucursal.bd), 1
+        /* TEXT */
+        )]), _hoisted_48], 8
+        /* PROPS */
+        , ["data-title-caption"]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.getInfo.miAccion == 8 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_50, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getInfo.datos, function (info, ifx) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
+          "class": "row",
+          key: ifx
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+          "class": "mif-cross fg-red",
+          onClick: function onClick($event) {
+            return $options.reset(info);
+          }
+        }, null, 8
+        /* PROPS */
+        , ["onClick"])]), _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.conId), 1
+        /* TEXT */
+        )]), _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.nodo.device), 1
+        /* TEXT */
+        )]), _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.nodo.estado), 1
+        /* TEXT */
+        ), _hoisted_58]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      )), _hoisted_59])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2
       /* CLASS */
       )];
     }),

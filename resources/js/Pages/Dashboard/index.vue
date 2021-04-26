@@ -134,7 +134,52 @@
             <!-- -->
             <aside id="sideInfo" :class="cls_sidebar" data-role="sidebar">
                 <div class="sidebar-header">
-
+                    <a href="/" class="fg-blue sub-action"
+                        onclick="Metro.sidebar.close('#sideInfo'); return false;">
+                        <span class="mif-arrow-left mif-2x"></span>
+                    </a>
+                    <span class="title">Información</span>
+                </div>
+                <div class="card-content" v-if="getInfo.miAccion != 8">
+                    <div v-for="(info,idx) in getInfo.datos" :key="idx"
+                        data-role="panel"
+                        :data-title-caption="info.sucursal.nombre"
+                        data-title-icon="<span class='mif-home'></span>">                        
+                    >
+                        <div class="row">
+                            <div class="cell-4">Sucursal:</div>
+                            <div class="cell-8">{{info.sucursal.alias}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell-4">IP:</div>
+                            <div class="cell-8">{{info.sucursal.ip}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell-4">DB:</div>
+                            <div class="cell-8">{{info.sucursal.bd}}</div>
+                        </div>
+                        <div class="item-separator"></div>                        
+                    </div>
+                </div>
+                <div class="card-content scrollbox h-100" v-if="getInfo.miAccion == 8">
+                    <div data-role="panel">
+                        <div class="row"
+                            v-for="(info,ifx) in getInfo.datos"
+                            :key="ifx"
+                        >
+                            <div class="cell-12 d-flex flex-justify-end">
+                                <span class="mif-cross fg-red" @click="reset(info)"></span>
+                            </div>
+                            <div class="cell-4 text-small">Conexión:</div>
+                            <div class="cell-8 text-small"><b>{{info.conId}}</b></div>
+                            <div class="cell-4 text-small">Dispositivo:</div>
+                            <div class="cell-8 text-small"><b>{{info.nodo.device}}</b></div>
+                            <div class="cell-4 text-small">Estado</div>
+                            <div class="cell-8 text-small">{{info.nodo.estado}}</div>
+                            <hr class="bg-gray w-100" style="border-style: dashed; border-color: gray; border-width: thin;" />
+                        </div>
+                        <div class=" row h-50 w-100"></div>
+                    </div>
                 </div>
             </aside>
         </template>
@@ -213,7 +258,8 @@ export default {
             rfsSucursal:0,
             rfsServicio: 0,
             noticia:{},
-            cls_sidebar:"sidebar pos-absolute z-2"
+            cls_sidebar:"sidebar pos-absolute z-2",
+            info:[]
         }
     },
     computed:{
@@ -257,6 +303,27 @@ export default {
         {
             if(this.dato.sucursales == undefined) return 0;
             return this.dato.sucursales.filter(x => !x.conectado ).length;
+        },
+
+        getInfo()
+        {
+            var midata = {};
+            if(this.info== null)
+            {
+                midata.miAccion=0;
+            }else
+            {
+                midata=this.info;
+                if(midata.proviene)
+                    midata.miAccion = midata.proviene.comando || 0;
+                    if(midata.miAccion == 8)
+                    {
+                        midata.datos = Object.entries(midata.datos).map(([k,x]) => ({conId :k,nodo: x}));
+                    }
+                else
+                    midata.miAccion = 0;
+            }
+            return midata;
         }
 
 
@@ -291,6 +358,9 @@ export default {
                 case 7:
                     this.sendError(comando);
                     break;
+                case 14:
+                    this.reset(comando);
+                    break;
                 case 99:
                     this.errorMsg(mensaje);
                     break;
@@ -319,6 +389,8 @@ export default {
         },
         sendInfo(mensaje)
         {
+
+            
             this.noticia.create(mensaje.info,"Información",{
                 cls:"success"
             });
@@ -345,11 +417,14 @@ export default {
         },
         getStatus(mensaje)
         {
+            console.log("getStatus",mensaje,mensaje.datos[0]);
+            this.info = mensaje;
             this.mostrarAside(mensaje);
         },
         getConfig(mensaje)
         {
-
+            this.info = mensaje.datos;
+            this.mostrarAside(mensaje);
         },
         connected(mensaje)
         {
@@ -370,7 +445,26 @@ export default {
         },
         sendComandos()
         {
-            console.log("obteniendo informacion de la matriz",this.selectSucursal);
+            console.log("sende comando ",this.selServicio);
+            if(this.selEvento == "Servicios")
+            {
+                alert("Debe de seleccionar un evento");
+                return;
+            }
+
+            if(this.selectSucursal.length == 0 && this.selEvento != 8)
+            {
+                alert("Debe de seleccionar una o varias sucursales o todos");
+                return;
+            }
+
+            if(this.selEvento == 9 && this.selServicio == "Servicios")
+            {
+                alert("Debe de seleccionar un Servicio");
+                return;
+            }
+
+
             if(window.Echo.readyState == 1)            
             {
                 let obj = {};
@@ -379,13 +473,19 @@ export default {
                 obj.info = "Enviando comandos";
                 obj.datos =  this.selectSucursal.findIndex(val => val == "-1") >=0 ? null : this.selectSucursal;
                 obj.servicio = this.getServicios.filter(x => x.id == this.selServicio)[0] || null;
-                delete obj.servicio.created_at;
-                delete obj.servicio.updated_at;
-                delete obj.servicio.icono;
+                if(obj.servicio != null)
+                {
+                    delete obj.servicio.created_at;
+                    delete obj.servicio.updated_at;
+                    delete obj.servicio.icono;
+                }
                 window.Echo.send(JSON.stringify(obj));
             }else
             {
-                this.getStatus();
+                this.noticia.create("No hay conexión con el servicio POSFix","Error",{
+                    cls:"alert"
+                });
+
             }
             
         },
@@ -443,11 +543,13 @@ export default {
         },
         mostrarAside(data)
         {
-            
             var side = document.getElementById("sideInfo");
             Metro.sidebar.open(side);
-            //this.cls_sidebar = this.cls_sidebar.concat(" on-right");
-            console.log("entro en el metrostatus", this.cls_sidebar);
+            //this.cls_sidebar = "sidebar pos-absolute z-2 on-right sidebar-shadow open";
+        },
+        reset(comando)
+        {
+            this.sendComandos(comando);
         }
     }
 }
