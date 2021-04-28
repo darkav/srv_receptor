@@ -33,8 +33,11 @@
         "vue-loader": "^16.1.2"
     },
     "dependencies": {
+        "child_process": "^1.0.2",
         "date-fns": "^2.21.1",
         "laravel-echo-ratchet": "^1.4.3",
-        "metro4": "^4.4.3"
+        "metro4": "^4.4.3",
+        "net": "^1.0.2",
+        "ping": "^0.4.1"
     }
 }

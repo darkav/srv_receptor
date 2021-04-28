@@ -450,7 +450,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-title-caption": $props.titulo,
     "data-title-icon": $props.icono,
     "data-main-panel": "true",
-    "class": "w-100 h-100"
+    "class": "w-100 h-100",
+    "data-cls-content": "h-100 w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "reporte")], 8
   /* PROPS */
   , ["data-title-caption", "data-title-icon"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64

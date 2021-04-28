@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // sucursal
 Route::get('/sucursal/v1',[ApiSucursalController::class,'index']);
 Route::get('/sucursal/v1/{id}',[ApiSucursalController::class,'show']);
+Route::post('/sucursal/v1/ping/pong',[ApiSucursalController::class,'ping']);
 // catagoria
 Route::get('/categoria/v1',[ApiCategoriaController::class,'index']);
 Route::get('/categoria/v1/ally',[ApiCategoriaController::class,'ally']);

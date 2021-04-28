@@ -24,6 +24,9 @@ mix.js('resources/js/app.js', 'public/js').vue()
     ])
     .webpackConfig(require('./webpack.config'));
 
+
+mix.copy('resources/js/workers/wrkPing.js','public/js');
+
 if (mix.inProduction()) {
     mix.version();
 }

@@ -140,7 +140,7 @@
                     </a>
                     <span class="title">Información</span>
                 </div>
-                <div class="card-content" v-if="getInfo.miAccion != 8">
+                <div class="card-content" v-if="getInfo.miAccion != 8 && getInfo.miAccion != 14" :ref="rfsAside">
                     <div v-for="(info,idx) in getInfo.datos" :key="idx"
                         data-role="panel"
                         :data-title-caption="info.sucursal.nombre"
@@ -161,7 +161,7 @@
                         <div class="item-separator"></div>                        
                     </div>
                 </div>
-                <div class="card-content scrollbox h-100" v-if="getInfo.miAccion == 8">
+                <div class="card-content scrollbox h-100" v-if="getInfo.miAccion == 8 || getInfo.miAccion == 14">
                     <div data-role="panel">
                         <div class="row"
                             v-for="(info,ifx) in getInfo.datos"
@@ -237,6 +237,19 @@ export default {
             //my.mensajes.push("enviando mensaje");
         });
 
+        // eventos del Worker
+        console.log("worker activo", window.wrkPing);
+
+        window.wrkPing.addEventListener('message', (e) => {
+            // retornando que todo funciona
+            var wrkdata = JSON.parse(e.data);
+            console.log("llego la comunicacion ", wrkdata);
+        });
+
+        window.wrkPing.addEventListener('error', (e) => {
+            // retornando error al llamar webworker
+        });
+
 
 
     },
@@ -257,6 +270,7 @@ export default {
             selEvento:"",
             rfsSucursal:0,
             rfsServicio: 0,
+            rfsAside:0,
             noticia:{},
             cls_sidebar:"sidebar pos-absolute z-2",
             info:[]
@@ -316,7 +330,7 @@ export default {
                 midata=this.info;
                 if(midata.proviene)
                     midata.miAccion = midata.proviene.comando || 0;
-                    if(midata.miAccion == 8)
+                    if(midata.miAccion == 8 || midata.miAccion == 14)
                     {
                         midata.datos = Object.entries(midata.datos).map(([k,x]) => ({conId :k,nodo: x}));
                     }
@@ -403,6 +417,7 @@ export default {
                     this.getConfig(mensaje);
                     break;
                 case 14: // reset
+                    this.getStatus(mensaje);
                     break;       
                              
             }
@@ -417,8 +432,9 @@ export default {
         },
         getStatus(mensaje)
         {
-            console.log("getStatus",mensaje,mensaje.datos[0]);
             this.info = mensaje;
+            this.rfsAside++;
+            console.log("mostrar status", mensaje);
             this.mostrarAside(mensaje);
         },
         getConfig(mensaje)
@@ -443,6 +459,18 @@ export default {
         {
             location.reload();
         },
+        sendDirectCommando(mensaje)
+        {
+            if(window.Echo.readyState == 1)            
+            {
+                window.Echo.send(JSON.stringify(mensaje));
+            }else
+            {
+                this.noticia.create("No hay conexión con el servicio POSFix","Error",{
+                    cls:"alert"
+                });
+            }
+        },
         sendComandos()
         {
             console.log("sende comando ",this.selServicio);
@@ -457,6 +485,14 @@ export default {
                 alert("Debe de seleccionar una o varias sucursales o todos");
                 return;
             }
+
+            if(this.selEvento == 1)
+            {
+                this.pingme();
+                return;
+            }
+
+
 
             if(this.selEvento == 9 && this.selServicio == "Servicios")
             {
@@ -549,7 +585,28 @@ export default {
         },
         reset(comando)
         {
-            this.sendComandos(comando);
+            console.log("aplicando restet",comando);
+            comando.comando=14;
+            this.sendDirectCommando(comando);
+        },
+        pingme()
+        {
+            var sucursales = [];
+            if(this.selectSucursal.length > 0 )
+            {
+                this.selectSucursal.map((x) => {
+                    if(x != -1)
+                        sucursales.push(this.dato.sucursales.find(y => x.id == y.id));
+                    else
+                        sucursales = Object.assign([], this.dato.sucursales);
+                });
+            }else
+            {
+                sucursales = this.dato.sucursales;
+            }
+            
+            window.wrkPing.postMessage(JSON.stringify(sucursales));
+
         }
     }
 }

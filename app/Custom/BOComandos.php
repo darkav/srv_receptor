@@ -95,7 +95,7 @@ class BOComandos
                     $this->conexion =  $this->_stopAll($comando,$conId);
                     break;
                 case 14: //RESET
-                    $this->conexion =  $this->_reset($comando,$conId);
+                    $this->conexion =  $this->_reset($comando);
                     break;
     
                 case 99: //ERROR
@@ -327,18 +327,18 @@ class BOComandos
 
         private function _reset($mensaje)
         {
-            if(arr::len($mensaje->datos) == 0)
+            echo("entro en el modo _reset {$mensaje->conId} {$mensaje->comando}");
+            if($mensaje->nodo == null)
             {
                 foreach($this->conexion as $clave => $valor)
                 {
                     unset($valor);
                 }
             }else{
-                foreach($mensaje->datos as $clave => $valor)
-                {
-                     unset($this->conexion[$valor->conId]);
-                }
+                    unset($this->conexion[$mensaje->conId]);
             }
+            $this->_getStatus($mensaje,null);
+            return $this->conexion;
         }
 
     }

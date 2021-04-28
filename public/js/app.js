@@ -16648,6 +16648,12 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
+if ("undefined" !== typeof Worker) {
+  window.wrkPing = new Worker("js/wrkPing.js");
+} else {
+  window.wrkPing = "Navegador no soporta workers";
+}
+
 window.Echo = new WebSocket("ws://localhost:8090");
 
 /***/ }),

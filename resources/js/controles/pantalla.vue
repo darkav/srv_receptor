@@ -88,9 +88,10 @@
             :data-title-caption="titulo"
             :data-title-icon="icono"
             data-main-panel="true"
-            class="w-100 h-100"        
+            class="w-100 h-100"     
+            data-cls-content="h-100 w-100"   
         >
-            <slot name="reporte" />
+            <slot name="reporte"/>
         </div>
     
     

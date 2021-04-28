@@ -88,6 +88,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     window.Echo.addEventListener('message', function (evt) {
       //aqui debe de actualizar las sucursales;
       my.captStream(evt.data); //my.mensajes.push("enviando mensaje");
+    }); // eventos del Worker
+
+    console.log("worker activo", window.wrkPing);
+    window.wrkPing.addEventListener('message', function (e) {
+      // retornando que todo funciona
+      var wrkdata = JSON.parse(e.data);
+      console.log("llego la comunicacion ", wrkdata);
+    });
+    window.wrkPing.addEventListener('error', function (e) {// retornando error al llamar webworker
     });
   },
   data: function data() {
@@ -107,6 +116,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       selEvento: "",
       rfsSucursal: 0,
       rfsServicio: 0,
+      rfsAside: 0,
       noticia: {},
       cls_sidebar: "sidebar pos-absolute z-2",
       info: []
@@ -156,7 +166,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         midata = this.info;
         if (midata.proviene) midata.miAccion = midata.proviene.comando || 0;
 
-        if (midata.miAccion == 8) {
+        if (midata.miAccion == 8 || midata.miAccion == 14) {
           midata.datos = Object.entries(midata.datos).map(function (_ref) {
             var _ref2 = _slicedToArray(_ref, 2),
                 k = _ref2[0],
@@ -245,6 +255,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
         case 14:
           // reset
+          this.getStatus(mensaje);
           break;
       }
     },
@@ -254,8 +265,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       });
     },
     getStatus: function getStatus(mensaje) {
-      console.log("getStatus", mensaje, mensaje.datos[0]);
       this.info = mensaje;
+      this.rfsAside++;
+      console.log("mostrar status", mensaje);
       this.mostrarAside(mensaje);
     },
     getConfig: function getConfig(mensaje) {
@@ -267,6 +279,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     errorMsg: function errorMsg(mensaje) {},
     refreshPage: function refreshPage() {
       location.reload();
+    },
+    sendDirectCommando: function sendDirectCommando(mensaje) {
+      if (window.Echo.readyState == 1) {
+        window.Echo.send(JSON.stringify(mensaje));
+      } else {
+        this.noticia.create("No hay conexión con el servicio POSFix", "Error", {
+          cls: "alert"
+        });
+      }
     },
     sendComandos: function sendComandos() {
       var _this = this;
@@ -280,6 +301,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
       if (this.selectSucursal.length == 0 && this.selEvento != 8) {
         alert("Debe de seleccionar una o varias sucursales o todos");
+        return;
+      }
+
+      if (this.selEvento == 1) {
+        this.pingme();
         return;
       }
 
@@ -397,7 +423,26 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       Metro.sidebar.open(side); //this.cls_sidebar = "sidebar pos-absolute z-2 on-right sidebar-shadow open";
     },
     reset: function reset(comando) {
-      this.sendComandos(comando);
+      console.log("aplicando restet", comando);
+      comando.comando = 14;
+      this.sendDirectCommando(comando);
+    },
+    pingme: function pingme() {
+      var _this3 = this;
+
+      var sucursales = [];
+
+      if (this.selectSucursal.length > 0) {
+        this.selectSucursal.map(function (x) {
+          if (x != -1) sucursales.push(_this3.dato.sucursales.find(function (y) {
+            return x.id == y.id;
+          }));else sucursales = Object.assign([], _this3.dato.sucursales);
+        });
+      } else {
+        sucursales = this.dato.sucursales;
+      }
+
+      window.wrkPing.postMessage(JSON.stringify(sucursales));
     }
   }
 });
@@ -690,101 +735,96 @@ var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_37 = {
-  key: 0,
-  "class": "card-content"
-};
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" > ");
 
-var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" > ");
-
-var _hoisted_39 = {
+var _hoisted_38 = {
   "class": "row"
 };
 
-var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "cell-4"
 }, "Sucursal:", -1
 /* HOISTED */
 );
 
-var _hoisted_41 = {
+var _hoisted_40 = {
   "class": "cell-8"
 };
-var _hoisted_42 = {
+var _hoisted_41 = {
   "class": "row"
 };
 
-var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "cell-4"
 }, "IP:", -1
 /* HOISTED */
 );
 
-var _hoisted_44 = {
+var _hoisted_43 = {
   "class": "cell-8"
 };
-var _hoisted_45 = {
+var _hoisted_44 = {
   "class": "row"
 };
 
-var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_45 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "cell-4"
 }, "DB:", -1
 /* HOISTED */
 );
 
-var _hoisted_47 = {
+var _hoisted_46 = {
   "class": "cell-8"
 };
 
-var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "item-separator"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_49 = {
+var _hoisted_48 = {
   key: 1,
   "class": "card-content scrollbox h-100"
 };
-var _hoisted_50 = {
+var _hoisted_49 = {
   "data-role": "panel"
 };
-var _hoisted_51 = {
+var _hoisted_50 = {
   "class": "cell-12 d-flex flex-justify-end"
 };
 
-var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "cell-4 text-small"
 }, "Conexión:", -1
 /* HOISTED */
 );
 
-var _hoisted_53 = {
+var _hoisted_52 = {
   "class": "cell-8 text-small"
 };
 
-var _hoisted_54 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_53 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "cell-4 text-small"
 }, "Dispositivo:", -1
 /* HOISTED */
 );
 
-var _hoisted_55 = {
+var _hoisted_54 = {
   "class": "cell-8 text-small"
 };
 
-var _hoisted_56 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_55 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "cell-4 text-small"
 }, "Estado", -1
 /* HOISTED */
 );
 
-var _hoisted_57 = {
+var _hoisted_56 = {
   "class": "cell-8 text-small"
 };
 
-var _hoisted_58 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", {
+var _hoisted_57 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", {
   "class": "bg-gray w-100",
   style: {
     "border-style": "dashed",
@@ -795,7 +835,7 @@ var _hoisted_58 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_59 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_58 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": " row h-50 w-100"
 }, null, -1
 /* HOISTED */
@@ -935,44 +975,50 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         id: "sideInfo",
         "class": $data.cls_sidebar,
         "data-role": "sidebar"
-      }, [_hoisted_36, $options.getInfo.miAccion != 8 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_37, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getInfo.datos, function (info, idx) {
+      }, [_hoisted_36, $options.getInfo.miAccion != 8 && $options.getInfo.miAccion != 14 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
+        key: 0,
+        "class": "card-content",
+        ref: $data.rfsAside
+      }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getInfo.datos, function (info, idx) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
           key: idx,
           "data-role": "panel",
           "data-title-caption": info.sucursal.nombre,
           "data-title-icon": "<span class='mif-home'></span>"
-        }, [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.sucursal.alias), 1
+        }, [_hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_38, [_hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.sucursal.alias), 1
         /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_42, [_hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.sucursal.ip), 1
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_41, [_hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.sucursal.ip), 1
         /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.sucursal.bd), 1
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_44, [_hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.sucursal.bd), 1
         /* TEXT */
-        )]), _hoisted_48], 8
+        )]), _hoisted_47], 8
         /* PROPS */
         , ["data-title-caption"]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.getInfo.miAccion == 8 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_50, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getInfo.datos, function (info, ifx) {
+      ))], 512
+      /* NEED_PATCH */
+      )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.getInfo.miAccion == 8 || $options.getInfo.miAccion == 14 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_49, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getInfo.datos, function (info, ifx) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
           "class": "row",
           key: ifx
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
           "class": "mif-cross fg-red",
           onClick: function onClick($event) {
             return $options.reset(info);
           }
         }, null, 8
         /* PROPS */
-        , ["onClick"])]), _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.conId), 1
+        , ["onClick"])]), _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.conId), 1
         /* TEXT */
-        )]), _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.nodo.device), 1
+        )]), _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.nodo.device), 1
         /* TEXT */
-        )]), _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.nodo.estado), 1
+        )]), _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.nodo.estado), 1
         /* TEXT */
-        ), _hoisted_58]);
+        ), _hoisted_57]);
       }), 128
       /* KEYED_FRAGMENT */
-      )), _hoisted_59])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2
+      )), _hoisted_58])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2
       /* CLASS */
       )];
     }),
@@ -1200,7 +1246,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-title-caption": $props.titulo,
     "data-title-icon": $props.icono,
     "data-main-panel": "true",
-    "class": "w-100 h-100"
+    "class": "w-100 h-100",
+    "data-cls-content": "h-100 w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "reporte")], 8
   /* PROPS */
   , ["data-title-caption", "data-title-icon"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64
