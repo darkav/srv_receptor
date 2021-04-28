@@ -140,29 +140,72 @@
                     </a>
                     <span class="title">Información</span>
                 </div>
-                <div class="card-content" v-if="getInfo.miAccion != 8 && getInfo.miAccion != 14" :ref="rfsAside">
-                    <div v-for="(info,idx) in getInfo.datos" :key="idx"
-                        data-role="panel"
-                        :data-title-caption="info.sucursal.nombre"
-                        data-title-icon="<span class='mif-home'></span>">                        
-                    >
-                        <div class="row">
-                            <div class="cell-4">Sucursal:</div>
-                            <div class="cell-8">{{info.sucursal.alias}}</div>
+                <div class="card-content scrollbox h-100" v-if="getInfo.miAccion <= 1">
+                    <div class="h-100">
+                        <div class="row"
+                            v-for="(info,ifx) in getInfo.datos"
+                            :key="ifx"
+                        >
+                            <div class="cell-4 text-small">Sucursal:</div>
+                            <div class="cell-8 text-small"><b>{{info.nombre}}</b></div>
+                            <div class="cell-4 text-small">IP:</div>
+                            <div class="cell-8 text-small"><b>{{info.ip}}</b></div>
+                            <div class="cell-4 text-small">Estado</div>
+                            <div class="cell-8 text-small">
+                                <span class="mif-cell-on mif-2x fg-green" v-if="info.conectado"></span>
+                                <span class="mif-cell-off mif-2x fg-red" v-if="!info.conectado"></span>
+                            </div>
+                            <hr class="bg-gray w-100" style="border-style: dashed; border-color: gray; border-width: thin;" />
                         </div>
-                        <div class="row">
-                            <div class="cell-4">IP:</div>
-                            <div class="cell-8">{{info.sucursal.ip}}</div>
+                        <div class=" row h-50 w-100"></div>
+                    </div>
+                </div>
+
+                <div class="card-content scrollbox h-100" v-if="getInfo.miAccion != 8 && getInfo.miAccion != 14 && getInfo.miAccion > 1" :ref="rfsAside">
+                    <div class="h-100">
+                        <div v-for="(info,idx) in getInfo.datos" :key="idx"
+                            data-role="panel"
+                            :data-title-caption="info.sucursal.nombre"
+                            data-title-icon="<span class='mif-home'></span>">                        
+                        
+                            <div class="row">
+                                <div class="cell-4 text-small">Alias:</div>
+                                <div class="cell-8 text-small">{{info.sucursal.alias}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell-4 text-small">IP:</div>
+                                <div class="cell-8 text-small">{{info.sucursal.ip}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell-4 text-small">DB:</div>
+                                <div class="cell-8 text-small">{{info.sucursal.bd}}</div>
+                            </div>
+                            <hr class="bg-gray w-100" style="border-style: dashed; border-color: gray; border-width: thin;" />                        
+                            <div class="row">
+                                <div class="cell-4 text-small">Servicio:</div>
+                                <div class="cell-8 text-small">{{info.servicio.nombre}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell-4 text-small">Tiempo Ping (seg):</div>
+                                <div class="cell-8 text-small">{{info.servicio.tiempo_ping}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell-4 text-small">Tiempo Rastreo (min):</div>
+                                <div class="cell-8 text-small">{{info.servicio.tiempo_rastreo}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell-4 text-small">Modo:</div>
+                                <div class="cell-8 text-small">{{info.servicio.push_event == 1 ? "Solo Eventos" : 
+                                    info.servicio.push_event == 2 ? "Eventos y Pull" : "Solo Pull"
+                                    }}
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
-                            <div class="cell-4">DB:</div>
-                            <div class="cell-8">{{info.sucursal.bd}}</div>
-                        </div>
-                        <div class="item-separator"></div>                        
+                        <div class="h-25 w-100"></div>
                     </div>
                 </div>
                 <div class="card-content scrollbox h-100" v-if="getInfo.miAccion == 8 || getInfo.miAccion == 14">
-                    <div data-role="panel">
+                    <div class="h-100">
                         <div class="row"
                             v-for="(info,ifx) in getInfo.datos"
                             :key="ifx"
@@ -178,9 +221,10 @@
                             <div class="cell-8 text-small">{{info.nodo.estado}}</div>
                             <hr class="bg-gray w-100" style="border-style: dashed; border-color: gray; border-width: thin;" />
                         </div>
-                        <div class=" row h-50 w-100"></div>
+                        <div class="h-25 w-100"></div>                        
                     </div>
                 </div>
+
             </aside>
         </template>
     </pantalla>
@@ -243,7 +287,16 @@ export default {
         window.wrkPing.addEventListener('message', (e) => {
             // retornando que todo funciona
             var wrkdata = JSON.parse(e.data);
-            console.log("llego la comunicacion ", wrkdata);
+            switch(wrkdata.miAccion)
+            {
+                case 1:
+                    this.info = Object.assign({},wrkdata) ;
+                    this.info.miAccion = 1;
+                    this.mostrarAside();
+                    console.log("Mostrando informacion",this.info);                    
+                    break;
+            }
+
         });
 
         window.wrkPing.addEventListener('error', (e) => {
@@ -328,15 +381,14 @@ export default {
             }else
             {
                 midata=this.info;
-                if(midata.proviene)
+                if(midata.proviene != null)
                     midata.miAccion = midata.proviene.comando || 0;
-                    if(midata.miAccion == 8 || midata.miAccion == 14)
-                    {
-                        midata.datos = Object.entries(midata.datos).map(([k,x]) => ({conId :k,nodo: x}));
-                    }
-                else
-                    midata.miAccion = 0;
+                if(midata.miAccion == 8 || midata.miAccion == 14)
+                {
+                    midata.datos = Object.entries(midata.datos).map(([k,x]) => ({conId :k,nodo: x}));
+                }
             }
+            console.log("en el getInfo",midata);
             return midata;
         }
 
@@ -404,7 +456,6 @@ export default {
         sendInfo(mensaje)
         {
 
-            
             this.noticia.create(mensaje.info,"Información",{
                 cls:"success"
             });
@@ -413,7 +464,8 @@ export default {
                 case 8: //getstatus
                     this.getStatus(mensaje);
                     break;
-                case 9: //getconfig
+                case 10: //getconfig
+                    console.log("Recibiendo GetConfig",mensaje);
                     this.getConfig(mensaje);
                     break;
                 case 14: // reset
@@ -439,7 +491,10 @@ export default {
         },
         getConfig(mensaje)
         {
-            this.info = mensaje.datos;
+            let dato = { miAccion: mensaje.proviene.comando, datos: mensaje.datos };
+            this.info = dato;
+            this.rfsAside++;
+            console.log("mostrar config", this.info, dato);
             this.mostrarAside(mensaje);
         },
         connected(mensaje)
@@ -592,11 +647,12 @@ export default {
         pingme()
         {
             var sucursales = [];
+            console.log("selectSucursal",this.selectSucursal);
             if(this.selectSucursal.length > 0 )
             {
                 this.selectSucursal.map((x) => {
                     if(x != -1)
-                        sucursales.push(this.dato.sucursales.find(y => x.id == y.id));
+                        sucursales.push(this.dato.sucursales.find(y => y.alias == x));
                     else
                         sucursales = Object.assign([], this.dato.sucursales);
                 });

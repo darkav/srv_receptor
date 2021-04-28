@@ -15,7 +15,7 @@ this.addEventListener('message', (e) => {
     }).then(response => response.json())
     .then((data) => {
         var nodo = {};
-        nodo.myAccion=1
+        nodo.miAccion=1;
         nodo.datos = data;
         postMessage(JSON.stringify(nodo));
     })

@@ -147,7 +147,6 @@ class BOComandos
                 $this->sendOnly($app,$mensaje);
             }
             return $this->conexion;            
-
         } 
 
 
@@ -247,58 +246,32 @@ class BOComandos
 
             if(count($app) > 0)
             {
-                $this->sendOnly($app[0],$mensaje);
+                $this->sendOnly($app,$mensaje);
             }
             return $this->conexion;            
         }
 
         private function _connected($mensaje,$conId,$conn)
         {
-            if(!Arr::has($this->conexion,$conId))
-            {
-                $nodo = new stdClass();
-                $nodo->conexion = $conn;
-                $nodo->device = 'unregister';
-                $nodo->estado = 'IDL';
-                $this->connections[$conn->resourceId] = $nodo;
-                echo "conectando al resource {$conn->resourceId} \n";
-            }else{
-                $this->conexion[$conId]->device=$this->mensaje->device;
-                $this->conexion[$conId]->estado = 'CNT';
-            }
-            
-            $this->mensaje->datos = $this->conexion;
             $app = Arr::where($this->conexion,function($key,$value){
-                return Str::contains(Str::lower($this->conexion[$value]->device), 'nav');
+                return Str::contains(Str::lower($this->conexion[$value]->device), 'appsys');
             });
 
             if(count($app) > 0)
             {
-                $this->sendAll($app[0],$mensaje);
+                $this->sendOnly($app,$mensaje);
             }
             return $this->conexion;            
         }
 
         private function _disconnected($mensaje,$conId)
         {
-            if(Arr::has($this->conexion,$conId))
-            {
-                $disconnectedId = $conId;
-                $mensaje->comando = 12;
-                $mensaje->device = "unregistered";
-                $mensaje->info = "Desconexión del equipo ${Carbon::now()->timezone(env('TIEMPO_LOCAL'))->format('Y-m-d H:i:s')}";
-                //unset($this->connections[$disconnectedId]);
-            }
-
-            $this->mensaje->datos = $this->conexion;
-
             $app = Arr::where($this->conexion,function($key,$value){
-                return Str::contains(Str::lower($this->conexion[$value]->device), 'nav');
+                return Str::contains(Str::lower($this->conexion[$value]->device), 'appsys');
             });
-
             if(count($app) > 0)
             {
-                $this->sendAll($app[0],$mensaje);
+                $this->sendOnly($app,$mensaje);
             }
             return $this->conexion;            
         }
