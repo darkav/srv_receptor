@@ -75343,6 +75343,22 @@ var map = {
 		"./resources/js/Pages/Home.vue",
 		"resources_js_Pages_Home_vue"
 	],
+	"./Migrado": [
+		"./resources/js/Pages/Migrado/index.vue",
+		"resources_js_Pages_Migrado_index_vue"
+	],
+	"./Migrado/": [
+		"./resources/js/Pages/Migrado/index.vue",
+		"resources_js_Pages_Migrado_index_vue"
+	],
+	"./Migrado/index": [
+		"./resources/js/Pages/Migrado/index.vue",
+		"resources_js_Pages_Migrado_index_vue"
+	],
+	"./Migrado/index.vue": [
+		"./resources/js/Pages/Migrado/index.vue",
+		"resources_js_Pages_Migrado_index_vue"
+	],
 	"./PrivacyPolicy": [
 		"./resources/js/Pages/PrivacyPolicy.vue",
 		"resources_js_Pages_PrivacyPolicy_vue"
@@ -75662,7 +75678,7 @@ module.exports = webpackAsyncContext;
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_Pages_API_ApiTokenManager_vue":1,"resources_js_Pages_API_Index_vue":1,"resources_js_Pages_Auth_ConfirmPassword_vue":1,"resources_js_Pages_Auth_ForgotPassword_vue":1,"resources_js_Pages_Auth_Login_vue":1,"resources_js_Pages_Auth_Register_vue":1,"resources_js_Pages_Auth_ResetPassword_vue":1,"resources_js_Pages_Auth_TwoFactorChallenge_vue":1,"resources_js_Pages_Auth_VerifyEmail_vue":1,"resources_js_Pages_Categoria_index_vue":1,"resources_js_Pages_Categoria_create_vue":1,"resources_js_Pages_Categoria_tabla_vue":1,"resources_js_Pages_Dashboard_index_vue":1,"resources_js_Pages_GenTable_index_vue":1,"resources_js_Pages_Home_vue":1,"resources_js_Pages_PrivacyPolicy_vue":1,"resources_js_Pages_Profile_DeleteUserForm_vue":1,"resources_js_Pages_Profile_LogoutOtherBrowserSessionsForm_vue":1,"resources_js_Pages_Profile_Show_vue":1,"resources_js_Pages_Profile_TwoFactorAuthenticationForm_vue":1,"resources_js_Pages_Profile_UpdatePasswordForm_vue":1,"resources_js_Pages_Profile_UpdateProfileInformationForm_vue":1,"resources_js_Pages_Servicio_index_vue":1,"resources_js_Pages_Servicio_create_vue":1,"resources_js_Pages_Sucursal_index_vue":1,"resources_js_Pages_Sucursales_index_vue":1,"resources_js_Pages_Sucursales_create_vue":1,"resources_js_Pages_Teams_Create_vue":1,"resources_js_Pages_Teams_CreateTeamForm_vue":1,"resources_js_Pages_Teams_DeleteTeamForm_vue":1,"resources_js_Pages_Teams_Show_vue":1,"resources_js_Pages_Teams_TeamMemberManager_vue":1,"resources_js_Pages_Teams_UpdateTeamNameForm_vue":1,"resources_js_Pages_TermsOfService_vue":1,"resources_js_Pages_Welcome_vue":1,"resources_js_Pages_mirror_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_Pages_API_ApiTokenManager_vue":1,"resources_js_Pages_API_Index_vue":1,"resources_js_Pages_Auth_ConfirmPassword_vue":1,"resources_js_Pages_Auth_ForgotPassword_vue":1,"resources_js_Pages_Auth_Login_vue":1,"resources_js_Pages_Auth_Register_vue":1,"resources_js_Pages_Auth_ResetPassword_vue":1,"resources_js_Pages_Auth_TwoFactorChallenge_vue":1,"resources_js_Pages_Auth_VerifyEmail_vue":1,"resources_js_Pages_Categoria_index_vue":1,"resources_js_Pages_Categoria_create_vue":1,"resources_js_Pages_Categoria_tabla_vue":1,"resources_js_Pages_Dashboard_index_vue":1,"resources_js_Pages_GenTable_index_vue":1,"resources_js_Pages_Home_vue":1,"resources_js_Pages_Migrado_index_vue":1,"resources_js_Pages_PrivacyPolicy_vue":1,"resources_js_Pages_Profile_DeleteUserForm_vue":1,"resources_js_Pages_Profile_LogoutOtherBrowserSessionsForm_vue":1,"resources_js_Pages_Profile_Show_vue":1,"resources_js_Pages_Profile_TwoFactorAuthenticationForm_vue":1,"resources_js_Pages_Profile_UpdatePasswordForm_vue":1,"resources_js_Pages_Profile_UpdateProfileInformationForm_vue":1,"resources_js_Pages_Servicio_index_vue":1,"resources_js_Pages_Servicio_create_vue":1,"resources_js_Pages_Sucursal_index_vue":1,"resources_js_Pages_Sucursales_index_vue":1,"resources_js_Pages_Sucursales_create_vue":1,"resources_js_Pages_Teams_Create_vue":1,"resources_js_Pages_Teams_CreateTeamForm_vue":1,"resources_js_Pages_Teams_DeleteTeamForm_vue":1,"resources_js_Pages_Teams_Show_vue":1,"resources_js_Pages_Teams_TeamMemberManager_vue":1,"resources_js_Pages_Teams_UpdateTeamNameForm_vue":1,"resources_js_Pages_TermsOfService_vue":1,"resources_js_Pages_Welcome_vue":1,"resources_js_Pages_mirror_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

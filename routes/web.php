@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Custom\HardCodeMenu;
 use App\Http\Controllers\CategoriaTablaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MigradoController;
 use App\Http\Controllers\ReceivedController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\WebSocketController;
@@ -42,9 +43,8 @@ Route::resource('categoriatabla',CategoriaTablaController::class);
 Route::get('/genera-tabla',[ReceivedController::class,'index']);
 Route::get('/received/crea-tabla/{tabla}',[ReceivedController::class,'CreateTable']);
 Route::get('/received/borra-tabla/{tabla}',[ReceivedController::class,'DropTable']);
-
 Route::get('/dashboard',[DashboardController::class,'index']);
-
+Route::get('/migrado',[MigradoController::class,'index']);
 
 /*
 Route::get('/', function () {

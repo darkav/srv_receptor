@@ -1,20 +1,9 @@
-(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_Pages_Dashboard_index_vue"],{
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_Pages_Migrado_index_vue"],{
 
-/***/ "./node_modules/@babel/runtime/regenerator/index.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
-  \**********************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js");
-
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Dashboard/index.vue?vue&type=script&lang=js":
-/*!****************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Dashboard/index.vue?vue&type=script&lang=js ***!
-  \****************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Migrado/index.vue?vue&type=script&lang=js":
+/*!**************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Migrado/index.vue?vue&type=script&lang=js ***!
+  \**************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -22,448 +11,46 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _controles_pantalla__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../controles/pantalla */ "./resources/js/controles/pantalla.vue");
-/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/index.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
+/* harmony import */ var _controles_pantalla__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../controles/pantalla */ "./resources/js/controles/pantalla.vue");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/index.js");
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["servicios", "dato", "menus"],
+  props: ["categorias", "dataset", "menus"],
   components: {
-    'pantalla': _controles_pantalla__WEBPACK_IMPORTED_MODULE_1__.default
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    // preguntando si esta conectado el websocket
-    var my = this;
-    this.noticia = Metro.notify;
-
-    if (window.Echo == null) {
-      this.mensajes.push("Error Grave al conectar");
-    }
-
-    console.log("window echo", window.Echo.readyState);
-
-    if (window.Echo.readyState == 1) {
-      console.log("conectado crv");
-      this.mensajes.push("Conectando al Live Data");
-      this.device = "nav".concat((0,date_fns__WEBPACK_IMPORTED_MODULE_2__.format)(new Date(), 'yyyyMMddHHmmss'));
-      var mensaje = {};
-      mensaje.device = this.device;
-      mensaje.info = "Registrando device";
-      mensaje.comando = 4;
-      window.Echo.send(JSON.stringify(mensaje));
-    } else {
-      this.dato.sucursales.map(function (suc) {
-        suc.conectado = false;
-      });
-    }
-
-    window.Echo.addEventListener('open', function (evt) {
-      console.log("conectado crv");
-      my.mensajes.push("Conectando al Live Data");
-    });
-    window.Echo.addEventListener('error', function (evt) {
-      console.log("no se pudo conectar crv");
-      my.mensajes.push("No se puede conectar al Live Data");
-    });
-    window.Echo.addEventListener('message', function (evt) {
-      //aqui debe de actualizar las sucursales;
-      my.captStream(evt.data); //my.mensajes.push("enviando mensaje");
-    }); // eventos del Worker
-
-    console.log("worker activo", window.wrkPing);
-    window.wrkPing.addEventListener('message', function (e) {
-      // retornando que todo funciona
-      var wrkdata = JSON.parse(e.data);
-
-      switch (wrkdata.miAccion) {
-        case 1:
-          _this.info = Object.assign({}, wrkdata);
-          _this.info.miAccion = 1;
-
-          _this.mostrarAside();
-
-          console.log("Mostrando informacion", _this.info);
-          break;
-      }
-    });
-    window.wrkPing.addEventListener('error', function (e) {// retornando error al llamar webworker
-    });
+    'pantalla': _controles_pantalla__WEBPACK_IMPORTED_MODULE_0__.default
   },
   data: function data() {
     return {
-      titulo: "Dashboard",
+      titulo: "Datos Migrado",
       device: "",
       accion: "R",
       linkBack: "categoria.index",
-      selServicio: "",
-      selActivo: "",
-      sucSearch: "",
-      icono: "<span class='mif-dashboard'></span>",
-      mensajes: [],
-      cssconectado: '',
-      wsServicio: '',
-      selectSucursal: [],
-      selEvento: "",
-      rfsSucursal: 0,
-      rfsServicio: 0,
-      rfsAside: 0,
-      noticia: {},
-      cls_sidebar: "sidebar pos-absolute z-2",
-      info: []
+      icono: "<span class='mif-database'></span>",
+      selCategoria: "",
+      selTabla: null,
+      rfsTb: 0
     };
   },
   computed: {
-    getServicios: function getServicios() {
-      console.log("getServicios", this.servicios);
-      if (this.dato.servicios == undefined) return [];
-      console.log("entrando carajo", this.servicios);
-      this.dato.servicios.map(function (x) {
-        x.icono = x.estado == "IDL" ? "<span class='mif-done'></span> $1" : x.estado == "STP" ? "<span class='mif-not'></span> $1" : "<span class='mif-checkmark'></span> $1";
-      });
-      return this.dato.servicios;
+    getCategorias: function getCategorias() {
+      console.log("categorias", this.categorias);
+      return this.categorias;
     },
-    getSucursales: function getSucursales() {
-      var my = this;
-      return this.dato.sucursales.filter(function (suc) {
-        return suc.nombre.toLowerCase().contains(my.sucSearch.toLowerCase());
-      }) || [];
-    },
-    getMensajes: function getMensajes() {
-      console.log("entrando a mensajes", this.mensajes);
-      return this.mensajes || [];
-    },
-    getRegistro: function getRegistro() {
-      return {};
-    },
-    getConectados: function getConectados() {
-      if (this.dato.sucursales == undefined) return 0;
-      return this.dato.sucursales.filter(function (x) {
-        return x.conectado == true;
-      }).length;
-    },
-    getNoConectados: function getNoConectados() {
-      if (this.dato.sucursales == undefined) return 0;
-      return this.dato.sucursales.filter(function (x) {
-        return !x.conectado;
-      }).length;
-    },
-    getInfo: function getInfo() {
-      var midata = {};
+    getTablas: function getTablas() {
+      var _this = this;
 
-      if (this.info == null) {
-        midata.miAccion = 0;
-      } else {
-        midata = this.info;
-        if (midata.proviene != null) midata.miAccion = midata.proviene.comando || 0;
+      var cat = {};
 
-        if (midata.miAccion == 8 || midata.miAccion == 14) {
-          midata.datos = Object.entries(midata.datos).map(function (_ref) {
-            var _ref2 = _slicedToArray(_ref, 2),
-                k = _ref2[0],
-                x = _ref2[1];
-
-            return {
-              conId: k,
-              nodo: x
-            };
-          });
-        }
+      if (this.selCategoria != null) {
+        cat = this.getCategorias.find(function (x) {
+          console.log("categoria id", x);
+          return x.id == _this.selCategoria;
+        }) || [];
       }
 
-      console.log("en el getInfo", midata);
-      return midata;
-    }
-  },
-  watch: {
-    selServicio: function selServicio(newval, oldval) {
-      var nodo = this.getServicios.filter(function (x) {
-        return x.id == newval;
-      })[0] || {};
-      this.selActivo = nodo.estado == "ACT" ? 1 : 0;
-      this.$forceUpdate();
-      console.log("el selactivo", nodo, this.selActivo);
-    }
-  },
-  methods: {
-    captStream: function captStream(mensaje) {
-      var comando = JSON.parse(mensaje);
-
-      switch (comando.comando) {
-        case 1:
-          this.ping(comando);
-          break;
-
-        case 4:
-          this.register(comando);
-          break;
-
-        case 5:
-          this.unRegister(comando);
-          break;
-
-        case 6:
-          this.sendInfo(comando);
-          break;
-
-        case 7:
-          this.sendError(comando);
-          break;
-
-        case 14:
-          this.reset(comando);
-          break;
-
-        case 99:
-          this.errorMsg(mensaje);
-          break;
-      }
-    },
-    ping: function ping(mensaje) {
-      console.log("mapeando ping", mensaje, this.dato.sucursales);
-      this.dato.sucursales.map(function (suc) {
-        if (suc.alias == mensaje.device) {
-          if (mensaje.info.contains('ATTACH')) suc.conectado = true;else suc.conectado = false;
-        }
-      });
-    },
-    register: function register(mensaje) {},
-    unregister: function unregister(mensaje) {},
-    sendInfo: function sendInfo(mensaje) {
-      this.noticia.create(mensaje.info, "Información", {
-        cls: "success"
-      });
-
-      switch (mensaje.proviene.comando) {
-        case 8:
-          //getstatus
-          this.getStatus(mensaje);
-          break;
-
-        case 10:
-          //getconfig
-          console.log("Recibiendo GetConfig", mensaje);
-          this.getConfig(mensaje);
-          break;
-
-        case 14:
-          // reset
-          this.getStatus(mensaje);
-          break;
-      }
-    },
-    sendError: function sendError(mensaje) {
-      this.noticia.create(mensaje.info, "Error", {
-        cls: "alert"
-      });
-    },
-    getStatus: function getStatus(mensaje) {
-      this.info = mensaje;
-      this.rfsAside++;
-      console.log("mostrar status", mensaje);
-      this.mostrarAside(mensaje);
-    },
-    getConfig: function getConfig(mensaje) {
-      var dato = {
-        miAccion: mensaje.proviene.comando,
-        datos: mensaje.datos
-      };
-      this.info = dato;
-      this.rfsAside++;
-      console.log("mostrar config", this.info, dato);
-      this.mostrarAside(mensaje);
-    },
-    connected: function connected(mensaje) {},
-    disconnected: function disconnected(mensaje) {},
-    errorMsg: function errorMsg(mensaje) {},
-    refreshPage: function refreshPage() {
-      location.reload();
-    },
-    sendDirectCommando: function sendDirectCommando(mensaje) {
-      if (window.Echo.readyState == 1) {
-        window.Echo.send(JSON.stringify(mensaje));
-      } else {
-        this.noticia.create("No hay conexión con el servicio POSFix", "Error", {
-          cls: "alert"
-        });
-      }
-    },
-    sendComandos: function sendComandos() {
-      var _this2 = this;
-
-      console.log("sende comando ", this.selServicio);
-
-      if (this.selEvento == "Servicios") {
-        alert("Debe de seleccionar un evento");
-        return;
-      }
-
-      if (this.selectSucursal.length == 0 && this.selEvento != 8) {
-        alert("Debe de seleccionar una o varias sucursales o todos");
-        return;
-      }
-
-      if (this.selEvento == 1) {
-        this.pingme();
-        return;
-      }
-
-      if (this.selEvento == 9 && this.selServicio == "Servicios") {
-        alert("Debe de seleccionar un Servicio");
-        return;
-      }
-
-      if (window.Echo.readyState == 1) {
-        var obj = {};
-        obj.comando = parseInt(this.selEvento);
-        obj.device = "ALL";
-        obj.info = "Enviando comandos";
-        obj.datos = this.selectSucursal.findIndex(function (val) {
-          return val == "-1";
-        }) >= 0 ? null : this.selectSucursal;
-        obj.servicio = this.getServicios.filter(function (x) {
-          return x.id == _this2.selServicio;
-        })[0] || null;
-
-        if (obj.servicio != null) {
-          delete obj.servicio.created_at;
-          delete obj.servicio.updated_at;
-          delete obj.servicio.icono;
-        }
-
-        window.Echo.send(JSON.stringify(obj));
-      } else {
-        this.noticia.create("No hay conexión con el servicio POSFix", "Error", {
-          cls: "alert"
-        });
-      }
-    },
-    changeSucursal: function changeSucursal() {
-      if (this.selectSucursal.findIndex(function (val) {
-        return val == "-1";
-      }) >= 0 && this.selectSucursal.length > 1) {
-        alert("Si ingresa todas las sucursales, no puede ingresar más");
-        this.selectSucursal = [];
-        this.rfsSucursal++;
-        this.$forceUpdate();
-        return;
-      }
-    },
-    loadService: function loadService() {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var srv, response, pos;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                console.log("servicio", _this3.selServicio);
-
-                if (!(_this3.selServicio == "Servicios")) {
-                  _context.next = 4;
-                  break;
-                }
-
-                alert("Debe de seleccionar un servicio");
-                return _context.abrupt("return");
-
-              case 4:
-                srv = Object.assign({}, _this3.getServicios.filter(function (x) {
-                  return x.id == _this3.selServicio;
-                })[0]);
-                delete srv.created_at;
-                delete srv.updated_at;
-                delete srv.icono;
-                srv.estado = _this3.selActivo == 1 ? "ACT" : "STP";
-                _context.next = 11;
-                return fetch("../api/servicio/v1", {
-                  method: "PUT",
-                  headers: {
-                    "Accept": 'application/json',
-                    "Content-Type": "application/json"
-                  },
-                  body: JSON.stringify(srv)
-                });
-
-              case 11:
-                response = _context.sent;
-
-                if (response.ok) {
-                  _this3.noticia.create("Actualizado el estado del servicio", "Correcto", {
-                    cls: "success"
-                  });
-
-                  pos = _this3.dato.servicios.findIndex(function (x) {
-                    return x.id == srv.id;
-                  });
-
-                  _this3.dato.servicios.splice(pos, 1, srv);
-
-                  _this3.$forceUpdate();
-
-                  _this3.rfsServicio++;
-                } else {
-                  _this3.noticia.create("Erro al actualizar el estado del servicio", "Error", {
-                    cls: "alert"
-                  });
-                }
-
-              case 13:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    mostrarAside: function mostrarAside(data) {
-      var side = document.getElementById("sideInfo");
-      Metro.sidebar.open(side); //this.cls_sidebar = "sidebar pos-absolute z-2 on-right sidebar-shadow open";
-    },
-    reset: function reset(comando) {
-      console.log("aplicando restet", comando);
-      comando.comando = 14;
-      this.sendDirectCommando(comando);
-    },
-    pingme: function pingme() {
-      var _this4 = this;
-
-      var sucursales = [];
-      console.log("selectSucursal", this.selectSucursal);
-
-      if (this.selectSucursal.length > 0) {
-        this.selectSucursal.map(function (x) {
-          if (x != -1) sucursales.push(_this4.dato.sucursales.find(function (y) {
-            return y.alias == x;
-          }));else sucursales = Object.assign([], _this4.dato.sucursales);
-        });
-      } else {
-        sucursales = this.dato.sucursales;
-      }
-
-      window.wrkPing.postMessage(JSON.stringify(sucursales));
+      this.rfsTb++;
+      return cat.tablas;
     }
   }
 });
@@ -607,10 +194,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Dashboard/index.vue?vue&type=template&id=5d49e104":
-/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Dashboard/index.vue?vue&type=template&id=5d49e104 ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Migrado/index.vue?vue&type=template&id=3055572f":
+/*!******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Migrado/index.vue?vue&type=template&id=3055572f ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -621,374 +208,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "row"
+  "class": "h-100 w-100"
 };
 var _hoisted_2 = {
-  "class": "cell-12"
+  "class": "row"
 };
 var _hoisted_3 = {
-  "class": "row"
-};
-var _hoisted_4 = {
-  label: "Servicios"
-};
-var _hoisted_5 = {
-  "class": "cell-1"
-};
-var _hoisted_6 = {
-  "class": "cell-1"
-};
-var _hoisted_7 = {
-  "class": "cell-1 offset-5 "
-};
-var _hoisted_8 = {
-  "class": "cell-12"
-};
-var _hoisted_9 = {
-  "class": "marquee",
-  "data-role": "marquee"
-};
-var _hoisted_10 = {
-  "class": "py-5 w-100"
-};
-var _hoisted_11 = {
-  "class": "cell-12"
-};
-var _hoisted_12 = {
-  "data-role": "panel",
-  "class": "w-100",
-  "data-title-caption": "Enviar comandos",
-  "data-collapsible": "true",
-  "data-title-icon": "<span class='mif-flash-on'></span>"
-};
-var _hoisted_13 = {
-  "class": "row w-100 d-flex flex-align-center"
-};
-var _hoisted_14 = {
-  "class": "cell-3"
+  "class": "cell-2"
 };
 
-var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<optgroup label=\"Conexión\"><option value=\"1\">Ping</option><option value=\"11\">Conectar</option><option value=\"12\">Desconectar</option></optgroup><optgroup label=\"Proceso\"><option value=\"3\">Iniciar</option><option value=\"2\">Detener</option></optgroup><optgroup label=\"Información\"><option value=\"8\">Status</option></optgroup><optgroup label=\"Configuración\"><option value=\"9\">Setear</option><option value=\"10\">Obtener</option></optgroup>", 4);
-
-var _hoisted_19 = {
-  label: "Sucursales"
-};
-
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
-  value: -1
-}, "TODAS LAS SUCURSALES", -1
-/* HOISTED */
-);
-
-var _hoisted_21 = {
-  "class": "cell-1"
-};
-var _hoisted_22 = {
-  "class": "cell-12"
-};
-var _hoisted_23 = {
-  "data-role": "panel",
-  "class": "w-100",
-  "data-title-caption": "Sucursales",
-  "data-collapsible": "true",
-  "data-title-icon": "<span class='mif-shop'></span>"
-};
-var _hoisted_24 = {
-  "class": "row h-25 w-100 d-flex flex-align-center"
-};
-var _hoisted_25 = {
-  "class": "cell-4"
-};
-
-var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Conectados:", -1
-/* HOISTED */
-);
-
-var _hoisted_27 = {
-  "class": "mx-5"
-};
-var _hoisted_28 = {
-  "class": "cell-4"
-};
-
-var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Desconectados:", -1
-/* HOISTED */
-);
-
-var _hoisted_30 = {
-  "class": "mx-5"
-};
-var _hoisted_31 = {
-  "class": "cell-4"
-};
-var _hoisted_32 = {
-  "class": "my-10 w-100 d-flex flex-wrap"
-};
-var _hoisted_33 = {
-  "class": "caption text-lower "
-};
-
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
-  "class": "mif-shop mif-3x"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
-  "class": "badge"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
-  "class": "mif-wifi-off"
-})], -1
-/* HOISTED */
-);
-
-var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "sidebar-header"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
-  href: "/",
-  "class": "fg-blue sub-action",
-  onclick: "Metro.sidebar.close('#sideInfo'); return false;"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
-  "class": "mif-arrow-left mif-2x"
-})]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
-  "class": "title"
-}, "Información")], -1
-/* HOISTED */
-);
-
-var _hoisted_37 = {
-  key: 0,
-  "class": "card-content scrollbox h-100"
-};
-var _hoisted_38 = {
-  "class": "h-100"
-};
-
-var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "cell-4 text-small"
-}, "Sucursal:", -1
-/* HOISTED */
-);
-
-var _hoisted_40 = {
-  "class": "cell-8 text-small"
-};
-
-var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "cell-4 text-small"
-}, "IP:", -1
-/* HOISTED */
-);
-
-var _hoisted_42 = {
-  "class": "cell-8 text-small"
-};
-
-var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "cell-4 text-small"
-}, "Estado", -1
-/* HOISTED */
-);
-
-var _hoisted_44 = {
-  "class": "cell-8 text-small"
-};
-var _hoisted_45 = {
-  key: 0,
-  "class": "mif-cell-on mif-2x fg-green"
-};
-var _hoisted_46 = {
-  key: 1,
-  "class": "mif-cell-off mif-2x fg-red"
-};
-
-var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", {
-  "class": "bg-gray w-100",
-  style: {
-    "border-style": "dashed",
-    "border-color": "gray",
-    "border-width": "thin"
-  }
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": " row h-50 w-100"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_49 = {
-  "class": "h-100"
-};
-var _hoisted_50 = {
-  "class": "row"
-};
-
-var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "cell-4 text-small"
-}, "Alias:", -1
-/* HOISTED */
-);
-
-var _hoisted_52 = {
-  "class": "cell-8 text-small"
-};
-var _hoisted_53 = {
-  "class": "row"
-};
-
-var _hoisted_54 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "cell-4 text-small"
-}, "IP:", -1
-/* HOISTED */
-);
-
-var _hoisted_55 = {
-  "class": "cell-8 text-small"
-};
-var _hoisted_56 = {
-  "class": "row"
-};
-
-var _hoisted_57 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "cell-4 text-small"
-}, "DB:", -1
-/* HOISTED */
-);
-
-var _hoisted_58 = {
-  "class": "cell-8 text-small"
-};
-
-var _hoisted_59 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", {
-  "class": "bg-gray w-100",
-  style: {
-    "border-style": "dashed",
-    "border-color": "gray",
-    "border-width": "thin"
-  }
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_60 = {
-  "class": "row"
-};
-
-var _hoisted_61 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "cell-4 text-small"
-}, "Servicio:", -1
-/* HOISTED */
-);
-
-var _hoisted_62 = {
-  "class": "cell-8 text-small"
-};
-var _hoisted_63 = {
-  "class": "row"
-};
-
-var _hoisted_64 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "cell-4 text-small"
-}, "Tiempo Ping (seg):", -1
-/* HOISTED */
-);
-
-var _hoisted_65 = {
-  "class": "cell-8 text-small"
-};
-var _hoisted_66 = {
-  "class": "row"
-};
-
-var _hoisted_67 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "cell-4 text-small"
-}, "Tiempo Rastreo (min):", -1
-/* HOISTED */
-);
-
-var _hoisted_68 = {
-  "class": "cell-8 text-small"
-};
-var _hoisted_69 = {
-  "class": "row"
-};
-
-var _hoisted_70 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "cell-4 text-small"
-}, "Modo:", -1
-/* HOISTED */
-);
-
-var _hoisted_71 = {
-  "class": "cell-8 text-small"
-};
-
-var _hoisted_72 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "h-25 w-100"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_73 = {
-  key: 2,
-  "class": "card-content scrollbox h-100"
-};
-var _hoisted_74 = {
-  "class": "h-100"
-};
-var _hoisted_75 = {
-  "class": "cell-12 d-flex flex-justify-end"
-};
-
-var _hoisted_76 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "cell-4 text-small"
-}, "Conexión:", -1
-/* HOISTED */
-);
-
-var _hoisted_77 = {
-  "class": "cell-8 text-small"
-};
-
-var _hoisted_78 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "cell-4 text-small"
-}, "Dispositivo:", -1
-/* HOISTED */
-);
-
-var _hoisted_79 = {
-  "class": "cell-8 text-small"
-};
-
-var _hoisted_80 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "cell-4 text-small"
-}, "Estado", -1
-/* HOISTED */
-);
-
-var _hoisted_81 = {
-  "class": "cell-8 text-small"
-};
-
-var _hoisted_82 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", {
-  "class": "bg-gray w-100",
-  style: {
-    "border-style": "dashed",
-    "border-color": "gray",
-    "border-width": "thin"
-  }
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_83 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "h-25 w-100"
-}, null, -1
-/* HOISTED */
-);
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"cell-2\"><input type=\"text\" data-role=\"calendarpicker\" data-format=\"%d %B %Y\" data-locale=\"es-MX\"></div><div class=\"cell-2\"><input type=\"text\" data-role=\"calendarpicker\" data-format=\"%d %B %Y\"></div><div class=\"cell-2\"><div class=\"button primary outline\">Filtrar</div></div>", 3);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_pantalla = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("pantalla");
@@ -996,7 +225,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_pantalla, {
     ref: "pantalla",
     menus: $props.menus,
-    registro: $options.getRegistro,
+    registro: {},
     accion: $data.accion,
     linkBack: $data.linkBack,
     titulo: $data.titulo,
@@ -1005,197 +234,49 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     sizeclase: "card w-100"
   }, {
     reporte: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Activar el servicio "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
-        "class": "cell-4",
-        key: $data.rfsServicio
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
-        ref: "cmbServicio",
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
         "data-role": "select",
-        "data-add-empty-value": "true",
-        "data-empty-value": "Servicios",
         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-          return $data.selServicio = $event;
+          return $data.selCategoria = $event;
         })
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("optgroup", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getServicios, function (serv, idx) {
+      }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getCategorias, function (categoria, cix) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
-          value: serv.id,
-          key: idx,
-          "data-template": serv.icono
-        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(serv.nombre), 9
-        /* TEXT, PROPS */
-        , ["value", "data-template"]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      ))])], 512
-      /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selServicio]])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-        type: "checkbox",
-        checked: $data.selActivo,
-        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-          return $data.selActivo = $event;
-        }),
-        "data-role": "switch",
-        "data-on": "ACT",
-        "data-off": "STP"
-      }, null, 8
-      /* PROPS */
-      , ["checked"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.selActivo]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-        "class": "button primary outline",
-        onClick: _cache[3] || (_cache[3] = function () {
-          return $options.loadService && $options.loadService.apply($options, arguments);
-        })
-      }, "Actualizar")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-        "class": "button success outline",
-        onClick: _cache[4] || (_cache[4] = function () {
-          return $options.refreshPage && $options.refreshPage.apply($options, arguments);
-        })
-      }, "Refrescar")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" marquee "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getMensajes, function (msg, ims) {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-          key: ims
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(msg) + " |", 1
-        /* TEXT */
-        )], 64
-        /* STABLE_FRAGMENT */
-        );
-      }), 128
-      /* KEYED_FRAGMENT */
-      ))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" enviar comandos "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
-        "data-role": "select",
-        "data-add-empty-value": "true",
-        "data-empty-value": "Servicios",
-        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-          return $data.selEvento = $event;
-        })
-      }, [_hoisted_15], 512
-      /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selEvento]])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
-        "class": "cell-4",
-        key: $data.rfsSucursal
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
-        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-          return $data.selectSucursal = $event;
-        }),
-        "data-role": "select",
-        multiple: "",
-        onChange: _cache[7] || (_cache[7] = function () {
-          return $options.changeSucursal && $options.changeSucursal.apply($options, arguments);
-        })
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("optgroup", _hoisted_19, [_hoisted_20, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getSucursales, function (suc, isc) {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
-          key: isc,
-          value: suc.alias
-        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(suc.nombre), 9
+          key: cix,
+          value: categoria.id
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(categoria.nombre), 9
         /* TEXT, PROPS */
         , ["value"]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])], 544
-      /* HYDRATE_EVENTS, NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectSucursal]])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-        "class": "button primary outline",
-        onClick: _cache[8] || (_cache[8] = function () {
-          return $options.sendComandos && $options.sendComandos.apply($options, arguments);
+      ))], 512
+      /* NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selCategoria]])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
+        "class": "cell-2",
+        key: $data.rfsTb
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+        "data-role": "select",
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+          return $data.selTabla = $event;
         })
-      }, "Enviar")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" sucursales "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_25, [_hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getConectados), 1
-      /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getNoConectados), 1
-      /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-          return $data.sucSearch = $event;
-        }),
-        type: "text",
-        "data-role": "input",
-        "data-search-button": "true"
-      }, null, 512
+      }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getTablas, function (tb, tix) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
+          key: tix,
+          value: tb.id
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tb.tabla), 9
+        /* TEXT, PROPS */
+        , ["value"]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      ))], 512
       /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.sucSearch]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_32, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getSucursales, function (suc, isx) {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
-          "class": 'shortcut mx-4 my-4 px-5' + (suc.conectado ? ' success ' : ''),
-          key: isx
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(suc.alias), 1
-        /* TEXT */
-        ), _hoisted_34, _hoisted_35], 2
-        /* CLASS */
-        );
-      }), 128
-      /* KEYED_FRAGMENT */
-      ))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("aside", {
-        id: "sideInfo",
-        "class": $data.cls_sidebar,
-        "data-role": "sidebar"
-      }, [_hoisted_36, $options.getInfo.miAccion <= 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_38, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getInfo.datos, function (info, ifx) {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
-          "class": "row",
-          key: ifx
-        }, [_hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.nombre), 1
-        /* TEXT */
-        )]), _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.ip), 1
-        /* TEXT */
-        )]), _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_44, [info.conectado ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_45)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !info.conectado ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_46)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _hoisted_47]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      )), _hoisted_48])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.getInfo.miAccion != 8 && $options.getInfo.miAccion != 14 && $options.getInfo.miAccion > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
-        key: 1,
-        "class": "card-content scrollbox h-100",
-        ref: $data.rfsAside
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_49, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getInfo.datos, function (info, idx) {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
-          key: idx,
-          "data-role": "panel",
-          "data-title-caption": info.sucursal.nombre,
-          "data-title-icon": "<span class='mif-home'></span>"
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_50, [_hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.sucursal.alias), 1
-        /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_53, [_hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.sucursal.ip), 1
-        /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_56, [_hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.sucursal.bd), 1
-        /* TEXT */
-        )]), _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_60, [_hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.servicio.nombre), 1
-        /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_63, [_hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.servicio.tiempo_ping), 1
-        /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_66, [_hoisted_67, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_68, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.servicio.tiempo_rastreo), 1
-        /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_69, [_hoisted_70, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_71, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.servicio.push_event == 1 ? "Solo Eventos" : info.servicio.push_event == 2 ? "Eventos y Pull" : "Solo Pull"), 1
-        /* TEXT */
-        )])], 8
-        /* PROPS */
-        , ["data-title-caption"]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      )), _hoisted_72])], 512
-      /* NEED_PATCH */
-      )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.getInfo.miAccion == 8 || $options.getInfo.miAccion == 14 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_74, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getInfo.datos, function (info, ifx) {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
-          "class": "row",
-          key: ifx
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
-          "class": "mif-cross fg-red",
-          onClick: function onClick($event) {
-            return $options.reset(info);
-          }
-        }, null, 8
-        /* PROPS */
-        , ["onClick"])]), _hoisted_76, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.conId), 1
-        /* TEXT */
-        )]), _hoisted_78, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.nodo.device), 1
-        /* TEXT */
-        )]), _hoisted_80, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_81, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(info.nodo.estado), 1
-        /* TEXT */
-        ), _hoisted_82]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      )), _hoisted_83])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2
-      /* CLASS */
-      )];
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selTabla]])])), _hoisted_4])])];
     }),
     _: 1
     /* STABLE */
 
   }, 8
   /* PROPS */
-  , ["menus", "registro", "accion", "linkBack", "titulo", "icono"]);
+  , ["menus", "accion", "linkBack", "titulo", "icono"]);
 }
 
 /***/ }),
@@ -20238,768 +19319,10 @@ function toDate(argument) {
 
 /***/ }),
 
-/***/ "./node_modules/regenerator-runtime/runtime.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/regenerator-runtime/runtime.js ***!
-  \*****************************************************/
-/***/ ((module) => {
-
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-var runtime = (function (exports) {
-  "use strict";
-
-  var Op = Object.prototype;
-  var hasOwn = Op.hasOwnProperty;
-  var undefined; // More compressible than void 0.
-  var $Symbol = typeof Symbol === "function" ? Symbol : {};
-  var iteratorSymbol = $Symbol.iterator || "@@iterator";
-  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
-  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-
-  function define(obj, key, value) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-    return obj[key];
-  }
-  try {
-    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
-    define({}, "");
-  } catch (err) {
-    define = function(obj, key, value) {
-      return obj[key] = value;
-    };
-  }
-
-  function wrap(innerFn, outerFn, self, tryLocsList) {
-    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
-    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
-    var generator = Object.create(protoGenerator.prototype);
-    var context = new Context(tryLocsList || []);
-
-    // The ._invoke method unifies the implementations of the .next,
-    // .throw, and .return methods.
-    generator._invoke = makeInvokeMethod(innerFn, self, context);
-
-    return generator;
-  }
-  exports.wrap = wrap;
-
-  // Try/catch helper to minimize deoptimizations. Returns a completion
-  // record like context.tryEntries[i].completion. This interface could
-  // have been (and was previously) designed to take a closure to be
-  // invoked without arguments, but in all the cases we care about we
-  // already have an existing method we want to call, so there's no need
-  // to create a new function object. We can even get away with assuming
-  // the method takes exactly one argument, since that happens to be true
-  // in every case, so we don't have to touch the arguments object. The
-  // only additional allocation required is the completion record, which
-  // has a stable shape and so hopefully should be cheap to allocate.
-  function tryCatch(fn, obj, arg) {
-    try {
-      return { type: "normal", arg: fn.call(obj, arg) };
-    } catch (err) {
-      return { type: "throw", arg: err };
-    }
-  }
-
-  var GenStateSuspendedStart = "suspendedStart";
-  var GenStateSuspendedYield = "suspendedYield";
-  var GenStateExecuting = "executing";
-  var GenStateCompleted = "completed";
-
-  // Returning this object from the innerFn has the same effect as
-  // breaking out of the dispatch switch statement.
-  var ContinueSentinel = {};
-
-  // Dummy constructor functions that we use as the .constructor and
-  // .constructor.prototype properties for functions that return Generator
-  // objects. For full spec compliance, you may wish to configure your
-  // minifier not to mangle the names of these two functions.
-  function Generator() {}
-  function GeneratorFunction() {}
-  function GeneratorFunctionPrototype() {}
-
-  // This is a polyfill for %IteratorPrototype% for environments that
-  // don't natively support it.
-  var IteratorPrototype = {};
-  IteratorPrototype[iteratorSymbol] = function () {
-    return this;
-  };
-
-  var getProto = Object.getPrototypeOf;
-  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-  if (NativeIteratorPrototype &&
-      NativeIteratorPrototype !== Op &&
-      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
-    // This environment has a native %IteratorPrototype%; use it instead
-    // of the polyfill.
-    IteratorPrototype = NativeIteratorPrototype;
-  }
-
-  var Gp = GeneratorFunctionPrototype.prototype =
-    Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
-  GeneratorFunctionPrototype.constructor = GeneratorFunction;
-  GeneratorFunction.displayName = define(
-    GeneratorFunctionPrototype,
-    toStringTagSymbol,
-    "GeneratorFunction"
-  );
-
-  // Helper for defining the .next, .throw, and .return methods of the
-  // Iterator interface in terms of a single ._invoke method.
-  function defineIteratorMethods(prototype) {
-    ["next", "throw", "return"].forEach(function(method) {
-      define(prototype, method, function(arg) {
-        return this._invoke(method, arg);
-      });
-    });
-  }
-
-  exports.isGeneratorFunction = function(genFun) {
-    var ctor = typeof genFun === "function" && genFun.constructor;
-    return ctor
-      ? ctor === GeneratorFunction ||
-        // For the native GeneratorFunction constructor, the best we can
-        // do is to check its .name property.
-        (ctor.displayName || ctor.name) === "GeneratorFunction"
-      : false;
-  };
-
-  exports.mark = function(genFun) {
-    if (Object.setPrototypeOf) {
-      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
-    } else {
-      genFun.__proto__ = GeneratorFunctionPrototype;
-      define(genFun, toStringTagSymbol, "GeneratorFunction");
-    }
-    genFun.prototype = Object.create(Gp);
-    return genFun;
-  };
-
-  // Within the body of any async function, `await x` is transformed to
-  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
-  // `hasOwn.call(value, "__await")` to determine if the yielded value is
-  // meant to be awaited.
-  exports.awrap = function(arg) {
-    return { __await: arg };
-  };
-
-  function AsyncIterator(generator, PromiseImpl) {
-    function invoke(method, arg, resolve, reject) {
-      var record = tryCatch(generator[method], generator, arg);
-      if (record.type === "throw") {
-        reject(record.arg);
-      } else {
-        var result = record.arg;
-        var value = result.value;
-        if (value &&
-            typeof value === "object" &&
-            hasOwn.call(value, "__await")) {
-          return PromiseImpl.resolve(value.__await).then(function(value) {
-            invoke("next", value, resolve, reject);
-          }, function(err) {
-            invoke("throw", err, resolve, reject);
-          });
-        }
-
-        return PromiseImpl.resolve(value).then(function(unwrapped) {
-          // When a yielded Promise is resolved, its final value becomes
-          // the .value of the Promise<{value,done}> result for the
-          // current iteration.
-          result.value = unwrapped;
-          resolve(result);
-        }, function(error) {
-          // If a rejected Promise was yielded, throw the rejection back
-          // into the async generator function so it can be handled there.
-          return invoke("throw", error, resolve, reject);
-        });
-      }
-    }
-
-    var previousPromise;
-
-    function enqueue(method, arg) {
-      function callInvokeWithMethodAndArg() {
-        return new PromiseImpl(function(resolve, reject) {
-          invoke(method, arg, resolve, reject);
-        });
-      }
-
-      return previousPromise =
-        // If enqueue has been called before, then we want to wait until
-        // all previous Promises have been resolved before calling invoke,
-        // so that results are always delivered in the correct order. If
-        // enqueue has not been called before, then it is important to
-        // call invoke immediately, without waiting on a callback to fire,
-        // so that the async generator function has the opportunity to do
-        // any necessary setup in a predictable way. This predictability
-        // is why the Promise constructor synchronously invokes its
-        // executor callback, and why async functions synchronously
-        // execute code before the first await. Since we implement simple
-        // async functions in terms of async generators, it is especially
-        // important to get this right, even though it requires care.
-        previousPromise ? previousPromise.then(
-          callInvokeWithMethodAndArg,
-          // Avoid propagating failures to Promises returned by later
-          // invocations of the iterator.
-          callInvokeWithMethodAndArg
-        ) : callInvokeWithMethodAndArg();
-    }
-
-    // Define the unified helper method that is used to implement .next,
-    // .throw, and .return (see defineIteratorMethods).
-    this._invoke = enqueue;
-  }
-
-  defineIteratorMethods(AsyncIterator.prototype);
-  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
-    return this;
-  };
-  exports.AsyncIterator = AsyncIterator;
-
-  // Note that simple async functions are implemented on top of
-  // AsyncIterator objects; they just return a Promise for the value of
-  // the final result produced by the iterator.
-  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
-    if (PromiseImpl === void 0) PromiseImpl = Promise;
-
-    var iter = new AsyncIterator(
-      wrap(innerFn, outerFn, self, tryLocsList),
-      PromiseImpl
-    );
-
-    return exports.isGeneratorFunction(outerFn)
-      ? iter // If outerFn is a generator, return the full iterator.
-      : iter.next().then(function(result) {
-          return result.done ? result.value : iter.next();
-        });
-  };
-
-  function makeInvokeMethod(innerFn, self, context) {
-    var state = GenStateSuspendedStart;
-
-    return function invoke(method, arg) {
-      if (state === GenStateExecuting) {
-        throw new Error("Generator is already running");
-      }
-
-      if (state === GenStateCompleted) {
-        if (method === "throw") {
-          throw arg;
-        }
-
-        // Be forgiving, per 25.3.3.3.3 of the spec:
-        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
-        return doneResult();
-      }
-
-      context.method = method;
-      context.arg = arg;
-
-      while (true) {
-        var delegate = context.delegate;
-        if (delegate) {
-          var delegateResult = maybeInvokeDelegate(delegate, context);
-          if (delegateResult) {
-            if (delegateResult === ContinueSentinel) continue;
-            return delegateResult;
-          }
-        }
-
-        if (context.method === "next") {
-          // Setting context._sent for legacy support of Babel's
-          // function.sent implementation.
-          context.sent = context._sent = context.arg;
-
-        } else if (context.method === "throw") {
-          if (state === GenStateSuspendedStart) {
-            state = GenStateCompleted;
-            throw context.arg;
-          }
-
-          context.dispatchException(context.arg);
-
-        } else if (context.method === "return") {
-          context.abrupt("return", context.arg);
-        }
-
-        state = GenStateExecuting;
-
-        var record = tryCatch(innerFn, self, context);
-        if (record.type === "normal") {
-          // If an exception is thrown from innerFn, we leave state ===
-          // GenStateExecuting and loop back for another invocation.
-          state = context.done
-            ? GenStateCompleted
-            : GenStateSuspendedYield;
-
-          if (record.arg === ContinueSentinel) {
-            continue;
-          }
-
-          return {
-            value: record.arg,
-            done: context.done
-          };
-
-        } else if (record.type === "throw") {
-          state = GenStateCompleted;
-          // Dispatch the exception by looping back around to the
-          // context.dispatchException(context.arg) call above.
-          context.method = "throw";
-          context.arg = record.arg;
-        }
-      }
-    };
-  }
-
-  // Call delegate.iterator[context.method](context.arg) and handle the
-  // result, either by returning a { value, done } result from the
-  // delegate iterator, or by modifying context.method and context.arg,
-  // setting context.delegate to null, and returning the ContinueSentinel.
-  function maybeInvokeDelegate(delegate, context) {
-    var method = delegate.iterator[context.method];
-    if (method === undefined) {
-      // A .throw or .return when the delegate iterator has no .throw
-      // method always terminates the yield* loop.
-      context.delegate = null;
-
-      if (context.method === "throw") {
-        // Note: ["return"] must be used for ES3 parsing compatibility.
-        if (delegate.iterator["return"]) {
-          // If the delegate iterator has a return method, give it a
-          // chance to clean up.
-          context.method = "return";
-          context.arg = undefined;
-          maybeInvokeDelegate(delegate, context);
-
-          if (context.method === "throw") {
-            // If maybeInvokeDelegate(context) changed context.method from
-            // "return" to "throw", let that override the TypeError below.
-            return ContinueSentinel;
-          }
-        }
-
-        context.method = "throw";
-        context.arg = new TypeError(
-          "The iterator does not provide a 'throw' method");
-      }
-
-      return ContinueSentinel;
-    }
-
-    var record = tryCatch(method, delegate.iterator, context.arg);
-
-    if (record.type === "throw") {
-      context.method = "throw";
-      context.arg = record.arg;
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    var info = record.arg;
-
-    if (! info) {
-      context.method = "throw";
-      context.arg = new TypeError("iterator result is not an object");
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    if (info.done) {
-      // Assign the result of the finished delegate to the temporary
-      // variable specified by delegate.resultName (see delegateYield).
-      context[delegate.resultName] = info.value;
-
-      // Resume execution at the desired location (see delegateYield).
-      context.next = delegate.nextLoc;
-
-      // If context.method was "throw" but the delegate handled the
-      // exception, let the outer generator proceed normally. If
-      // context.method was "next", forget context.arg since it has been
-      // "consumed" by the delegate iterator. If context.method was
-      // "return", allow the original .return call to continue in the
-      // outer generator.
-      if (context.method !== "return") {
-        context.method = "next";
-        context.arg = undefined;
-      }
-
-    } else {
-      // Re-yield the result returned by the delegate method.
-      return info;
-    }
-
-    // The delegate iterator is finished, so forget it and continue with
-    // the outer generator.
-    context.delegate = null;
-    return ContinueSentinel;
-  }
-
-  // Define Generator.prototype.{next,throw,return} in terms of the
-  // unified ._invoke helper method.
-  defineIteratorMethods(Gp);
-
-  define(Gp, toStringTagSymbol, "Generator");
-
-  // A Generator should always return itself as the iterator object when the
-  // @@iterator function is called on it. Some browsers' implementations of the
-  // iterator prototype chain incorrectly implement this, causing the Generator
-  // object to not be returned from this call. This ensures that doesn't happen.
-  // See https://github.com/facebook/regenerator/issues/274 for more details.
-  Gp[iteratorSymbol] = function() {
-    return this;
-  };
-
-  Gp.toString = function() {
-    return "[object Generator]";
-  };
-
-  function pushTryEntry(locs) {
-    var entry = { tryLoc: locs[0] };
-
-    if (1 in locs) {
-      entry.catchLoc = locs[1];
-    }
-
-    if (2 in locs) {
-      entry.finallyLoc = locs[2];
-      entry.afterLoc = locs[3];
-    }
-
-    this.tryEntries.push(entry);
-  }
-
-  function resetTryEntry(entry) {
-    var record = entry.completion || {};
-    record.type = "normal";
-    delete record.arg;
-    entry.completion = record;
-  }
-
-  function Context(tryLocsList) {
-    // The root entry object (effectively a try statement without a catch
-    // or a finally block) gives us a place to store values thrown from
-    // locations where there is no enclosing try statement.
-    this.tryEntries = [{ tryLoc: "root" }];
-    tryLocsList.forEach(pushTryEntry, this);
-    this.reset(true);
-  }
-
-  exports.keys = function(object) {
-    var keys = [];
-    for (var key in object) {
-      keys.push(key);
-    }
-    keys.reverse();
-
-    // Rather than returning an object with a next method, we keep
-    // things simple and return the next function itself.
-    return function next() {
-      while (keys.length) {
-        var key = keys.pop();
-        if (key in object) {
-          next.value = key;
-          next.done = false;
-          return next;
-        }
-      }
-
-      // To avoid creating an additional object, we just hang the .value
-      // and .done properties off the next function object itself. This
-      // also ensures that the minifier will not anonymize the function.
-      next.done = true;
-      return next;
-    };
-  };
-
-  function values(iterable) {
-    if (iterable) {
-      var iteratorMethod = iterable[iteratorSymbol];
-      if (iteratorMethod) {
-        return iteratorMethod.call(iterable);
-      }
-
-      if (typeof iterable.next === "function") {
-        return iterable;
-      }
-
-      if (!isNaN(iterable.length)) {
-        var i = -1, next = function next() {
-          while (++i < iterable.length) {
-            if (hasOwn.call(iterable, i)) {
-              next.value = iterable[i];
-              next.done = false;
-              return next;
-            }
-          }
-
-          next.value = undefined;
-          next.done = true;
-
-          return next;
-        };
-
-        return next.next = next;
-      }
-    }
-
-    // Return an iterator with no values.
-    return { next: doneResult };
-  }
-  exports.values = values;
-
-  function doneResult() {
-    return { value: undefined, done: true };
-  }
-
-  Context.prototype = {
-    constructor: Context,
-
-    reset: function(skipTempReset) {
-      this.prev = 0;
-      this.next = 0;
-      // Resetting context._sent for legacy support of Babel's
-      // function.sent implementation.
-      this.sent = this._sent = undefined;
-      this.done = false;
-      this.delegate = null;
-
-      this.method = "next";
-      this.arg = undefined;
-
-      this.tryEntries.forEach(resetTryEntry);
-
-      if (!skipTempReset) {
-        for (var name in this) {
-          // Not sure about the optimal order of these conditions:
-          if (name.charAt(0) === "t" &&
-              hasOwn.call(this, name) &&
-              !isNaN(+name.slice(1))) {
-            this[name] = undefined;
-          }
-        }
-      }
-    },
-
-    stop: function() {
-      this.done = true;
-
-      var rootEntry = this.tryEntries[0];
-      var rootRecord = rootEntry.completion;
-      if (rootRecord.type === "throw") {
-        throw rootRecord.arg;
-      }
-
-      return this.rval;
-    },
-
-    dispatchException: function(exception) {
-      if (this.done) {
-        throw exception;
-      }
-
-      var context = this;
-      function handle(loc, caught) {
-        record.type = "throw";
-        record.arg = exception;
-        context.next = loc;
-
-        if (caught) {
-          // If the dispatched exception was caught by a catch block,
-          // then let that catch block handle the exception normally.
-          context.method = "next";
-          context.arg = undefined;
-        }
-
-        return !! caught;
-      }
-
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        var record = entry.completion;
-
-        if (entry.tryLoc === "root") {
-          // Exception thrown outside of any try block that could handle
-          // it, so set the completion value of the entire function to
-          // throw the exception.
-          return handle("end");
-        }
-
-        if (entry.tryLoc <= this.prev) {
-          var hasCatch = hasOwn.call(entry, "catchLoc");
-          var hasFinally = hasOwn.call(entry, "finallyLoc");
-
-          if (hasCatch && hasFinally) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            } else if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else if (hasCatch) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            }
-
-          } else if (hasFinally) {
-            if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else {
-            throw new Error("try statement without catch or finally");
-          }
-        }
-      }
-    },
-
-    abrupt: function(type, arg) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc <= this.prev &&
-            hasOwn.call(entry, "finallyLoc") &&
-            this.prev < entry.finallyLoc) {
-          var finallyEntry = entry;
-          break;
-        }
-      }
-
-      if (finallyEntry &&
-          (type === "break" ||
-           type === "continue") &&
-          finallyEntry.tryLoc <= arg &&
-          arg <= finallyEntry.finallyLoc) {
-        // Ignore the finally entry if control is not jumping to a
-        // location outside the try/catch block.
-        finallyEntry = null;
-      }
-
-      var record = finallyEntry ? finallyEntry.completion : {};
-      record.type = type;
-      record.arg = arg;
-
-      if (finallyEntry) {
-        this.method = "next";
-        this.next = finallyEntry.finallyLoc;
-        return ContinueSentinel;
-      }
-
-      return this.complete(record);
-    },
-
-    complete: function(record, afterLoc) {
-      if (record.type === "throw") {
-        throw record.arg;
-      }
-
-      if (record.type === "break" ||
-          record.type === "continue") {
-        this.next = record.arg;
-      } else if (record.type === "return") {
-        this.rval = this.arg = record.arg;
-        this.method = "return";
-        this.next = "end";
-      } else if (record.type === "normal" && afterLoc) {
-        this.next = afterLoc;
-      }
-
-      return ContinueSentinel;
-    },
-
-    finish: function(finallyLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.finallyLoc === finallyLoc) {
-          this.complete(entry.completion, entry.afterLoc);
-          resetTryEntry(entry);
-          return ContinueSentinel;
-        }
-      }
-    },
-
-    "catch": function(tryLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc === tryLoc) {
-          var record = entry.completion;
-          if (record.type === "throw") {
-            var thrown = record.arg;
-            resetTryEntry(entry);
-          }
-          return thrown;
-        }
-      }
-
-      // The context.catch method must only be called with a location
-      // argument that corresponds to a known catch block.
-      throw new Error("illegal catch attempt");
-    },
-
-    delegateYield: function(iterable, resultName, nextLoc) {
-      this.delegate = {
-        iterator: values(iterable),
-        resultName: resultName,
-        nextLoc: nextLoc
-      };
-
-      if (this.method === "next") {
-        // Deliberately forget the last sent value so that we don't
-        // accidentally pass it on to the delegate.
-        this.arg = undefined;
-      }
-
-      return ContinueSentinel;
-    }
-  };
-
-  // Regardless of whether this script is executing as a CommonJS module
-  // or not, return the runtime object so that we can declare the variable
-  // regeneratorRuntime in the outer scope, which allows this module to be
-  // injected easily by `bin/regenerator --include-runtime script.js`.
-  return exports;
-
-}(
-  // If this script is executing as a CommonJS module, use module.exports
-  // as the regeneratorRuntime namespace. Otherwise create a new empty
-  // object. Either way, the resulting object will be used to initialize
-  // the regeneratorRuntime variable at the top of this file.
-   true ? module.exports : 0
-));
-
-try {
-  regeneratorRuntime = runtime;
-} catch (accidentalStrictMode) {
-  // This module should not be running in strict mode, so the above
-  // assignment should always work unless something is misconfigured. Just
-  // in case runtime.js accidentally runs in strict mode, we can escape
-  // strict mode using a global Function call. This could conceivably fail
-  // if a Content Security Policy forbids using Function, but in that case
-  // the proper solution is to fix the accidental strict mode problem. If
-  // you've misconfigured your bundler to force strict mode and applied a
-  // CSP to forbid Function, and you're not willing to fix either of those
-  // problems, please detail your unique predicament in a GitHub issue.
-  Function("r", "regeneratorRuntime = r")(runtime);
-}
-
-
-/***/ }),
-
-/***/ "./resources/js/Pages/Dashboard/index.vue":
-/*!************************************************!*\
-  !*** ./resources/js/Pages/Dashboard/index.vue ***!
-  \************************************************/
+/***/ "./resources/js/Pages/Migrado/index.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/Pages/Migrado/index.vue ***!
+  \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -21007,16 +19330,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _index_vue_vue_type_template_id_5d49e104__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=5d49e104 */ "./resources/js/Pages/Dashboard/index.vue?vue&type=template&id=5d49e104");
-/* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/Pages/Dashboard/index.vue?vue&type=script&lang=js");
+/* harmony import */ var _index_vue_vue_type_template_id_3055572f__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=3055572f */ "./resources/js/Pages/Migrado/index.vue?vue&type=template&id=3055572f");
+/* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/Pages/Migrado/index.vue?vue&type=script&lang=js");
 
 
 
-_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _index_vue_vue_type_template_id_5d49e104__WEBPACK_IMPORTED_MODULE_0__.render
+_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _index_vue_vue_type_template_id_3055572f__WEBPACK_IMPORTED_MODULE_0__.render
 /* hot reload */
 if (false) {}
 
-_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Pages/Dashboard/index.vue"
+_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Pages/Migrado/index.vue"
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
 
@@ -21048,10 +19371,10 @@ _pantalla_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__fil
 
 /***/ }),
 
-/***/ "./resources/js/Pages/Dashboard/index.vue?vue&type=script&lang=js":
-/*!************************************************************************!*\
-  !*** ./resources/js/Pages/Dashboard/index.vue?vue&type=script&lang=js ***!
-  \************************************************************************/
+/***/ "./resources/js/Pages/Migrado/index.vue?vue&type=script&lang=js":
+/*!**********************************************************************!*\
+  !*** ./resources/js/Pages/Migrado/index.vue?vue&type=script&lang=js ***!
+  \**********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -21059,7 +19382,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./index.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Dashboard/index.vue?vue&type=script&lang=js");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./index.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Migrado/index.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -21080,18 +19403,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/Pages/Dashboard/index.vue?vue&type=template&id=5d49e104":
-/*!******************************************************************************!*\
-  !*** ./resources/js/Pages/Dashboard/index.vue?vue&type=template&id=5d49e104 ***!
-  \******************************************************************************/
+/***/ "./resources/js/Pages/Migrado/index.vue?vue&type=template&id=3055572f":
+/*!****************************************************************************!*\
+  !*** ./resources/js/Pages/Migrado/index.vue?vue&type=template&id=3055572f ***!
+  \****************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_5d49e104__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_3055572f__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_5d49e104__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./index.vue?vue&type=template&id=5d49e104 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Dashboard/index.vue?vue&type=template&id=5d49e104");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_3055572f__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./index.vue?vue&type=template&id=3055572f */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Migrado/index.vue?vue&type=template&id=3055572f");
 
 
 /***/ }),
