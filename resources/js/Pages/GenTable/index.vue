@@ -10,7 +10,8 @@
         :titulo="titulo"
     >
         <template v-slot:default="parent">
-                    <div class="row mb-2 d-flex flex-align-center">
+            <div class="h-50">
+                    <div class="row h-25 mb-10 d-flex flex-align-center">
                         <label class="cell-2">Nombre</label>
                         <div class="cell-10">
                             <select data-role="select" v-model="selItem">
@@ -21,7 +22,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row h-25 mb-10">
                         <div class="cell-4">
                             <div class="button primary outline w-100" @click="creaTabla">Crear</div>
                         </div>
@@ -32,6 +33,7 @@
                             <div class="button success outline w-100" @click="salir">Salir</div>
                         </div>
                     </div>
+            </div>
         </template>
     </pantalla>
 

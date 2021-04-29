@@ -30,6 +30,7 @@ class ReceivedController extends Controller
             $table->timestamps();
 
             $table->index(['local','tabla']);
+            $table->unique(['local','tabla','idkey']);
         });
         return redirect()->back()
                     ->with('message',"Creado con éxito la tabla {$tabla}");

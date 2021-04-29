@@ -204,28 +204,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "row mb-2 d-flex flex-align-center"
+  "class": "h-50"
+};
+var _hoisted_2 = {
+  "class": "row h-25 mb-10 d-flex flex-align-center"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
   "class": "cell-2"
 }, "Nombre", -1
 /* HOISTED */
 );
 
-var _hoisted_3 = {
+var _hoisted_4 = {
   "class": "cell-10"
 };
-var _hoisted_4 = {
-  "class": "row"
-};
 var _hoisted_5 = {
-  "class": "cell-4"
+  "class": "row h-25 mb-10"
 };
 var _hoisted_6 = {
   "class": "cell-4"
 };
 var _hoisted_7 = {
+  "class": "cell-4"
+};
+var _hoisted_8 = {
   "class": "cell-4"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -242,7 +245,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     titulo: $data.titulo
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (parent) {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
         "data-role": "select",
         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           return $data.selItem = $event;
@@ -258,22 +261,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* KEYED_FRAGMENT */
       ))], 512
       /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selItem]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selItem]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
         "class": "button primary outline w-100",
         onClick: _cache[2] || (_cache[2] = function () {
           return $options.creaTabla && $options.creaTabla.apply($options, arguments);
         })
-      }, "Crear")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+      }, "Crear")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
         "class": "button warning outline w-100",
         onClick: _cache[3] || (_cache[3] = function () {
           return $options.borraTabla && $options.borraTabla.apply($options, arguments);
         })
-      }, "Borrar")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+      }, "Borrar")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
         "class": "button success outline w-100",
         onClick: _cache[4] || (_cache[4] = function () {
           return $options.salir && $options.salir.apply($options, arguments);
         })
-      }, "Salir")])])];
+      }, "Salir")])])])];
     }),
     _: 1
     /* STABLE */
