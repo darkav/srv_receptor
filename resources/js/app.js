@@ -6,7 +6,6 @@ import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-v
 import { InertiaProgress } from '@inertiajs/progress';
 
 import AvsisLayout from './Layouts/AvsisLayout';
-
 import "metro4/build/css/metro-all.min.css";
 import Metro from 'metro4';
 

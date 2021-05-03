@@ -12,8 +12,8 @@
     >
         <template v-slot:reporte>
             <div class="h-100 w-100">
-                <div class="row">
-                    <div class="cell-2" >
+                <div class="row flex-justify-center w-100">
+                    <div class="cell-3" >
                         <select data-role="select" v-model="selCategoria">
                             <option v-for="(categoria,cix) in getCategorias" :key="cix"
                                 :value="categoria.id" 
@@ -22,7 +22,7 @@
                             </option>
                         </select>
                     </div>
-                    <div class="cell-2" :key="rfsTb">
+                    <div class="cell-3" :key="rfsTb">
                         <select data-role="select" v-model="selTabla">
                             <option v-for="(tb,tix) in getTablas" :key="tix"
                             :value="tb.id">{{tb.tabla}}</option>
@@ -34,11 +34,16 @@
                     <div class="cell-2">
                         <input type="text" data-role="calendarpicker" data-format="%d %B %Y">
                     </div>
-                    <div class="cell-2">
+                    <div class="cell-2 w-100">
                         <div class="button primary outline">Filtrar</div>
                     </div>
-
                 </div>
+                <div class="row flex-justify-center w-100">
+                    <div class="cell-12">
+                        <input type="text" data-role="input" placeholder="Buscar">
+                    </div>
+                </div>
+
             </div>
         </template>
     </pantalla>    
