@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApiSucursalController;
 use App\Http\Controllers\ApiCategoriaController;
 use App\Http\Controllers\ApiServicioController;
+use App\Http\Controllers\MigradoController;
 use App\Http\Controllers\ReceivedController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -42,6 +43,8 @@ Route::post('/received/v1/',[ReceivedController::class,'InsertTable']);
 Route::put('/received/v1/',[ReceivedController::class,'UpdateTable']);
 Route::get('servicio/v1/',[ApiServicioController::class,'index']);
 Route::put('servicio/v1',[ApiServicioController::class,'update']);
+Route::post('/migracion/v1/filtro',[MigradoController::class,'filter']);
+
 
 Route::post('/wsserver/v1/wakeup',function(Request $request){
     if($request->flag == "ON")
