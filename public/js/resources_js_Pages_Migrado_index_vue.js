@@ -55,7 +55,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         fecfin: null
       },
       rfsTb: 0,
-      registros: []
+      rfsGrid: 0,
+      datatable: {}
     };
   },
   computed: {
@@ -79,7 +80,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return cat.tablas;
     },
     getRegistros: function getRegistros() {
-      return this.registros || [];
+      return this.datatable.data || [];
     }
   },
   methods: {
@@ -96,8 +97,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 vfecfin = $("#fechafin").data("calendarpicker");
                 _this2.filtro.fecini = (0,date_fns__WEBPACK_IMPORTED_MODULE_2__.format)(vfecini.val().date, "yyyy-MM-dd");
                 _this2.filtro.fecfin = (0,date_fns__WEBPACK_IMPORTED_MODULE_2__.format)(vfecfin.val().date, "yyyy-MM-dd");
-                _context.next = 6;
-                return fetch('../api/migracion/v1/', {
+                _this2.filtro.pagineo = $("#gridDoc").data("rows");
+                _context.next = 7;
+                return fetch('../api/migracion/v1/filtro', {
                   method: "POST",
                   headers: {
                     "Accept": 'application/json',
@@ -106,17 +108,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   body: JSON.stringify(_this2.filtro)
                 });
 
-              case 6:
+              case 7:
                 response = _context.sent;
-                _context.next = 9;
+                _context.next = 10;
                 return response.json();
 
-              case 9:
+              case 10:
                 listado = _context.sent;
-                console.log("retornando datos", listado);
-                _this2.registros = listado;
+                _this2.datatable = listado;
+                _this2.rfsGrid++;
 
-              case 12:
+              case 13:
               case "end":
                 return _context.stop();
             }
@@ -326,6 +328,7 @@ var _hoisted_8 = {
 };
 var _hoisted_9 = {
   "class": "table",
+  id: "gridDoc",
   "data-role": "table",
   "data-rows": "50",
   "data-rows-steps": "50,100,500,1000",
@@ -403,25 +406,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[3] || (_cache[3] = function () {
           return $options.filtrar && $options.filtrar.apply($options, arguments);
         })
-      }, "Filtrar")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("table", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getRegistros, function (registro, rix) {
+      }, "Filtrar")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("table", _hoisted_9, [_hoisted_10, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("tbody", {
+        key: $data.rfsGrid
+      }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getRegistros, function (registro, rix) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("tr", {
           key: rix
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.id), 1
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(registro.id), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.local), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(registro.local), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.tabla), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(registro.tabla), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.idkey), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(registro.idkey), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.fecha_insercion), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(registro.fecha_insercion), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.fecha_actualizacion), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(registro.fecha_actualizacion), 1
         /* TEXT */
         ), _hoisted_11]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])])])])])];
+      ))]))])])])])];
     }),
     _: 1
     /* STABLE */
@@ -6221,9 +6226,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_getTimezoneOffsetInMilliseconds_index_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_lib/getTimezoneOffsetInMilliseconds/index.js */ "./node_modules/date-fns/esm/_lib/getTimezoneOffsetInMilliseconds/index.js");
 /* harmony import */ var _compareAsc_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../compareAsc/index.js */ "./node_modules/date-fns/esm/compareAsc/index.js");
 /* harmony import */ var _toDate_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../toDate/index.js */ "./node_modules/date-fns/esm/toDate/index.js");
-/* harmony import */ var _lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_lib/cloneObject/index.js */ "./node_modules/date-fns/esm/_lib/cloneObject/index.js");
-/* harmony import */ var _locale_en_US_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../locale/en-US/index.js */ "./node_modules/date-fns/esm/locale/en-US/index.js");
-/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+/* harmony import */ var _lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_lib/cloneObject/index.js */ "./node_modules/date-fns/esm/_lib/cloneObject/index.js");
+/* harmony import */ var _locale_en_US_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../locale/en-US/index.js */ "./node_modules/date-fns/esm/locale/en-US/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
 
 
 
@@ -6386,9 +6391,9 @@ var MINUTES_IN_YEAR = MINUTES_IN_DAY * 365;
  */
 
 function formatDistanceStrict(dirtyDate, dirtyBaseDate, dirtyOptions) {
-  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_4__.default)(2, arguments);
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_3__.default)(2, arguments);
   var options = dirtyOptions || {};
-  var locale = options.locale || _locale_en_US_index_js__WEBPACK_IMPORTED_MODULE_3__.default;
+  var locale = options.locale || _locale_en_US_index_js__WEBPACK_IMPORTED_MODULE_2__.default;
 
   if (!locale.formatDistance) {
     throw new RangeError('locale must contain localize.formatDistance property');
@@ -6400,7 +6405,7 @@ function formatDistanceStrict(dirtyDate, dirtyBaseDate, dirtyOptions) {
     throw new RangeError('Invalid time value');
   }
 
-  var localizeOptions = (0,_lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_2__.default)(options);
+  var localizeOptions = (0,_lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_4__.default)(options);
   localizeOptions.addSuffix = Boolean(options.addSuffix);
   localizeOptions.comparison = comparison;
   var dateLeft;
@@ -6720,9 +6725,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _differenceInSeconds_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../differenceInSeconds/index.js */ "./node_modules/date-fns/esm/differenceInSeconds/index.js");
 /* harmony import */ var _locale_en_US_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../locale/en-US/index.js */ "./node_modules/date-fns/esm/locale/en-US/index.js");
 /* harmony import */ var _toDate_index_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../toDate/index.js */ "./node_modules/date-fns/esm/toDate/index.js");
-/* harmony import */ var _lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_lib/cloneObject/index.js */ "./node_modules/date-fns/esm/_lib/cloneObject/index.js");
+/* harmony import */ var _lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_lib/cloneObject/index.js */ "./node_modules/date-fns/esm/_lib/cloneObject/index.js");
 /* harmony import */ var _lib_getTimezoneOffsetInMilliseconds_index_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../_lib/getTimezoneOffsetInMilliseconds/index.js */ "./node_modules/date-fns/esm/_lib/getTimezoneOffsetInMilliseconds/index.js");
-/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
 
 
 
@@ -6845,7 +6850,7 @@ var MINUTES_IN_TWO_MONTHS = 86400;
  */
 
 function formatDistance(dirtyDate, dirtyBaseDate, dirtyOptions) {
-  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_6__.default)(2, arguments);
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_5__.default)(2, arguments);
   var options = dirtyOptions || {};
   var locale = options.locale || _locale_en_US_index_js__WEBPACK_IMPORTED_MODULE_3__.default;
 
@@ -6859,7 +6864,7 @@ function formatDistance(dirtyDate, dirtyBaseDate, dirtyOptions) {
     throw new RangeError('Invalid time value');
   }
 
-  var localizeOptions = (0,_lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_5__.default)(options);
+  var localizeOptions = (0,_lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_6__.default)(options);
   localizeOptions.addSuffix = Boolean(options.addSuffix);
   localizeOptions.comparison = comparison;
   var dateLeft;
@@ -14870,8 +14875,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_setUTCISODay_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../_lib/setUTCISODay/index.js */ "./node_modules/date-fns/esm/_lib/setUTCISODay/index.js");
 /* harmony import */ var _lib_setUTCISOWeek_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../_lib/setUTCISOWeek/index.js */ "./node_modules/date-fns/esm/_lib/setUTCISOWeek/index.js");
 /* harmony import */ var _lib_setUTCWeek_index_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../_lib/setUTCWeek/index.js */ "./node_modules/date-fns/esm/_lib/setUTCWeek/index.js");
-/* harmony import */ var _lib_startOfUTCISOWeek_index_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../_lib/startOfUTCISOWeek/index.js */ "./node_modules/date-fns/esm/_lib/startOfUTCISOWeek/index.js");
-/* harmony import */ var _lib_startOfUTCWeek_index_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../_lib/startOfUTCWeek/index.js */ "./node_modules/date-fns/esm/_lib/startOfUTCWeek/index.js");
+/* harmony import */ var _lib_startOfUTCISOWeek_index_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../_lib/startOfUTCISOWeek/index.js */ "./node_modules/date-fns/esm/_lib/startOfUTCISOWeek/index.js");
+/* harmony import */ var _lib_startOfUTCWeek_index_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../_lib/startOfUTCWeek/index.js */ "./node_modules/date-fns/esm/_lib/startOfUTCWeek/index.js");
 
 
 
@@ -15233,13 +15238,13 @@ var parsers = {
         var normalizedTwoDigitYear = normalizeTwoDigitYear(value.year, currentYear);
         date.setUTCFullYear(normalizedTwoDigitYear, 0, options.firstWeekContainsDate);
         date.setUTCHours(0, 0, 0, 0);
-        return (0,_lib_startOfUTCWeek_index_js__WEBPACK_IMPORTED_MODULE_5__.default)(date, options);
+        return (0,_lib_startOfUTCWeek_index_js__WEBPACK_IMPORTED_MODULE_6__.default)(date, options);
       }
 
       var year = !('era' in flags) || flags.era === 1 ? value.year : 1 - value.year;
       date.setUTCFullYear(year, 0, options.firstWeekContainsDate);
       date.setUTCHours(0, 0, 0, 0);
-      return (0,_lib_startOfUTCWeek_index_js__WEBPACK_IMPORTED_MODULE_5__.default)(date, options);
+      return (0,_lib_startOfUTCWeek_index_js__WEBPACK_IMPORTED_MODULE_6__.default)(date, options);
     },
     incompatibleTokens: ['y', 'R', 'u', 'Q', 'q', 'M', 'L', 'I', 'd', 'D', 'i', 't', 'T']
   },
@@ -15257,7 +15262,7 @@ var parsers = {
       var firstWeekOfYear = new Date(0);
       firstWeekOfYear.setUTCFullYear(value, 0, 4);
       firstWeekOfYear.setUTCHours(0, 0, 0, 0);
-      return (0,_lib_startOfUTCISOWeek_index_js__WEBPACK_IMPORTED_MODULE_6__.default)(firstWeekOfYear);
+      return (0,_lib_startOfUTCISOWeek_index_js__WEBPACK_IMPORTED_MODULE_5__.default)(firstWeekOfYear);
     },
     incompatibleTokens: ['G', 'y', 'Y', 'u', 'Q', 'q', 'M', 'L', 'w', 'd', 'D', 'e', 'c', 't', 'T']
   },
@@ -15549,7 +15554,7 @@ var parsers = {
       return value >= 1 && value <= 53;
     },
     set: function (date, _flags, value, options) {
-      return (0,_lib_startOfUTCWeek_index_js__WEBPACK_IMPORTED_MODULE_5__.default)((0,_lib_setUTCWeek_index_js__WEBPACK_IMPORTED_MODULE_4__.default)(date, value, options), options);
+      return (0,_lib_startOfUTCWeek_index_js__WEBPACK_IMPORTED_MODULE_6__.default)((0,_lib_setUTCWeek_index_js__WEBPACK_IMPORTED_MODULE_4__.default)(date, value, options), options);
     },
     incompatibleTokens: ['y', 'R', 'u', 'q', 'Q', 'M', 'L', 'I', 'd', 'D', 'i', 't', 'T']
   },
@@ -15574,7 +15579,7 @@ var parsers = {
       return value >= 1 && value <= 53;
     },
     set: function (date, _flags, value, options) {
-      return (0,_lib_startOfUTCISOWeek_index_js__WEBPACK_IMPORTED_MODULE_6__.default)((0,_lib_setUTCISOWeek_index_js__WEBPACK_IMPORTED_MODULE_3__.default)(date, value, options), options);
+      return (0,_lib_startOfUTCISOWeek_index_js__WEBPACK_IMPORTED_MODULE_5__.default)((0,_lib_setUTCISOWeek_index_js__WEBPACK_IMPORTED_MODULE_3__.default)(date, value, options), options);
     },
     incompatibleTokens: ['y', 'Y', 'u', 'q', 'Q', 'M', 'L', 'w', 'd', 'D', 'e', 'c', 't', 'T']
   },

@@ -36,7 +36,6 @@ class MigradoController extends Controller
         return DB::table($categoria->nombre)
             ->where("tabla","=",$tabla->tabla)
             ->whereBetween("fecha_insercion",[$from,$to])
-            ->paginate(50);
-            
+            ->paginate($request->pagineo);
     }
 }

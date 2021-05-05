@@ -42,7 +42,7 @@
                 </div>
                 <div class="row">
                     <div class="cell-12">
-                        <table class="table" 
+                        <table class="table" id="gridDoc"
                             data-role="table"
                             data-rows="50"
                             data-rows-steps="50,100,500,1000"
@@ -63,16 +63,16 @@
                                     <th>Registro</th>
                                 </tr>
                             </thead>                            
-                            <tbody>
+                            <tbody :key="rfsGrid">
                                 <tr
                                     v-for="(registro,rix) in getRegistros" :key="rix"
                                 >
-                                    <td>{{id}}</td>
-                                    <td>{{local}}</td>
-                                    <td>{{tabla}}</td>
-                                    <td>{{idkey}}</td>
-                                    <td>{{fecha_insercion}}</td>
-                                    <td>{{fecha_actualizacion}}</td>
+                                    <td>{{registro.id}}</td>
+                                    <td>{{registro.local}}</td>
+                                    <td>{{registro.tabla}}</td>
+                                    <td>{{registro.idkey}}</td>
+                                    <td>{{registro.fecha_insercion}}</td>
+                                    <td>{{registro.fecha_actualizacion}}</td>
                                     <td>
                                         <div class="button outline primary">
                                             <span class="mif-eye"></span>
@@ -112,7 +112,8 @@ export default{
                 fecfin:null
             },
             rfsTb:0,
-            registros:[]
+            rfsGrid:0,
+            datatable:{}
         }
     },
     computed:{
@@ -137,7 +138,7 @@ export default{
         },
         getRegistros()
         {
-            return this.registros || [];
+            return this.datatable.data || [];
         },
     },
     methods:{
@@ -147,7 +148,8 @@ export default{
             var vfecfin = $("#fechafin").data("calendarpicker");
             this.filtro.fecini = format(vfecini.val().date,"yyyy-MM-dd");
             this.filtro.fecfin = format(vfecfin.val().date,"yyyy-MM-dd");
-            var response = await fetch('../api/migracion/v1/',{
+            this.filtro.pagineo = $("#gridDoc").data("rows");
+            var response = await fetch('../api/migracion/v1/filtro',{
                 method: "POST",
                 headers:{
                     "Accept": 'application/json',
@@ -156,8 +158,9 @@ export default{
                 body: JSON.stringify(this.filtro)
             });
             var listado = await response.json();
-            console.log("retornando datos", listado);
-            this.registros = listado;
+            this.datatable = listado;
+            this.rfsGrid++;
+
         },
         changeFecIni(val,fecha,el)
         {
