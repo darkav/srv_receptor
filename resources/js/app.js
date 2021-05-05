@@ -4,7 +4,7 @@ require('./bootstrap');
 import { createApp, h } from 'vue';
 import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
-
+import JsonEditor from 'vue-json-edit';
 import AvsisLayout from './Layouts/AvsisLayout';
 import "metro4/build/css/metro-all.min.css";
 import Metro from 'metro4';
@@ -31,6 +31,7 @@ createApp({
 })
     .mixin({ methods: { route } })
     .use(InertiaPlugin)
+    .use(JsonEditor)
     .mount(el);
 
 InertiaProgress.init({ color: '#4B5563' });

@@ -39,6 +39,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {
     'pantalla': _controles_pantalla__WEBPACK_IMPORTED_MODULE_1__.default
   },
+  mounted: function mounted() {},
   data: function data() {
     return {
       titulo: "Datos Migrado",
@@ -48,15 +49,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       icono: "<span class='mif-database'></span>",
       selCategoria: "",
       selTabla: null,
+      searched: "",
       filtro: {
         categoria: "",
         tabla: "",
         fecini: null,
-        fecfin: null
+        fecfin: null,
+        pagineo: 0
       },
       rfsTb: 0,
       rfsGrid: 0,
-      datatable: {}
+      datatable: {},
+      opcion: {
+        confirmText: "Confirmar",
+        cancelText: "Cancelar"
+      },
+      regIndex: null
     };
   },
   computed: {
@@ -80,12 +88,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return cat.tablas;
     },
     getRegistros: function getRegistros() {
-      return this.datatable.data || [];
+      var _this2 = this;
+
+      return (this.datatable.data || []).filter(function (x) {
+        return JSON.stringify(x).toLowerCase().includes(_this2.searched.toLowerCase());
+      }) || [];
+    },
+    getRegActual: function getRegActual() {
+      return this.regIndex || {};
     }
   },
   methods: {
     filtrar: function filtrar() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var vfecini, vfecfin, response, listado;
@@ -95,30 +110,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 vfecini = $("#fechaini").data("calendarpicker");
                 vfecfin = $("#fechafin").data("calendarpicker");
-                _this2.filtro.fecini = (0,date_fns__WEBPACK_IMPORTED_MODULE_2__.format)(vfecini.val().date, "yyyy-MM-dd");
-                _this2.filtro.fecfin = (0,date_fns__WEBPACK_IMPORTED_MODULE_2__.format)(vfecfin.val().date, "yyyy-MM-dd");
-                _this2.filtro.pagineo = $("#gridDoc").data("rows");
-                _context.next = 7;
+                _this3.filtro.fecini = (0,date_fns__WEBPACK_IMPORTED_MODULE_2__.format)(vfecini.val().date, "yyyy-MM-dd");
+                _this3.filtro.fecfin = (0,date_fns__WEBPACK_IMPORTED_MODULE_2__.format)(vfecfin.val().date, "yyyy-MM-dd");
+                _context.next = 6;
                 return fetch('../api/migracion/v1/filtro', {
                   method: "POST",
                   headers: {
                     "Accept": 'application/json',
                     "Content-Type": "application/json"
                   },
-                  body: JSON.stringify(_this2.filtro)
+                  body: JSON.stringify(_this3.filtro)
                 });
 
-              case 7:
+              case 6:
                 response = _context.sent;
-                _context.next = 10;
+                _context.next = 9;
                 return response.json();
 
-              case 10:
+              case 9:
                 listado = _context.sent;
-                _this2.datatable = listado;
-                _this2.rfsGrid++;
+                _this3.datatable = listado;
+                _this3.rfsGrid++;
 
-              case 13:
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -128,6 +142,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     changeFecIni: function changeFecIni(val, fecha, el) {
       console.log("fecha cambio", val, fecha, el);
+    },
+    verInfo: function verInfo(item) {
+      this.regIndex = item;
     }
   }
 });
@@ -324,9 +341,54 @@ var _hoisted_7 = {
   "class": "row"
 };
 var _hoisted_8 = {
+  "class": "cell-6"
+};
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "cell-1"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "button outline primary w-100"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+  "class": "mif-table"
+})])], -1
+/* HOISTED */
+);
+
+var _hoisted_10 = {
+  "class": "cell-3 offset-2"
+};
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
+  value: "50"
+}, "50", -1
+/* HOISTED */
+);
+
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
+  value: "100"
+}, "100", -1
+/* HOISTED */
+);
+
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
+  value: "500"
+}, "500", -1
+/* HOISTED */
+);
+
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
+  value: "1000"
+}, "1000", -1
+/* HOISTED */
+);
+
+var _hoisted_15 = {
+  "class": "row"
+};
+var _hoisted_16 = {
   "class": "cell-12"
 };
-var _hoisted_9 = {
+var _hoisted_17 = {
   "class": "table",
   id: "gridDoc",
   "data-role": "table",
@@ -336,14 +398,17 @@ var _hoisted_9 = {
   "data-table-search-title": "Buscar",
   "data-table-rows-count-title": "Registros",
   "data-horizontal-scroll": "true",
-  "data-table-info-title": "Mostrando $1 a $2 de $3 registros"
+  "data-show-search": "false",
+  "data-show-pagination": "false",
+  "data-show-rows-steps": "false",
+  "data-show-table-info": "false"
 };
 
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Id"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Local"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Tabla"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "IdKey"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Fecha Insercion"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Fecha Actualizacion"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Registro")])], -1
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Id"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Local"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Tabla"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "IdKey"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Fecha Insercion"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Fecha Actualizacion"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Registro")])], -1
 /* HOISTED */
 );
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "button outline primary"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
   "class": "mif-eye"
@@ -351,7 +416,20 @@ var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
+var _hoisted_20 = {
+  id: "wndinfo",
+  "class": "p-2",
+  "data-role": "window",
+  "data-resizable": "true",
+  "data-draggable": "true",
+  "data-width": "452",
+  "data-height": "300",
+  "data-shadow": "true",
+  "data-title": "Información del registro"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_JsonEditor = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("JsonEditor");
+
   var _component_pantalla = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("pantalla");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_pantalla, {
@@ -406,7 +484,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[3] || (_cache[3] = function () {
           return $options.filtrar && $options.filtrar.apply($options, arguments);
         })
-      }, "Filtrar")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("table", _hoisted_9, [_hoisted_10, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("tbody", {
+      }, "Filtrar")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+          return $data.searched = $event;
+        }),
+        type: "text",
+        "data-role": "input",
+        "data-prepend": "Buscar"
+      }, null, 512
+      /* NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searched]])]), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+        "data-role": "select",
+        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+          return $data.filtro.pagineo = $event;
+        }),
+        "data-prepend": "Registros:"
+      }, [_hoisted_11, _hoisted_12, _hoisted_13, _hoisted_14], 512
+      /* NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.filtro.pagineo]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("table", _hoisted_17, [_hoisted_18, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("tbody", {
         key: $data.rfsGrid
       }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getRegistros, function (registro, rix) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("tr", {
@@ -423,10 +518,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(registro.fecha_actualizacion), 1
         /* TEXT */
-        ), _hoisted_11]);
+        ), _hoisted_19]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))]))])])])])];
+      ))]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_JsonEditor, {
+        options: $data.opcion,
+        objData: _ctx.get
+      }, null, 8
+      /* PROPS */
+      , ["options", "objData"])])];
     }),
     _: 1
     /* STABLE */
@@ -6226,9 +6326,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_getTimezoneOffsetInMilliseconds_index_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_lib/getTimezoneOffsetInMilliseconds/index.js */ "./node_modules/date-fns/esm/_lib/getTimezoneOffsetInMilliseconds/index.js");
 /* harmony import */ var _compareAsc_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../compareAsc/index.js */ "./node_modules/date-fns/esm/compareAsc/index.js");
 /* harmony import */ var _toDate_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../toDate/index.js */ "./node_modules/date-fns/esm/toDate/index.js");
-/* harmony import */ var _lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_lib/cloneObject/index.js */ "./node_modules/date-fns/esm/_lib/cloneObject/index.js");
-/* harmony import */ var _locale_en_US_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../locale/en-US/index.js */ "./node_modules/date-fns/esm/locale/en-US/index.js");
-/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+/* harmony import */ var _lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_lib/cloneObject/index.js */ "./node_modules/date-fns/esm/_lib/cloneObject/index.js");
+/* harmony import */ var _locale_en_US_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../locale/en-US/index.js */ "./node_modules/date-fns/esm/locale/en-US/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
 
 
 
@@ -6391,9 +6491,9 @@ var MINUTES_IN_YEAR = MINUTES_IN_DAY * 365;
  */
 
 function formatDistanceStrict(dirtyDate, dirtyBaseDate, dirtyOptions) {
-  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_3__.default)(2, arguments);
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_4__.default)(2, arguments);
   var options = dirtyOptions || {};
-  var locale = options.locale || _locale_en_US_index_js__WEBPACK_IMPORTED_MODULE_2__.default;
+  var locale = options.locale || _locale_en_US_index_js__WEBPACK_IMPORTED_MODULE_3__.default;
 
   if (!locale.formatDistance) {
     throw new RangeError('locale must contain localize.formatDistance property');
@@ -6405,7 +6505,7 @@ function formatDistanceStrict(dirtyDate, dirtyBaseDate, dirtyOptions) {
     throw new RangeError('Invalid time value');
   }
 
-  var localizeOptions = (0,_lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_4__.default)(options);
+  var localizeOptions = (0,_lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_2__.default)(options);
   localizeOptions.addSuffix = Boolean(options.addSuffix);
   localizeOptions.comparison = comparison;
   var dateLeft;
@@ -6725,9 +6825,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _differenceInSeconds_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../differenceInSeconds/index.js */ "./node_modules/date-fns/esm/differenceInSeconds/index.js");
 /* harmony import */ var _locale_en_US_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../locale/en-US/index.js */ "./node_modules/date-fns/esm/locale/en-US/index.js");
 /* harmony import */ var _toDate_index_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../toDate/index.js */ "./node_modules/date-fns/esm/toDate/index.js");
-/* harmony import */ var _lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_lib/cloneObject/index.js */ "./node_modules/date-fns/esm/_lib/cloneObject/index.js");
+/* harmony import */ var _lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_lib/cloneObject/index.js */ "./node_modules/date-fns/esm/_lib/cloneObject/index.js");
 /* harmony import */ var _lib_getTimezoneOffsetInMilliseconds_index_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../_lib/getTimezoneOffsetInMilliseconds/index.js */ "./node_modules/date-fns/esm/_lib/getTimezoneOffsetInMilliseconds/index.js");
-/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
 
 
 
@@ -6850,7 +6950,7 @@ var MINUTES_IN_TWO_MONTHS = 86400;
  */
 
 function formatDistance(dirtyDate, dirtyBaseDate, dirtyOptions) {
-  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_5__.default)(2, arguments);
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_6__.default)(2, arguments);
   var options = dirtyOptions || {};
   var locale = options.locale || _locale_en_US_index_js__WEBPACK_IMPORTED_MODULE_3__.default;
 
@@ -6864,7 +6964,7 @@ function formatDistance(dirtyDate, dirtyBaseDate, dirtyOptions) {
     throw new RangeError('Invalid time value');
   }
 
-  var localizeOptions = (0,_lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_6__.default)(options);
+  var localizeOptions = (0,_lib_cloneObject_index_js__WEBPACK_IMPORTED_MODULE_5__.default)(options);
   localizeOptions.addSuffix = Boolean(options.addSuffix);
   localizeOptions.comparison = comparison;
   var dateLeft;
@@ -7347,8 +7447,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _toDate_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../toDate/index.js */ "./node_modules/date-fns/esm/toDate/index.js");
 /* harmony import */ var _isValid_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../isValid/index.js */ "./node_modules/date-fns/esm/isValid/index.js");
-/* harmony import */ var _lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_lib/addLeadingZeros/index.js */ "./node_modules/date-fns/esm/_lib/addLeadingZeros/index.js");
-/* harmony import */ var _lib_toInteger_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_lib/toInteger/index.js */ "./node_modules/date-fns/esm/_lib/toInteger/index.js");
+/* harmony import */ var _lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_lib/addLeadingZeros/index.js */ "./node_modules/date-fns/esm/_lib/addLeadingZeros/index.js");
+/* harmony import */ var _lib_toInteger_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_lib/toInteger/index.js */ "./node_modules/date-fns/esm/_lib/toInteger/index.js");
 
 
 
@@ -7397,24 +7497,24 @@ function formatRFC3339(dirtyDate, dirtyOptions) {
   }
 
   var options = dirtyOptions || {};
-  var fractionDigits = options.fractionDigits == null ? 0 : (0,_lib_toInteger_index_js__WEBPACK_IMPORTED_MODULE_2__.default)(options.fractionDigits); // Test if fractionDigits is between 0 and 3 _and_ is not NaN
+  var fractionDigits = options.fractionDigits == null ? 0 : (0,_lib_toInteger_index_js__WEBPACK_IMPORTED_MODULE_3__.default)(options.fractionDigits); // Test if fractionDigits is between 0 and 3 _and_ is not NaN
 
   if (!(fractionDigits >= 0 && fractionDigits <= 3)) {
     throw new RangeError('fractionDigits must be between 0 and 3 inclusively');
   }
 
-  var day = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_3__.default)(originalDate.getDate(), 2);
-  var month = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_3__.default)(originalDate.getMonth() + 1, 2);
+  var day = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_2__.default)(originalDate.getDate(), 2);
+  var month = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_2__.default)(originalDate.getMonth() + 1, 2);
   var year = originalDate.getFullYear();
-  var hour = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_3__.default)(originalDate.getHours(), 2);
-  var minute = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_3__.default)(originalDate.getMinutes(), 2);
-  var second = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_3__.default)(originalDate.getSeconds(), 2);
+  var hour = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_2__.default)(originalDate.getHours(), 2);
+  var minute = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_2__.default)(originalDate.getMinutes(), 2);
+  var second = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_2__.default)(originalDate.getSeconds(), 2);
   var fractionalSecond = '';
 
   if (fractionDigits > 0) {
     var milliseconds = originalDate.getMilliseconds();
     var fractionalSeconds = Math.floor(milliseconds * Math.pow(10, fractionDigits - 3));
-    fractionalSecond = '.' + (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_3__.default)(fractionalSeconds, fractionDigits);
+    fractionalSecond = '.' + (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_2__.default)(fractionalSeconds, fractionDigits);
   }
 
   var offset = '';
@@ -7422,8 +7522,8 @@ function formatRFC3339(dirtyDate, dirtyOptions) {
 
   if (tzOffset !== 0) {
     var absoluteOffset = Math.abs(tzOffset);
-    var hourOffset = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_3__.default)((0,_lib_toInteger_index_js__WEBPACK_IMPORTED_MODULE_2__.default)(absoluteOffset / 60), 2);
-    var minuteOffset = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_3__.default)(absoluteOffset % 60, 2); // If less than 0, the sign is +, because it is ahead of time.
+    var hourOffset = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_2__.default)((0,_lib_toInteger_index_js__WEBPACK_IMPORTED_MODULE_3__.default)(absoluteOffset / 60), 2);
+    var minuteOffset = (0,_lib_addLeadingZeros_index_js__WEBPACK_IMPORTED_MODULE_2__.default)(absoluteOffset % 60, 2); // If less than 0, the sign is +, because it is ahead of time.
 
     var sign = tzOffset < 0 ? '+' : '-';
     offset = "".concat(sign).concat(hourOffset, ":").concat(minuteOffset);

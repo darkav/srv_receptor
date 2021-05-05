@@ -38,6 +38,7 @@
         "laravel-echo-ratchet": "^1.4.3",
         "metro4": "^4.4.3",
         "net": "^1.0.2",
-        "ping": "^0.4.1"
+        "ping": "^0.4.1",
+        "vue-json-edit": "^1.4.3"
     }
 }
